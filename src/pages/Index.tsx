@@ -11,6 +11,7 @@ import TeslaVehiclesParallax from '@/components/TeslaVehiclesParallax';
 import ThreeDCardDemo from '@/components/ui/3d-card-demo';
 import ExpandableCardDemoStandard from '@/components/ui/expandable-card-demo-standard';
 import { SparklesPreviewTesla } from '@/components/ui/sparkles-demo';
+import TeslaCardCarousel from '@/components/TeslaCardCarousel';
 
 const Index = () => {
   const [filteredVehicles, setFilteredVehicles] = useState(vehicles);
@@ -51,6 +52,11 @@ const Index = () => {
 
       {/* Tesla Vehicles Parallax Showcase */}
       <TeslaVehiclesParallax />
+      
+      {/* Tesla Cards Carousel */}
+      <div className="bg-tesla-dark-80 py-10">
+        <TeslaCardCarousel />
+      </div>
       
       {/* SparklesPreviewTesla Showcase */}
       <SparklesPreviewTesla />
