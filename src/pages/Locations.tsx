@@ -1,229 +1,170 @@
 
-import React, { useState } from 'react';
+import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import MainLayout from '@/layouts/MainLayout';
-import Map from '@/components/Map';
 import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
-import { MapPin, Phone, Clock, Car, Search } from 'lucide-react';
+import Map from '@/components/Map';
+import { MapPin, Info, Zap } from 'lucide-react';
+import { ChargingStation } from '@/types';
 
-// Sample location data
-const locations = [
+// Sample charging stations data
+const chargingStations: ChargingStation[] = [
   {
-    id: 1,
-    name: 'San Francisco',
-    address: '123 Market St, San Francisco, CA 94105',
-    phone: '(415) 555-1234',
-    hours: 'Mon-Fri: 9AM-7PM, Sat-Sun: 10AM-5PM',
-    coordinates: { lat: 37.7749, lng: -122.4194 },
-    availableVehicles: 12
+    id: 'cs1',
+    name: 'Downtown Supercharger',
+    location: {
+      lat: 37.7749,
+      lng: -122.4194
+    },
+    address: '123 Market St, San Francisco, CA',
+    available: 5,
+    total: 8,
+    chargingSpeed: 250
   },
   {
-    id: 2,
-    name: 'Palo Alto',
-    address: '456 University Ave, Palo Alto, CA 94301',
-    phone: '(650) 555-2345',
-    hours: 'Mon-Fri: 10AM-8PM, Sat-Sun: 10AM-6PM',
-    coordinates: { lat: 37.4419, lng: -122.1430 },
-    availableVehicles: 8
+    id: 'cs2',
+    name: 'Palo Alto Supercharger',
+    location: {
+      lat: 37.4419,
+      lng: -122.1430
+    },
+    address: '456 University Ave, Palo Alto, CA',
+    available: 3,
+    total: 10,
+    chargingSpeed: 250
   },
   {
-    id: 3,
-    name: 'Los Angeles',
-    address: '789 Hollywood Blvd, Los Angeles, CA 90028',
-    phone: '(213) 555-3456',
-    hours: 'Mon-Fri: 9AM-9PM, Sat-Sun: 10AM-7PM',
-    coordinates: { lat: 34.0522, lng: -118.2437 },
-    availableVehicles: 15
+    id: 'cs3',
+    name: 'Mountain View Station',
+    location: {
+      lat: 37.3861,
+      lng: -122.0839
+    },
+    address: '789 Castro St, Mountain View, CA',
+    available: 0,
+    total: 6,
+    chargingSpeed: 150
   },
-  {
-    id: 4,
-    name: 'San Diego',
-    address: '321 Pacific Highway, San Diego, CA 92101',
-    phone: '(619) 555-4567',
-    hours: 'Mon-Fri: 9AM-7PM, Sat-Sun: 10AM-5PM',
-    coordinates: { lat: 32.7157, lng: -117.1611 },
-    availableVehicles: 10
-  },
-  {
-    id: 5,
-    name: 'Sacramento',
-    address: '654 Capitol Mall, Sacramento, CA 95814',
-    phone: '(916) 555-5678',
-    hours: 'Mon-Fri: 9AM-6PM, Sat: 10AM-4PM, Sun: Closed',
-    coordinates: { lat: 38.5816, lng: -121.4944 },
-    availableVehicles: 6
-  }
 ];
 
 const Locations = () => {
-  const [searchQuery, setSearchQuery] = useState('');
-  const [selectedLocation, setSelectedLocation] = useState<number | null>(null);
-  const [mapCenter, setMapCenter] = useState({ lat: 37.7749, lng: -122.4194 });
-  const [mapZoom, setMapZoom] = useState(6);
+  const navigate = useNavigate();
   
-  // Filter locations based on search
-  const filteredLocations = locations.filter(
-    location => 
-      location.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      location.address.toLowerCase().includes(searchQuery.toLowerCase())
-  );
-  
-  // Handle location selection
-  const handleLocationSelect = (locationId: number) => {
-    setSelectedLocation(locationId);
-    const location = locations.find(loc => loc.id === locationId);
-    if (location) {
-      setMapCenter(location.coordinates);
-      setMapZoom(14);
-    }
-  };
-
   return (
     <MainLayout>
       <div className="container mx-auto px-4 py-16 mt-14 md:mt-20">
-        <div className="mb-10 text-center">
+        <div className="text-center mb-12">
           <h1 className="text-4xl md:text-5xl font-bold mb-4 gradient-text">Our Locations</h1>
-          <p className="text-xl text-white/70 max-w-3xl mx-auto">
-            Find the nearest CarFleet location to browse our vehicles, schedule a test drive, or pick up your subscription.
+          <p className="text-xl text-white/80 max-w-3xl mx-auto">
+            Find Tesla charging stations and rental pickup locations near you. We're expanding our network every month.
           </p>
         </div>
         
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          {/* Locations List */}
-          <div className="md:col-span-1">
-            <div className="glass-card p-6 mb-6">
-              <div className="relative mb-4">
-                <Search className="absolute left-3 top-3 h-4 w-4 text-white/70" />
-                <Input
-                  className="pl-10 bg-transparent border-glass-border focus:border-tesla-blue"
-                  placeholder="Search locations..."
-                  value={searchQuery}
-                  onChange={e => setSearchQuery(e.target.value)}
-                />
-              </div>
-              
-              <div className="text-sm text-white/70 mb-4">
-                {filteredLocations.length} location{filteredLocations.length !== 1 ? 's' : ''} found
-              </div>
-              
-              <div className="space-y-4 max-h-[500px] overflow-y-auto pr-1">
-                {filteredLocations.map(location => (
-                  <Card 
-                    key={location.id} 
-                    className={`glass-card cursor-pointer transition-all border-0 ${
-                      selectedLocation === location.id 
-                        ? 'bg-glass-highlight border-l-4 border-l-tesla-blue' 
-                        : 'hover:bg-glass-highlight'
-                    }`}
-                    onClick={() => handleLocationSelect(location.id)}
+        <div className="mb-12">
+          <div className="glass-card p-4 md:p-6 rounded-xl h-[400px] md:h-[500px] relative">
+            <Map 
+              center={{ lat: 37.7749, lng: -122.4194 }} 
+              zoom={9} 
+              stations={chargingStations}
+            />
+          </div>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
+          {chargingStations.map((station) => (
+            <div key={station.id} className="glass-card overflow-hidden">
+              <div className="p-6">
+                <div className="flex justify-between items-start mb-4">
+                  <h3 className="text-xl font-bold">{station.name}</h3>
+                  <div className={`text-xs font-medium px-2 py-1 rounded-full 
+                    ${station.available > 0 ? 'bg-tesla-green/20 text-tesla-green' : 'bg-tesla-red/20 text-tesla-red'}`}>
+                    {station.available > 0 ? `${station.available}/${station.total} Available` : 'Currently Full'}
+                  </div>
+                </div>
+
+                <div className="flex items-center gap-2 mb-4 text-sm text-white/70">
+                  <MapPin className="h-4 w-4 flex-shrink-0" />
+                  <span>{station.address}</span>
+                </div>
+                
+                <div className="flex justify-between bg-glass-highlight rounded p-3 mb-4">
+                  <div className="text-center">
+                    <div className="text-xs text-white/70">Speed</div>
+                    <div className="flex items-center justify-center gap-1 font-medium">
+                      <Zap className="h-3 w-3 text-tesla-blue" />
+                      {station.chargingSpeed} kW
+                    </div>
+                  </div>
+                  
+                  <div className="text-center">
+                    <div className="text-xs text-white/70">Status</div>
+                    <div className="font-medium">
+                      {station.available > 0 ? 'Open' : 'Full'}
+                    </div>
+                  </div>
+                  
+                  <div className="text-center">
+                    <div className="text-xs text-white/70">Hours</div>
+                    <div className="font-medium">24/7</div>
+                  </div>
+                </div>
+                
+                <div className="flex gap-3">
+                  <Button 
+                    variant="outline" 
+                    className="flex-1 border-glass-border bg-glass hover:bg-white/10"
+                    onClick={() => window.open(`https://maps.google.com/?q=${station.location.lat},${station.location.lng}`, '_blank')}
                   >
-                    <CardHeader className="pb-2">
-                      <CardTitle className="text-lg">{location.name}</CardTitle>
-                      <CardDescription className="flex items-center">
-                        <Car className="h-3 w-3 mr-1 text-tesla-blue" />
-                        {location.availableVehicles} vehicles available
-                      </CardDescription>
-                    </CardHeader>
-                    <CardContent className="text-sm">
-                      <div className="flex items-start gap-2 mb-1">
-                        <MapPin className="h-4 w-4 text-white/70 mt-1 flex-shrink-0" />
-                        <span className="text-white/70">{location.address}</span>
-                      </div>
-                      <div className="flex items-center gap-2">
-                        <Phone className="h-4 w-4 text-white/70" />
-                        <span className="text-white/70">{location.phone}</span>
-                      </div>
-                    </CardContent>
-                  </Card>
-                ))}
+                    Directions
+                  </Button>
+                  <Button 
+                    className="flex-1 bg-tesla-blue hover:bg-tesla-blue/90"
+                    onClick={() => navigate('/vehicles')}
+                  >
+                    Rent Near Here
+                  </Button>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+        
+        <div className="glass-card p-6 rounded-xl mb-12">
+          <div className="flex items-start gap-4">
+            <div className="bg-tesla-blue/20 p-2 rounded-full text-tesla-blue mt-1">
+              <Info className="h-6 w-6" />
+            </div>
+            <div>
+              <h3 className="text-xl font-bold mb-2">About Our Locations</h3>
+              <p className="text-white/80 mb-4">
+                Our growing network of Tesla Superchargers and destination charging locations enable Tesla owners to drive throughout North America. Find the nearest Supercharger location for fast, convenient charging for your Tesla.
+              </p>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="bg-glass p-4 rounded">
+                  <h4 className="font-bold mb-2">Superchargers</h4>
+                  <p className="text-sm text-white/70">
+                    Superchargers deliver up to 250kW of power, adding up to 200 miles of range in just 15 minutes of charging.
+                  </p>
+                </div>
+                <div className="bg-glass p-4 rounded">
+                  <h4 className="font-bold mb-2">Destination Chargers</h4>
+                  <p className="text-sm text-white/70">
+                    Located at hotels, restaurants, and shopping centers, these chargers provide up to 40 miles of range per hour.
+                  </p>
+                </div>
               </div>
             </div>
           </div>
-          
-          {/* Map View */}
-          <div className="md:col-span-2">
-            <Map 
-              className="h-[500px] glass-card p-0 overflow-hidden"
-              center={mapCenter}
-              zoom={mapZoom}
-            />
-            
-            {/* Selected Location Details */}
-            {selectedLocation && (
-              <div className="mt-6">
-                {locations
-                  .filter(loc => loc.id === selectedLocation)
-                  .map(location => (
-                    <Card key={location.id} className="glass-card">
-                      <CardHeader>
-                        <CardTitle>{location.name} Location</CardTitle>
-                        <CardDescription>
-                          <div className="flex items-center">
-                            <Car className="h-4 w-4 mr-1 text-tesla-blue" />
-                            {location.availableVehicles} vehicles currently available
-                          </div>
-                        </CardDescription>
-                      </CardHeader>
-                      <CardContent>
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                          <div>
-                            <div className="text-sm text-white/70 mb-1">Address</div>
-                            <div className="flex items-start gap-2 mb-3">
-                              <MapPin className="h-5 w-5 text-tesla-blue mt-0.5 flex-shrink-0" />
-                              <p>{location.address}</p>
-                            </div>
-                            
-                            <div className="text-sm text-white/70 mb-1">Phone</div>
-                            <div className="flex items-center gap-2 mb-3">
-                              <Phone className="h-5 w-5 text-tesla-blue" />
-                              <p>{location.phone}</p>
-                            </div>
-                            
-                            <div className="text-sm text-white/70 mb-1">Hours</div>
-                            <div className="flex items-center gap-2">
-                              <Clock className="h-5 w-5 text-tesla-blue" />
-                              <p>{location.hours}</p>
-                            </div>
-                          </div>
-                          
-                          <div>
-                            <div className="space-y-4">
-                              <Button 
-                                className="w-full bg-tesla-blue hover:bg-tesla-blue/90 text-white"
-                                onClick={() => navigate('/vehicles')}
-                              >
-                                Browse Available Vehicles
-                              </Button>
-                              <Button 
-                                variant="outline" 
-                                className="w-full border-tesla-blue/30 hover:bg-tesla-blue/20"
-                                onClick={() => window.open(`https://maps.google.com/?q=${location.address}`, '_blank')}
-                              >
-                                Get Directions
-                              </Button>
-                              <Button 
-                                variant="outline" 
-                                className="w-full border-tesla-blue/30 hover:bg-tesla-blue/20"
-                                onClick={() => window.open(`tel:${location.phone.replace(/[^0-9]/g, '')}`, '_self')}
-                              >
-                                Call Location
-                              </Button>
-                            </div>
-                          </div>
-                        </div>
-                      </CardContent>
-                    </Card>
-                  ))}
-              </div>
-            )}
-          </div>
+        </div>
+
+        <div className="text-center">
+          <h2 className="text-3xl font-bold mb-4">Don't See a Location Near You?</h2>
+          <p className="text-white/80 mb-6 max-w-2xl mx-auto">
+            We're constantly expanding our network of locations. Sign up to be notified when we open a new location in your area.
+          </p>
+          <Button className="bg-tesla-blue hover:bg-tesla-blue/90">
+            Request a Location
+          </Button>
         </div>
       </div>
     </MainLayout>
