@@ -1,126 +1,232 @@
 
-import React from 'react';
+import React, { useState } from 'react';
 import MainLayout from '@/layouts/MainLayout';
-import { Switch } from '@/components/ui/switch';
-import { Label } from '@/components/ui/label';
-import { Separator } from '@/components/ui/separator';
-import { SubscriptionPlan } from '@/types';
-import ExpandableSubscriptionPlans from '@/components/ui/expandable-subscription-plans';
+import { Button } from '@/components/ui/button';
+import { vehicles, subscriptionPlans } from '@/data/vehicles';
+import { Check, ArrowRight, X } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 
-const pricingPlans: SubscriptionPlan[] = [
-  {
-    id: 'basic',
-    name: 'Basic Plan',
-    price: 299,
-    priceUnit: '/month',
-    duration: '1 Month',
-    description: 'Perfect for short-term needs',
-    features: [
-      'Access to standard vehicles',
-      'Up to 1,000 miles per month',
-      'Basic insurance coverage',
-      'Roadside assistance',
-      '24/7 customer support',
-      'Free cancellation with 7-day notice'
-    ],
-    recommended: false
-  },
-  {
-    id: 'standard',
-    name: 'Standard Plan',
-    price: 499,
-    priceUnit: '/month',
-    duration: '3 Months',
-    description: 'Our most popular option',
-    features: [
-      'Access to premium vehicles',
-      'Up to 1,500 miles per month',
-      'Full insurance coverage',
-      'Priority roadside assistance',
-      '24/7 dedicated customer support',
-      'Vehicle swap once per month',
-      'Free cancellation with 30-day notice',
-      'Access to charging stations network'
-    ],
-    recommended: true
-  },
-  {
-    id: 'premium',
-    name: 'Premium Plan',
-    price: 899,
-    priceUnit: '/month',
-    duration: '6 Months',
-    description: 'For the ultimate experience',
-    features: [
-      'Access to luxury and performance vehicles',
-      'Unlimited mileage',
-      'Premium insurance coverage',
-      'Immediate roadside assistance',
-      'Personal concierge service',
-      'Vehicle swap twice per month',
-      'Free cancellation with 60-day notice',
-      'Complimentary charging at all stations',
-      'Airport pickup and delivery',
-      'One free detailing service per month'
-    ],
-    recommended: false
-  }
-];
-
-const Pricing: React.FC = () => {
-  const [isAnnual, setIsAnnual] = React.useState(false);
-  const [selectedPlan, setSelectedPlan] = React.useState('standard');
+const Pricing = () => {
+  const navigate = useNavigate();
+  const [billingCycle, setBillingCycle] = useState<'monthly' | 'yearly'>('monthly');
+  const [selectedVehicleType, setSelectedVehicleType] = useState<string>('all');
+  
+  // Filter vehicles based on selected type
+  const filteredVehicles = selectedVehicleType === 'all' 
+    ? vehicles 
+    : vehicles.filter(v => v.type === selectedVehicleType);
 
   return (
     <MainLayout>
-      <div className="container mx-auto px-4 py-24 min-h-screen">
-        <div className="max-w-5xl mx-auto">
-          <h1 className="text-4xl md:text-5xl font-bold mb-6 gradient-text text-center">Subscription Plans</h1>
-          <p className="text-white/70 text-lg mb-10 text-center max-w-3xl mx-auto">
-            Choose the perfect subscription plan for your lifestyle. Enjoy the freedom of electric mobility without the commitment of ownership.
+      <div className="container mx-auto px-4 py-16 mt-14 md:mt-20">
+        {/* Header */}
+        <div className="mb-12 text-center">
+          <h1 className="text-4xl md:text-5xl font-bold mb-4 gradient-text">Simple, Transparent Pricing</h1>
+          <p className="text-xl text-white/70 max-w-3xl mx-auto">
+            Choose the perfect subscription plan for your lifestyle with no hidden fees or long-term commitments.
           </p>
           
-          <div className="flex items-center justify-center gap-4 mb-12">
-            <Label htmlFor="billing-toggle" className={`text-lg ${!isAnnual ? 'text-white' : 'text-white/70'}`}>Monthly</Label>
-            <Switch 
-              id="billing-toggle" 
-              checked={isAnnual} 
-              onCheckedChange={setIsAnnual} 
-              className="data-[state=checked]:bg-tesla-blue" 
-            />
-            <Label htmlFor="billing-toggle" className={`text-lg ${isAnnual ? 'text-white' : 'text-white/70'}`}>
-              Annual <span className="text-tesla-blue text-sm ml-1">Save 20%</span>
-            </Label>
+          {/* Billing Cycle Toggle */}
+          <div className="inline-flex items-center mt-8 glass-effect p-1.5 rounded-full">
+            <button
+              className={`px-4 py-2 rounded-full transition-all ${
+                billingCycle === 'monthly' 
+                  ? 'bg-tesla-blue text-white' 
+                  : 'text-white/70 hover:text-white'
+              }`}
+              onClick={() => setBillingCycle('monthly')}
+            >
+              Monthly
+            </button>
+            <button
+              className={`px-4 py-2 rounded-full transition-all ${
+                billingCycle === 'yearly' 
+                  ? 'bg-tesla-blue text-white' 
+                  : 'text-white/70 hover:text-white'
+              }`}
+              onClick={() => setBillingCycle('yearly')}
+            >
+              Yearly <span className="text-xs text-tesla-green ml-1">Save 15%</span>
+            </button>
           </div>
-          
-          <ExpandableSubscriptionPlans 
-            plans={pricingPlans.map(plan => ({
-              ...plan,
-              price: isAnnual ? Math.round(plan.price * 0.8) : plan.price,
-              priceUnit: isAnnual ? '/month, billed annually' : '/month'
-            }))} 
-            selectedPlan={selectedPlan} 
-            setSelectedPlan={setSelectedPlan} 
-            vehicleAvailable={true}
-          />
+        </div>
 
-          <div className="mt-16 glass-card p-6">
-            <h3 className="text-2xl font-bold mb-4">Frequently Asked Questions</h3>
-            <Separator className="mb-6 bg-white/10" />
-            <div className="space-y-6">
-              <div>
-                <h4 className="text-lg font-semibold mb-2">What's included in my subscription?</h4>
-                <p className="text-white/70">All subscriptions include the vehicle, insurance, maintenance, and roadside assistance. Higher tier plans include additional premium features and services.</p>
+        {/* Vehicle Type Filter */}
+        <div className="mb-10">
+          <div className="flex flex-wrap justify-center gap-4">
+            <button
+              className={`px-4 py-2 rounded-full transition-all ${
+                selectedVehicleType === 'all' 
+                  ? 'bg-tesla-blue text-white' 
+                  : 'glass-effect text-white/70 hover:text-white'
+              }`}
+              onClick={() => setSelectedVehicleType('all')}
+            >
+              All Vehicles
+            </button>
+            <button
+              className={`px-4 py-2 rounded-full transition-all ${
+                selectedVehicleType === 'sedan' 
+                  ? 'bg-tesla-blue text-white' 
+                  : 'glass-effect text-white/70 hover:text-white'
+              }`}
+              onClick={() => setSelectedVehicleType('sedan')}
+            >
+              Sedan
+            </button>
+            <button
+              className={`px-4 py-2 rounded-full transition-all ${
+                selectedVehicleType === 'suv' 
+                  ? 'bg-tesla-blue text-white' 
+                  : 'glass-effect text-white/70 hover:text-white'
+              }`}
+              onClick={() => setSelectedVehicleType('suv')}
+            >
+              SUV
+            </button>
+            <button
+              className={`px-4 py-2 rounded-full transition-all ${
+                selectedVehicleType === 'truck' 
+                  ? 'bg-tesla-blue text-white' 
+                  : 'glass-effect text-white/70 hover:text-white'
+              }`}
+              onClick={() => setSelectedVehicleType('truck')}
+            >
+              Truck
+            </button>
+            <button
+              className={`px-4 py-2 rounded-full transition-all ${
+                selectedVehicleType === 'sports' 
+                  ? 'bg-tesla-blue text-white' 
+                  : 'glass-effect text-white/70 hover:text-white'
+              }`}
+              onClick={() => setSelectedVehicleType('sports')}
+            >
+              Sports
+            </button>
+          </div>
+        </div>
+        
+        {/* Subscription Plans Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-16">
+          {subscriptionPlans.map(plan => (
+            <div 
+              key={plan.id} 
+              className={`glass-card p-6 relative overflow-hidden ${
+                plan.recommended ? 'border-2 border-tesla-blue' : ''
+              }`}
+            >
+              {plan.recommended && (
+                <div className="absolute top-0 right-0 bg-tesla-blue text-white text-xs px-3 py-1">
+                  RECOMMENDED
+                </div>
+              )}
+              
+              <h3 className="text-xl font-bold mb-1">{plan.name}</h3>
+              <div className="text-white/70 text-sm mb-4">{plan.duration}</div>
+              
+              <div className="mb-6">
+                <span className="text-4xl font-bold">${
+                  billingCycle === 'yearly' 
+                    ? Math.round(plan.price * 0.85) 
+                    : plan.price
+                }</span>
+                <span className="text-white/70 text-sm">{plan.priceUnit}</span>
+                {billingCycle === 'yearly' && (
+                  <div className="text-tesla-green text-sm mt-1">
+                    Save ${Math.round(plan.price * 0.15)}/mo with annual billing
+                  </div>
+                )}
               </div>
-              <div>
-                <h4 className="text-lg font-semibold mb-2">Can I change my plan later?</h4>
-                <p className="text-white/70">Yes, you can upgrade or downgrade your subscription plan at any time. Changes will take effect on your next billing cycle.</p>
-              </div>
-              <div>
-                <h4 className="text-lg font-semibold mb-2">Is there a minimum commitment period?</h4>
-                <p className="text-white/70">The minimum commitment depends on the plan you choose. Basic plans start at 1 month, while Premium plans require a 6-month commitment.</p>
-              </div>
+              
+              <ul className="space-y-3 mb-8">
+                {plan.features.map((feature, index) => (
+                  <li key={index} className="flex items-center gap-2 text-sm">
+                    <div className="p-1 rounded-full bg-tesla-blue/20 text-tesla-blue">
+                      <Check className="h-3 w-3" />
+                    </div>
+                    <span className="text-white/80">{feature}</span>
+                  </li>
+                ))}
+              </ul>
+              
+              <Button 
+                className="w-full bg-tesla-blue hover:bg-tesla-blue/90 text-white"
+                onClick={() => navigate('/vehicles')}
+              >
+                Choose Vehicle
+              </Button>
             </div>
+          ))}
+        </div>
+        
+        {/* Vehicle Pricing */}
+        <div>
+          <h2 className="text-3xl font-bold mb-8 text-center">Vehicle Subscription Pricing</h2>
+          
+          <div className="overflow-x-auto">
+            <table className="w-full">
+              <thead>
+                <tr>
+                  <th className="text-left p-4 glass-effect">Model</th>
+                  <th className="text-center p-4 glass-effect">Type</th>
+                  <th className="text-center p-4 glass-effect">Monthly Price</th>
+                  <th className="text-center p-4 glass-effect">Annual Price (Save 15%)</th>
+                  <th className="text-center p-4 glass-effect">Availability</th>
+                  <th className="text-center p-4 glass-effect">Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                {filteredVehicles.map((vehicle, index) => (
+                  <tr key={vehicle.id} className={index % 2 === 1 ? 'glass-effect' : ''}>
+                    <td className="p-4">
+                      <div className="flex items-center">
+                        <img src={vehicle.image} alt={vehicle.model} className="h-12 mr-3" />
+                        <div>
+                          <div className="font-medium">Tesla {vehicle.model}</div>
+                          <div className="text-sm text-white/70">{vehicle.tagline}</div>
+                        </div>
+                      </div>
+                    </td>
+                    <td className="p-4 text-center">
+                      <span className="inline-block px-2 py-1 rounded text-xs glass-effect">
+                        {vehicle.type.charAt(0).toUpperCase() + vehicle.type.slice(1)}
+                      </span>
+                    </td>
+                    <td className="p-4 text-center font-medium">
+                      ${vehicle.price}{vehicle.priceUnit}
+                    </td>
+                    <td className="p-4 text-center">
+                      ${Math.round(vehicle.price * 0.85)}{vehicle.priceUnit}
+                      <div className="text-tesla-green text-xs">Save ${Math.round(vehicle.price * 0.15)}/mo</div>
+                    </td>
+                    <td className="p-4 text-center">
+                      {vehicle.available ? (
+                        <span className="inline-flex items-center text-tesla-green">
+                          <Check className="h-4 w-4 mr-1" />
+                          Available
+                        </span>
+                      ) : (
+                        <span className="inline-flex items-center text-tesla-red">
+                          <X className="h-4 w-4 mr-1" />
+                          Coming Soon
+                        </span>
+                      )}
+                    </td>
+                    <td className="p-4 text-center">
+                      <Button
+                        variant="outline"
+                        className="border-tesla-blue/30 hover:bg-tesla-blue/20"
+                        onClick={() => navigate(`/vehicles/${vehicle.id}`)}
+                        disabled={!vehicle.available}
+                      >
+                        View Details
+                      </Button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
           </div>
         </div>
       </div>
