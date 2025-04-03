@@ -1,8 +1,6 @@
-
 import React, { useState, useEffect } from 'react';
 import MainLayout from '@/layouts/MainLayout';
 import { vehicles } from '@/data/vehicles';
-import VehicleCard from '@/components/VehicleCard';
 import { Vehicle } from '@/types';
 import { Filter, Sliders, Car, ChevronDown } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -10,6 +8,7 @@ import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
 import { Slider } from '@/components/ui/slider';
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
 import { Checkbox } from '@/components/ui/checkbox';
+import ExpandableVehiclesGrid from '@/components/ui/expandable-vehicles-grid';
 
 const VehiclesList: React.FC = () => {
   const [filteredVehicles, setFilteredVehicles] = useState<Vehicle[]>(vehicles);
@@ -179,11 +178,7 @@ const VehiclesList: React.FC = () => {
             </div>
             
             {filteredVehicles.length > 0 ? (
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {filteredVehicles.map((vehicle) => (
-                  <VehicleCard key={vehicle.id} vehicle={vehicle} />
-                ))}
-              </div>
+              <ExpandableVehiclesGrid vehicles={filteredVehicles} />
             ) : (
               <div className="glass-card p-8 text-center">
                 <Car className="w-12 h-12 text-white/20 mx-auto mb-4" />

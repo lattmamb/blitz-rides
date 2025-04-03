@@ -11,7 +11,7 @@ export default function ThreeDCardDemo() {
           translateZ="50"
           className="text-xl font-bold text-white"
         >
-          Experience Tesla Vehicles
+          Experience Tesla Model S
         </CardItem>
         <CardItem
           as="p"
@@ -22,9 +22,9 @@ export default function ThreeDCardDemo() {
         </CardItem>
         <CardItem translateZ="100" className="w-full mt-4">
           <img
-            src="https://images.unsplash.com/photo-1441974231531-c6227db76b6e?q=80&w=2560&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+            src="/lovable-uploads/011215ed-22f9-4462-8492-3cdff3c58719.png"
             className="h-60 w-full object-cover rounded-xl group-hover/card:shadow-xl"
-            alt="thumbnail"
+            alt="Tesla Model S"
           />
         </CardItem>
         <div className="flex justify-between items-center mt-20">
@@ -38,7 +38,8 @@ export default function ThreeDCardDemo() {
           </CardItem>
           <CardItem
             translateZ={20}
-            as="button"
+            as={Link}
+            to="/book/model-s"
             className="px-4 py-2 rounded-xl bg-tesla-blue text-white text-xs font-bold"
           >
             Test Drive
