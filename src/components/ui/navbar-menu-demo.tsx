@@ -5,7 +5,7 @@ import { cn } from "@/lib/utils";
 
 export default function NavbarDemo() {
   return (
-    <div className="relative w-full flex items-center justify-center py-6">
+    <div className="relative w-full flex items-center justify-center py-6 mt-4">
       <Navbar className="top-2" />
     </div>
   );
@@ -15,7 +15,7 @@ function Navbar({ className }: { className?: string }) {
   const [active, setActive] = useState<string | null>(null);
   return (
     <div
-      className={cn("fixed top-20 inset-x-0 max-w-2xl mx-auto z-50", className)}
+      className={cn("fixed top-4 inset-x-0 max-w-2xl mx-auto z-50", className)}
     >
       <Menu setActive={setActive}>
         <MenuItem setActive={setActive} active={active} item="Vehicles" data-menu-item="Vehicles">

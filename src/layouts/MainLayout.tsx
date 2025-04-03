@@ -1,6 +1,4 @@
-
 import React, { useState, useEffect } from 'react';
-import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import AIAssistant from '@/components/AIAssistant';
 import NavbarDemo from '@/components/ui/navbar-menu-demo';
@@ -28,10 +26,9 @@ const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
 
   return (
     <div className="min-h-screen flex flex-col">
-      <Navbar />
       
       {/* Fixed NavMenu for initial view */}
-      <div className={`container mx-auto px-4 mt-20 transition-opacity duration-500 ${showFloatingMenu ? 'opacity-0 pointer-events-none' : 'opacity-100'}`}>
+      <div className={`container mx-auto px-4 transition-opacity duration-500 ${showFloatingMenu ? 'opacity-0 pointer-events-none' : 'opacity-100'}`}>
         <NavbarDemo />
       </div>
       
