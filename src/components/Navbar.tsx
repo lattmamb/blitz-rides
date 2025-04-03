@@ -34,8 +34,8 @@ const Navbar: React.FC = () => {
     return location.pathname === path;
   };
 
-  // Handle "Book Now" button click - navigate to vehicles page
-  const handleBookNow = () => {
+  // Handle "Start Your Journey" button click - navigate to vehicles page
+  const handleStartJourney = () => {
     navigate("/vehicles");
   };
 
@@ -43,67 +43,57 @@ const Navbar: React.FC = () => {
     <nav
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
         isScrolled
-          ? "bg-tesla-dark-80 backdrop-blur-lg py-2"
+          ? "bg-black/80 backdrop-blur-lg py-2"
           : "bg-transparent py-4"
       }`}
     >
       <div className="container mx-auto px-4 flex justify-between items-center">
         <Link to="/" className="flex items-center gap-2">
           <Car className="h-6 w-6 text-tesla-blue" />
-          <span className="text-xl font-bold gradient-text">CarFleet</span>
+          <span className="text-xl font-bold text-white">Unity Fleet</span>
         </Link>
 
         {/* Desktop Navigation */}
         <div className="hidden md:flex items-center gap-8">
           <Link 
-            to="/" 
-            className={`transition-colors ${isActiveRoute('/') ? 'text-white' : 'text-white/80 hover:text-white'}`}
-          >
-            Home
-          </Link>
-          <Link 
             to="/vehicles" 
-            className={`transition-colors ${isActiveRoute('/vehicles') ? 'text-white' : 'text-white/80 hover:text-white'}`}
+            className={`text-sm transition-colors ${isActiveRoute('/vehicles') ? 'text-white' : 'text-white/80 hover:text-white'}`}
           >
             Vehicles
           </Link>
           <Link 
             to="/pricing" 
-            className={`transition-colors ${isActiveRoute('/pricing') ? 'text-white' : 'text-white/80 hover:text-white'}`}
+            className={`text-sm transition-colors ${isActiveRoute('/pricing') ? 'text-white' : 'text-white/80 hover:text-white'}`}
           >
-            Pricing
+            Services
           </Link>
           <Link 
             to="/locations" 
-            className={`transition-colors ${isActiveRoute('/locations') ? 'text-white' : 'text-white/80 hover:text-white'}`}
+            className={`text-sm transition-colors ${isActiveRoute('/locations') ? 'text-white' : 'text-white/80 hover:text-white'}`}
           >
-            Locations
+            UnityLink Hubs
           </Link>
           <Link 
             to="/about" 
-            className={`transition-colors ${isActiveRoute('/about') ? 'text-white' : 'text-white/80 hover:text-white'}`}
+            className={`text-sm transition-colors ${isActiveRoute('/about') ? 'text-white' : 'text-white/80 hover:text-white'}`}
           >
-            About
+            VisionOS
+          </Link>
+          <Link 
+            to="/about" 
+            className={`text-sm transition-colors ${isActiveRoute('/about') ? 'text-white' : 'text-white/80 hover:text-white'}`}
+          >
+            Rural Impact
           </Link>
         </div>
 
-        {/* Right side buttons */}
-        <div className="hidden md:flex items-center gap-4">
-          <Link to="/dashboard">
-            <Button 
-              variant="outline" 
-              size="sm" 
-              className={`border-tesla-blue/30 hover:bg-tesla-blue/20 ${isActiveRoute('/dashboard') ? 'bg-tesla-blue/20' : ''}`}
-            >
-              <User className="w-4 h-4 mr-2" />
-              Dashboard
-            </Button>
-          </Link>
+        {/* Right side button */}
+        <div className="hidden md:block">
           <Button 
-            className="bg-tesla-blue hover:bg-tesla-blue/90 text-white"
-            onClick={handleBookNow}
+            className="bg-tesla-blue hover:bg-tesla-blue/90 text-white rounded-full py-2 px-5"
+            onClick={handleStartJourney}
           >
-            Book Now
+            Start Your Journey
           </Button>
         </div>
 
@@ -120,12 +110,6 @@ const Navbar: React.FC = () => {
       {isMenuOpen && (
         <div className="md:hidden glass-effect absolute top-full left-0 right-0 py-4 px-4 flex flex-col gap-4">
           <Link
-            to="/"
-            className={`py-2 transition-colors ${isActiveRoute('/') ? 'text-white' : 'text-white/80 hover:text-white'}`}
-          >
-            Home
-          </Link>
-          <Link
             to="/vehicles"
             className={`py-2 transition-colors ${isActiveRoute('/vehicles') ? 'text-white' : 'text-white/80 hover:text-white'}`}
           >
@@ -135,36 +119,32 @@ const Navbar: React.FC = () => {
             to="/pricing"
             className={`py-2 transition-colors ${isActiveRoute('/pricing') ? 'text-white' : 'text-white/80 hover:text-white'}`}
           >
-            Pricing
+            Services
           </Link>
           <Link
             to="/locations"
             className={`py-2 transition-colors ${isActiveRoute('/locations') ? 'text-white' : 'text-white/80 hover:text-white'}`}
           >
-            Locations
+            UnityLink Hubs
           </Link>
           <Link
             to="/about"
             className={`py-2 transition-colors ${isActiveRoute('/about') ? 'text-white' : 'text-white/80 hover:text-white'}`}
           >
-            About
+            VisionOS
+          </Link>
+          <Link
+            to="/about"
+            className={`py-2 transition-colors ${isActiveRoute('/about') ? 'text-white' : 'text-white/80 hover:text-white'}`}
+          >
+            Rural Impact
           </Link>
           <div className="flex flex-col gap-2 pt-2 border-t border-white/10">
-            <Link to="/dashboard">
-              <Button 
-                variant="outline" 
-                size="sm" 
-                className={`w-full border-tesla-blue/30 ${isActiveRoute('/dashboard') ? 'bg-tesla-blue/20 text-white' : 'text-white'}`}
-              >
-                <User className="w-4 h-4 mr-2" />
-                Dashboard
-              </Button>
-            </Link>
             <Button 
-              className="w-full bg-tesla-blue hover:bg-tesla-blue/90 text-white"
-              onClick={handleBookNow}
+              className="w-full bg-tesla-blue hover:bg-tesla-blue/90 text-white rounded-full"
+              onClick={handleStartJourney}
             >
-              Book Now
+              Start Your Journey
             </Button>
           </div>
         </div>
