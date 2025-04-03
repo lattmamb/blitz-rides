@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { Building2, Briefcase, Leaf, Battery, Youtube, Bank } from 'lucide-react';
+import { Building2, Briefcase, Leaf, Battery, Youtube, Building } from 'lucide-react';
 
 interface ImpactCardProps {
   icon: React.ReactNode;
@@ -61,7 +61,7 @@ const RuralImpact: React.FC = () => {
           />
           
           <ImpactCard 
-            icon={<Bank className="h-7 w-7" />}
+            icon={<Building className="h-7 w-7" />}
             title="Community Ownership"
             description="Tokenized investment models allow residents to own pieces of the infrastructure that serves them, creating a self-funding ecosystem."
           />
