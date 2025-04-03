@@ -1,88 +1,46 @@
 
-import React, { useEffect, useRef } from "react";
-import { Button } from "@/components/ui/button";
-import { Link } from "react-router-dom";
+import React from "react";
 import { ArrowDown } from "lucide-react";
+import { Link } from "react-router-dom";
 
 const Hero: React.FC = () => {
-  const heroRef = useRef<HTMLDivElement>(null);
-  
-  useEffect(() => {
-    const handleMouseMove = (e: MouseEvent) => {
-      if (!heroRef.current) return;
-      
-      const { clientX, clientY } = e;
-      const { innerWidth, innerHeight } = window;
-      
-      const moveX = (clientX - innerWidth / 2) / 50;
-      const moveY = (clientY - innerHeight / 2) / 50;
-      
-      const bgElements = heroRef.current.querySelectorAll('.parallax-bg');
-      const fgElements = heroRef.current.querySelectorAll('.parallax-fg');
-      
-      bgElements.forEach((element) => {
-        if (element instanceof HTMLElement) {
-          element.style.transform = `translate(${moveX * 0.5}px, ${moveY * 0.5}px)`;
-        }
-      });
-      
-      fgElements.forEach((element) => {
-        if (element instanceof HTMLElement) {
-          element.style.transform = `translate(${-moveX * 1.5}px, ${-moveY * 1.5}px)`;
-        }
-      });
-    };
-    
-    document.addEventListener('mousemove', handleMouseMove);
-    return () => {
-      document.removeEventListener('mousemove', handleMouseMove);
-    };
-  }, []);
-
   return (
-    <div ref={heroRef} className="relative min-h-screen flex items-center justify-center overflow-hidden pt-16">
-      {/* Background blur effects */}
-      <div className="absolute inset-0 z-0">
-        <div className="absolute top-20 left-20 w-96 h-96 bg-tesla-blue/20 rounded-full blur-[120px] parallax-bg"></div>
-        <div className="absolute bottom-20 right-20 w-96 h-96 bg-tesla-purple/20 rounded-full blur-[120px] parallax-bg"></div>
-      </div>
+    <div className="relative min-h-screen flex items-center" style={{background: "linear-gradient(135deg, #000000, #222222)"}}>
+      {/* Background overlay gradient */}
+      <div className="absolute bottom-0 left-0 w-full h-1/3 bg-gradient-to-t from-black/70 to-transparent z-10"></div>
       
       {/* Content container */}
-      <div className="container relative z-10 mx-auto px-4 py-16 md:py-32">
+      <div className="container relative z-20 mx-auto px-4 py-16 md:py-32">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
           <div className="flex flex-col justify-center">
-            <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold mb-6">
-              <span className="gradient-text">Rent Your Dream</span>
+            <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold mb-6 text-white">
+              Rural Mobility
               <br />
-              <span className="text-glow">Electric Vehicle</span>
+              Reimagined
             </h1>
             
-            <p className="text-xl text-white/80 mb-8 max-w-lg">
-              Experience the future of transportation with our premium electric 
-              vehicle rental service. Zero emissions, maximum performance.
+            <p className="text-xl text-white/80 mb-8 max-w-lg font-light">
+              Experience the future with Unity Fleet's revolutionary transportation ecosystem, 
+              bringing premium electric and autonomous vehicles to rural Illinois.
             </p>
             
             <div className="flex flex-col sm:flex-row gap-4">
-              <Button asChild size="lg" className="bg-tesla-blue hover:bg-tesla-blue/90 text-white font-medium px-8">
-                <Link to="/vehicles">Browse Electric Vehicles</Link>
-              </Button>
+              <Link to="/vehicles" className="unity-button text-center">
+                Explore Vehicles
+              </Link>
               
-              <Button asChild variant="outline" size="lg" className="border-white/20 bg-glass hover:bg-white/10 text-white">
-                <Link to="/how-it-works">Learn More</Link>
-              </Button>
+              <a href="#vision" className="unity-button-secondary text-center">
+                Learn About Our Vision
+              </a>
             </div>
           </div>
           
-          <div className="flex items-center justify-center parallax-fg">
-            <div className="relative">
-              <div className="absolute inset-0 bg-gradient-to-b from-transparent to-tesla-dark z-10"></div>
-              <img 
-                src="/lovable-uploads/011215ed-22f9-4462-8492-3cdff3c58719.png"
-                alt="Tesla Model S" 
-                className="relative z-0 w-full h-auto object-contain max-w-lg blue-glow"
-              />
-              <div className="absolute -bottom-10 left-0 right-0 h-20 bg-gradient-to-t from-tesla-dark to-transparent z-20"></div>
-            </div>
+          <div className="flex items-center justify-center relative">
+            <img 
+              src="/lovable-uploads/011215ed-22f9-4462-8492-3cdff3c58719.png"
+              alt="Tesla Cybertruck" 
+              className="relative z-0 w-full h-auto object-contain max-w-lg"
+            />
           </div>
         </div>
       </div>
