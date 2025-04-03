@@ -30,25 +30,25 @@ function Navbar({ className }: { className?: string }) {
           <div className="text-sm grid grid-cols-2 gap-10 p-4">
             <ProductItem
               title="Model S"
-              to="/vehicles/model-s"
+              href="/vehicles/model-s"
               src="https://assets.aceternity.com/demos/tesla-model-s.webp"
               description="Luxury sedan with exceptional range and performance."
             />
             <ProductItem
               title="Model X"
-              to="/vehicles/model-x"
+              href="/vehicles/model-x"
               src="https://assets.aceternity.com/demos/tesla-model-x.webp"
               description="SUV with falcon-wing doors and spacious interior."
             />
             <ProductItem
               title="Model 3"
-              to="/vehicles/model-3"
+              href="/vehicles/model-3"
               src="https://assets.aceternity.com/demos/tesla-model-3.webp"
               description="Affordable sedan with cutting-edge technology."
             />
             <ProductItem
               title="Cybertruck"
-              to="/vehicles/cybertruck"
+              href="/vehicles/cybertruck"
               src="https://assets.aceternity.com/demos/tesla-cybertruck.webp"
               description="Revolutionary electric pickup truck with futuristic design."
             />
