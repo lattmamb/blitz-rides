@@ -22,10 +22,22 @@ const VehicleDetailsHero: React.FC<VehicleDetailsHeroProps> = ({
     navigate(`/book/${vehicle.id}`);
   };
 
+  // Map color codes to color names for better accessibility
+  const getColorName = (colorCode: string) => {
+    switch (colorCode) {
+      case '#FFFFFF': return 'Pearl White';
+      case '#000000': return 'Solid Black';
+      case '#C0C0C0': return 'Silver Metallic';
+      case '#FF0000': return 'Red Multi-Coat';
+      case '#0000FF': return 'Deep Blue Metallic';
+      default: return 'Custom';
+    }
+  };
+
   return (
     <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 mb-12">
       <div className="lg:order-2">
-        <div className="glass-card p-8 rounded-2xl relative h-80 md:h-96 lg:h-[400px] flex items-center justify-center">
+        <div className="glass-card p-8 rounded-2xl relative h-80 md:h-96 lg:h-[400px] flex items-center justify-center overflow-hidden">
           <div className="absolute top-4 right-4 z-10">
             {vehicle.available ? (
               <div className="bg-tesla-green text-white text-xs font-medium px-3 py-1 rounded-full">
@@ -39,8 +51,8 @@ const VehicleDetailsHero: React.FC<VehicleDetailsHeroProps> = ({
           </div>
           <img
             src={vehicle.image}
-            alt={vehicle.model}
-            className="max-h-full object-contain"
+            alt={`Tesla ${vehicle.model}`}
+            className="max-h-full object-contain hover:scale-105 transition-transform duration-500"
           />
         </div>
         
@@ -57,13 +69,7 @@ const VehicleDetailsHero: React.FC<VehicleDetailsHeroProps> = ({
                     : 'border-glass-border hover:scale-105'
                 }`}
                 style={{ background: color }}
-                title={`${
-                  color === '#FFFFFF' ? 'White' : 
-                  color === '#000000' ? 'Black' : 
-                  color === '#C0C0C0' ? 'Silver' : 
-                  color === '#FF0000' ? 'Red' : 
-                  color === '#0000FF' ? 'Blue' : 'Custom'
-                }`}
+                title={getColorName(color)}
               />
             ))}
           </div>

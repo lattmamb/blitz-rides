@@ -1,5 +1,5 @@
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import MainLayout from '@/layouts/MainLayout';
 import { Button } from '@/components/ui/button';
@@ -13,8 +13,15 @@ const VehicleDetails = () => {
   const { id } = useParams<{ id: string }>();
   const vehicle = vehicles.find(v => v.id === id);
   
-  const [selectedColor, setSelectedColor] = useState(vehicle?.colors[0] || '#FFFFFF');
+  const [selectedColor, setSelectedColor] = useState('');
   const [selectedPlan, setSelectedPlan] = useState(subscriptionPlans[1]?.id || '');
+  
+  // Set default selected color when vehicle changes
+  useEffect(() => {
+    if (vehicle && vehicle.colors.length > 0) {
+      setSelectedColor(vehicle.colors[0]);
+    }
+  }, [vehicle]);
   
   if (!vehicle) {
     return (
