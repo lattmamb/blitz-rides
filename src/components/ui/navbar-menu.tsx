@@ -79,16 +79,16 @@ export const Menu = ({
 export const ProductItem = ({
   title,
   description,
-  href,
+  to,
   src,
 }: {
   title: string;
   description: string;
-  href: string;
+  to: string;
   src: string;
 }) => {
   return (
-    <Link to={href} className="flex space-x-2 group">
+    <Link to={to} className="flex space-x-2 group">
       <img
         src={src}
         width={140}
