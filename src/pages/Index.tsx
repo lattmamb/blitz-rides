@@ -10,6 +10,7 @@ import { vehicles } from '@/data/vehicles';
 import TeslaVehiclesParallax from '@/components/TeslaVehiclesParallax';
 import ThreeDCardDemo from '@/components/ui/3d-card-demo';
 import ExpandableCardDemoStandard from '@/components/ui/expandable-card-demo-standard';
+import { SparklesPreviewTesla } from '@/components/ui/sparkles-demo';
 
 const Index = () => {
   const [filteredVehicles, setFilteredVehicles] = useState(vehicles);
@@ -50,6 +51,9 @@ const Index = () => {
 
       {/* Tesla Vehicles Parallax Showcase */}
       <TeslaVehiclesParallax />
+      
+      {/* SparklesPreviewTesla Showcase */}
+      <SparklesPreviewTesla />
       
       <section className="py-16">
         <div className="container mx-auto px-4">

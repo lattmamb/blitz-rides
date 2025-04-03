@@ -3,6 +3,7 @@ import React, { useEffect, useRef } from "react";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 import { ArrowDown } from "lucide-react";
+import { SparklesCore } from "@/components/ui/sparkles";
 
 const Hero: React.FC = () => {
   const heroRef = useRef<HTMLDivElement>(null);
@@ -38,6 +39,19 @@ const Hero: React.FC = () => {
       <div className="absolute inset-0 z-0">
         <div className="absolute top-20 left-20 w-96 h-96 bg-tesla-blue/20 rounded-full blur-[120px] parallax-bg"></div>
         <div className="absolute bottom-20 right-20 w-96 h-96 bg-tesla-purple/20 rounded-full blur-[120px] parallax-bg"></div>
+      </div>
+      
+      {/* Sparkles effect */}
+      <div className="absolute inset-0 z-0">
+        <SparklesCore
+          background="transparent"
+          minSize={0.2}
+          maxSize={0.8}
+          particleDensity={80}
+          className="w-full h-full"
+          particleColor="#0A84FF"
+          speed={0.3}
+        />
       </div>
       
       {/* Content container */}
