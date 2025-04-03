@@ -7,6 +7,8 @@ import VehicleCard from '@/components/VehicleCard';
 import FeaturesSection from '@/components/FeaturesSection';
 import Map from '@/components/Map';
 import { vehicles } from '@/data/vehicles';
+import ThreeDCardDemo from '@/components/ui/3d-card-demo';
+import ExpandableCardDemoStandard from '@/components/ui/expandable-card-demo-standard';
 
 const Index = () => {
   const [filteredVehicles, setFilteredVehicles] = useState(vehicles);
@@ -64,6 +66,18 @@ const Index = () => {
         </div>
       </section>
 
+      <section className="py-16 bg-tesla-dark-50">
+        <div className="container mx-auto px-4">
+          <div className="mb-10 text-center">
+            <h2 className="text-3xl md:text-4xl font-bold mb-4 gradient-text">Featured Vehicle</h2>
+            <p className="text-xl text-white/70 max-w-3xl mx-auto mb-8">
+              Experience our interactive 3D showcase of Tesla's finest vehicles.
+            </p>
+          </div>
+          <ThreeDCardDemo />
+        </div>
+      </section>
+
       <FeaturesSection />
       
       <section className="py-16 bg-tesla-dark-80">
@@ -76,6 +90,18 @@ const Index = () => {
           </div>
           
           <Map className="w-full h-[500px]" />
+        </div>
+      </section>
+      
+      <section className="py-16">
+        <div className="container mx-auto px-4">
+          <div className="mb-10 text-center">
+            <h2 className="text-3xl md:text-4xl font-bold mb-4 gradient-text">Tesla Models</h2>
+            <p className="text-xl text-white/70 max-w-3xl mx-auto mb-8">
+              Explore our lineup of premium electric vehicles. Click on any model to learn more.
+            </p>
+          </div>
+          <ExpandableCardDemoStandard />
         </div>
       </section>
     </MainLayout>
