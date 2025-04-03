@@ -29,7 +29,7 @@ export const vehicles: Vehicle[] = [
     id: 'model-3',
     model: 'Model 3',
     type: 'sedan',
-    image: '/lovable-uploads/7d31401b-90e8-420a-ac1a-0553b705632e.png',
+    image: '/lovable-uploads/47d60302-d1d8-4ed9-8a86-587ee94631b8.png',
     price: 189,
     priceUnit: '/mo',
     tagline: 'Affordable electric sedan with amazing value',

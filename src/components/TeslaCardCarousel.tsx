@@ -1,5 +1,5 @@
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Carousel, Card } from "@/components/ui/apple-cards-carousel";
 import { vehicles } from "@/data/vehicles";
 import { motion } from "framer-motion";
@@ -73,7 +73,20 @@ const VehicleContent = ({
 };
 
 export function TeslaCardCarousel() {
-  const [selectedColors, setSelectedColors] = useState<{[key: string]: string}>({});
+  const [selectedColors, setSelectedColors] = useState<{[key: string]: string}>({
+    'model-3': '#FFFFFF', // Set white as default for Model 3
+  });
+
+  useEffect(() => {
+    // Initialize with default colors
+    const initialColors: {[key: string]: string} = {};
+    vehicles.forEach(vehicle => {
+      if (vehicle.id === 'model-3') {
+        initialColors[vehicle.id] = '#FFFFFF'; // Ensure white is default for Model 3
+      }
+    });
+    setSelectedColors(prev => ({...prev, ...initialColors}));
+  }, []);
 
   const handleColorChange = (vehicleId: string, color: string) => {
     setSelectedColors(prev => ({
