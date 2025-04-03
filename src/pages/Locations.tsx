@@ -1,10 +1,11 @@
 
-import React from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import MainLayout from '@/layouts/MainLayout';
 import { Button } from '@/components/ui/button';
 import Map from '@/components/Map';
-import { MapPin, Info, Zap } from 'lucide-react';
+import GlobeDemo from '@/components/ui/globe-demo';
+import { MapPin, Info, Zap, Globe } from 'lucide-react';
 import { ChargingStation } from '@/types';
 
 // Sample charging stations data
@@ -45,10 +46,47 @@ const chargingStations: ChargingStation[] = [
     total: 6,
     chargingSpeed: 150
   },
+  {
+    id: 'cs4',
+    name: 'Los Angeles Supercharger',
+    location: {
+      lat: 34.0522,
+      lng: -118.2437
+    },
+    address: '123 Main St, Los Angeles, CA',
+    available: 7,
+    total: 12,
+    chargingSpeed: 250
+  },
+  {
+    id: 'cs5',
+    name: 'New York City Station',
+    location: {
+      lat: 40.7128,
+      lng: -74.006
+    },
+    address: '456 Broadway, New York, NY',
+    available: 2,
+    total: 8,
+    chargingSpeed: 150
+  },
+  {
+    id: 'cs6',
+    name: 'Seattle Supercharger',
+    location: {
+      lat: 47.6062,
+      lng: -122.3321
+    },
+    address: '789 Pike St, Seattle, WA',
+    available: 4,
+    total: 6,
+    chargingSpeed: 250
+  }
 ];
 
 const Locations = () => {
   const navigate = useNavigate();
+  const [viewMode, setViewMode] = useState<'map' | 'globe'>('globe');
   
   return (
     <MainLayout>
@@ -60,14 +98,35 @@ const Locations = () => {
           </p>
         </div>
         
+        <div className="mb-6 flex justify-center gap-4">
+          <Button 
+            variant={viewMode === 'map' ? 'default' : 'outline'}
+            className={viewMode === 'map' ? 'bg-tesla-blue hover:bg-tesla-blue/90' : 'border-glass-border bg-glass hover:bg-white/10'}
+            onClick={() => setViewMode('map')}
+          >
+            <MapPin className="mr-2 h-4 w-4" /> 2D Map
+          </Button>
+          <Button 
+            variant={viewMode === 'globe' ? 'default' : 'outline'}
+            className={viewMode === 'globe' ? 'bg-tesla-blue hover:bg-tesla-blue/90' : 'border-glass-border bg-glass hover:bg-white/10'}
+            onClick={() => setViewMode('globe')}
+          >
+            <Globe className="mr-2 h-4 w-4" /> 3D Globe
+          </Button>
+        </div>
+        
         <div className="mb-12">
-          <div className="glass-card p-4 md:p-6 rounded-xl h-[400px] md:h-[500px] relative">
-            <Map 
-              center={{ lat: 37.7749, lng: -122.4194 }} 
-              zoom={9} 
-              stations={chargingStations}
-            />
-          </div>
+          {viewMode === 'map' ? (
+            <div className="glass-card p-4 md:p-6 rounded-xl h-[400px] md:h-[500px] relative">
+              <Map 
+                center={{ lat: 37.7749, lng: -122.4194 }} 
+                zoom={9} 
+                stations={chargingStations}
+              />
+            </div>
+          ) : (
+            <GlobeDemo stations={chargingStations} />
+          )}
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">

@@ -18,7 +18,7 @@ function Navbar({ className }: { className?: string }) {
       className={cn("fixed top-20 inset-x-0 max-w-2xl mx-auto z-50", className)}
     >
       <Menu setActive={setActive}>
-        <MenuItem setActive={setActive} active={active} item="Vehicles">
+        <MenuItem setActive={setActive} active={active} item="Vehicles" data-menu-item="Vehicles">
           <div className="flex flex-col space-y-4 text-sm">
             <HoveredLink to="/vehicles?type=sedan">Sedans</HoveredLink>
             <HoveredLink to="/vehicles?type=suv">SUVs</HoveredLink>
@@ -26,7 +26,7 @@ function Navbar({ className }: { className?: string }) {
             <HoveredLink to="/vehicles?type=sports">Sports</HoveredLink>
           </div>
         </MenuItem>
-        <MenuItem setActive={setActive} active={active} item="Fleet">
+        <MenuItem setActive={setActive} active={active} item="Fleet" data-menu-item="Fleet">
           <div className="text-sm grid grid-cols-2 gap-10 p-4">
             <ProductItem
               title="Model S"
@@ -54,7 +54,7 @@ function Navbar({ className }: { className?: string }) {
             />
           </div>
         </MenuItem>
-        <MenuItem setActive={setActive} active={active} item="Plans">
+        <MenuItem setActive={setActive} active={active} item="Plans" data-menu-item="Plans">
           <div className="flex flex-col space-y-4 text-sm">
             <HoveredLink to="/pricing#daily">Daily Rental</HoveredLink>
             <HoveredLink to="/pricing#weekly">Weekly Rental</HoveredLink>
@@ -62,7 +62,7 @@ function Navbar({ className }: { className?: string }) {
             <HoveredLink to="/pricing#corporate">Corporate Plans</HoveredLink>
           </div>
         </MenuItem>
-        <MenuItem setActive={setActive} active={active} item="Locations">
+        <MenuItem setActive={setActive} active={active} item="Locations" data-menu-item="Locations">
           <div className="flex flex-col space-y-4 text-sm">
             <HoveredLink to="/locations#california">California</HoveredLink>
             <HoveredLink to="/locations#new-york">New York</HoveredLink>
