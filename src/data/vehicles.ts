@@ -1,4 +1,3 @@
-
 import { Vehicle, SubscriptionPlan, ChargingStation } from '../types';
 
 export const vehicles: Vehicle[] = [
@@ -23,13 +22,14 @@ export const vehicles: Vehicle[] = [
       acceleration: 3.1,
     },
     available: true,
-    colors: ['#FFFFFF', '#000000', '#C0C0C0', '#FF0000', '#0000FF']
+    colors: ['#FFFFFF', '#000000', '#C0C0C0', '#FF0000', '#0000FF'],
+    colorImages: {}
   },
   {
     id: 'model-3',
     model: 'Model 3',
     type: 'sedan',
-    image: '/lovable-uploads/249e58e7-1c09-4735-bbb3-fadcddea1e23.png',
+    image: '/lovable-uploads/7d31401b-90e8-420a-ac1a-0553b705632e.png',
     price: 189,
     priceUnit: '/mo',
     tagline: 'Affordable electric sedan with amazing value',
@@ -46,7 +46,12 @@ export const vehicles: Vehicle[] = [
       acceleration: 5.8,
     },
     available: true,
-    colors: ['#FFFFFF', '#000000', '#C0C0C0', '#FF0000']
+    colors: ['#FFFFFF', '#FF0000', '#0000FF'],
+    colorImages: {
+      '#FFFFFF': '/lovable-uploads/47d60302-d1d8-4ed9-8a86-587ee94631b8.png',
+      '#FF0000': '/lovable-uploads/7d31401b-90e8-420a-ac1a-0553b705632e.png',
+      '#0000FF': '/lovable-uploads/69f7e81d-c631-418d-b38c-f1eedf3c0f12.png',
+    }
   },
   {
     id: 'model-x',

@@ -1,4 +1,3 @@
-
 export interface Vehicle {
   id: string;
   model: string;
@@ -15,6 +14,9 @@ export interface Vehicle {
   };
   available: boolean;
   colors: string[];
+  colorImages?: {
+    [key: string]: string;
+  };
 }
 
 export interface SubscriptionPlan {
