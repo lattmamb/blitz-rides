@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { Menu, X, Car, User } from "lucide-react";
+import { Menu, X, User } from "lucide-react";
 
 const Navbar: React.FC = () => {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -49,8 +49,11 @@ const Navbar: React.FC = () => {
     >
       <div className="container mx-auto px-4 flex justify-between items-center">
         <Link to="/" className="flex items-center gap-2">
-          <Car className="h-6 w-6 text-tesla-blue" />
-          <span className="text-xl font-bold gradient-text">CarFleet</span>
+          <div className="w-8 h-8 relative flex items-center justify-center">
+            <div className="absolute w-8 h-8 rounded-full bg-gradient-to-r from-[#9b87f5] to-[#6E59A5] opacity-70 blur-[8px]"></div>
+            <div className="text-[#9b87f5] font-bold text-xl relative z-10">U</div>
+          </div>
+          <span className="text-xl font-bold gradient-text">Unity Fleet</span>
         </Link>
 
         {/* Desktop Navigation */}
@@ -93,14 +96,14 @@ const Navbar: React.FC = () => {
             <Button 
               variant="outline" 
               size="sm" 
-              className={`border-tesla-blue/30 hover:bg-tesla-blue/20 ${isActiveRoute('/dashboard') ? 'bg-tesla-blue/20' : ''}`}
+              className={`border-[#9b87f5]/30 hover:bg-[#9b87f5]/20 ${isActiveRoute('/dashboard') ? 'bg-[#9b87f5]/20' : ''}`}
             >
               <User className="w-4 h-4 mr-2" />
               Dashboard
             </Button>
           </Link>
           <Button 
-            className="bg-tesla-blue hover:bg-tesla-blue/90 text-white"
+            className="bg-[#9b87f5] hover:bg-[#7E69AB] text-white"
             onClick={handleBookNow}
           >
             Book Now
@@ -154,14 +157,14 @@ const Navbar: React.FC = () => {
               <Button 
                 variant="outline" 
                 size="sm" 
-                className={`w-full border-tesla-blue/30 ${isActiveRoute('/dashboard') ? 'bg-tesla-blue/20 text-white' : 'text-white'}`}
+                className={`w-full border-[#9b87f5]/30 ${isActiveRoute('/dashboard') ? 'bg-[#9b87f5]/20 text-white' : 'text-white'}`}
               >
                 <User className="w-4 h-4 mr-2" />
                 Dashboard
               </Button>
             </Link>
             <Button 
-              className="w-full bg-tesla-blue hover:bg-tesla-blue/90 text-white"
+              className="w-full bg-[#9b87f5] hover:bg-[#7E69AB] text-white"
               onClick={handleBookNow}
             >
               Book Now
