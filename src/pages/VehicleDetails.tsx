@@ -1,6 +1,6 @@
 
 import React, { useState } from 'react';
-import { useParams, Link } from 'react-router-dom';
+import { useParams, Link, useNavigate } from 'react-router-dom';
 import MainLayout from '@/layouts/MainLayout';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
@@ -10,6 +10,7 @@ import { Battery, Zap, Gauge, Calendar, Check, MapPin } from 'lucide-react';
 
 const VehicleDetails = () => {
   const { id } = useParams<{ id: string }>();
+  const navigate = useNavigate();
   const vehicle = vehicles.find(v => v.id === id);
   
   const [selectedColor, setSelectedColor] = useState(vehicle?.colors[0] || '#FFFFFF');
@@ -30,6 +31,10 @@ const VehicleDetails = () => {
       </MainLayout>
     );
   }
+
+  const handleRentClick = () => {
+    navigate(`/book/${vehicle.id}`);
+  };
 
   return (
     <MainLayout>
@@ -141,8 +146,12 @@ const VehicleDetails = () => {
                 </div>
               </div>
               
-              <Button className="w-full bg-tesla-blue hover:bg-tesla-blue/90 text-white">
-                Rent This {vehicle.model}
+              <Button 
+                className="w-full bg-tesla-blue hover:bg-tesla-blue/90 text-white"
+                onClick={handleRentClick}
+                disabled={!vehicle.available}
+              >
+                {vehicle.available ? `Book This ${vehicle.model}` : `Coming Soon`}
               </Button>
             </div>
           </div>
@@ -185,7 +194,13 @@ const VehicleDetails = () => {
                 </ul>
                 
                 <Button 
-                  onClick={() => setSelectedPlan(plan.id)}
+                  onClick={() => {
+                    setSelectedPlan(plan.id);
+                    if (vehicle.available) {
+                      // Scroll to top of page to make "Book This" button visible
+                      window.scrollTo({ top: 0, behavior: 'smooth' });
+                    }
+                  }}
                   className={
                     selectedPlan === plan.id
                       ? "w-full bg-tesla-blue hover:bg-tesla-blue/90 text-white"
@@ -306,7 +321,11 @@ const VehicleDetails = () => {
                       <p className="text-white/70 mb-4">
                         Check real-time availability and reserve your preferred dates.
                       </p>
-                      <Button className="bg-tesla-blue hover:bg-tesla-blue/90 text-white">
+                      <Button 
+                        className="bg-tesla-blue hover:bg-tesla-blue/90 text-white"
+                        onClick={() => navigate(`/book/${vehicle.id}`)}
+                        disabled={!vehicle.available}
+                      >
                         Check Availability
                       </Button>
                     </div>

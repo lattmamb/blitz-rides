@@ -1,6 +1,6 @@
 
 import React, { useState, useEffect } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Menu, X, Car, User } from "lucide-react";
 
@@ -8,6 +8,7 @@ const Navbar: React.FC = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const location = useLocation();
+  const navigate = useNavigate();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -24,8 +25,18 @@ const Navbar: React.FC = () => {
     };
   }, []);
 
+  // Close mobile menu when route changes
+  useEffect(() => {
+    setIsMenuOpen(false);
+  }, [location.pathname]);
+
   const isActiveRoute = (path: string) => {
     return location.pathname === path;
+  };
+
+  // Handle "Book Now" button click - navigate to vehicles page
+  const handleBookNow = () => {
+    navigate("/vehicles");
   };
 
   return (
@@ -88,11 +99,12 @@ const Navbar: React.FC = () => {
               Dashboard
             </Button>
           </Link>
-          <Link to="/book-now">
-            <Button className="bg-tesla-blue hover:bg-tesla-blue/90 text-white">
-              Book Now
-            </Button>
-          </Link>
+          <Button 
+            className="bg-tesla-blue hover:bg-tesla-blue/90 text-white"
+            onClick={handleBookNow}
+          >
+            Book Now
+          </Button>
         </div>
 
         {/* Mobile menu button */}
@@ -110,40 +122,35 @@ const Navbar: React.FC = () => {
           <Link
             to="/"
             className={`py-2 transition-colors ${isActiveRoute('/') ? 'text-white' : 'text-white/80 hover:text-white'}`}
-            onClick={() => setIsMenuOpen(false)}
           >
             Home
           </Link>
           <Link
             to="/vehicles"
             className={`py-2 transition-colors ${isActiveRoute('/vehicles') ? 'text-white' : 'text-white/80 hover:text-white'}`}
-            onClick={() => setIsMenuOpen(false)}
           >
             Vehicles
           </Link>
           <Link
             to="/pricing"
             className={`py-2 transition-colors ${isActiveRoute('/pricing') ? 'text-white' : 'text-white/80 hover:text-white'}`}
-            onClick={() => setIsMenuOpen(false)}
           >
             Pricing
           </Link>
           <Link
             to="/locations"
             className={`py-2 transition-colors ${isActiveRoute('/locations') ? 'text-white' : 'text-white/80 hover:text-white'}`}
-            onClick={() => setIsMenuOpen(false)}
           >
             Locations
           </Link>
           <Link
             to="/about"
             className={`py-2 transition-colors ${isActiveRoute('/about') ? 'text-white' : 'text-white/80 hover:text-white'}`}
-            onClick={() => setIsMenuOpen(false)}
           >
             About
           </Link>
           <div className="flex flex-col gap-2 pt-2 border-t border-white/10">
-            <Link to="/dashboard" onClick={() => setIsMenuOpen(false)}>
+            <Link to="/dashboard">
               <Button 
                 variant="outline" 
                 size="sm" 
@@ -153,11 +160,12 @@ const Navbar: React.FC = () => {
                 Dashboard
               </Button>
             </Link>
-            <Link to="/book-now" onClick={() => setIsMenuOpen(false)}>
-              <Button className="w-full bg-tesla-blue hover:bg-tesla-blue/90 text-white">
-                Book Now
-              </Button>
-            </Link>
+            <Button 
+              className="w-full bg-tesla-blue hover:bg-tesla-blue/90 text-white"
+              onClick={handleBookNow}
+            >
+              Book Now
+            </Button>
           </div>
         </div>
       )}
