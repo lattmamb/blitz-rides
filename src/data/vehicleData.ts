@@ -6,7 +6,7 @@ export const vehicles: Vehicle[] = [
     id: 'model-s',
     model: 'Model S',
     type: 'sedan',
-    image: '/lovable-uploads/011215ed-22f9-4462-8492-3cdff3c58719.png',
+    image: '',
     price: 249,
     priceUnit: '/mo',
     tagline: 'Premium electric sedan with incredible range',
@@ -30,7 +30,7 @@ export const vehicles: Vehicle[] = [
     id: 'model-3',
     model: 'Model 3',
     type: 'sedan',
-    image: '/lovable-uploads/47d60302-d1d8-4ed9-8a86-587ee94631b8.png',
+    image: '',
     price: 189,
     priceUnit: '/mo',
     tagline: 'Affordable electric sedan with amazing value',
@@ -48,17 +48,13 @@ export const vehicles: Vehicle[] = [
     },
     available: true,
     colors: ['#FFFFFF', '#FF0000', '#0000FF'],
-    colorImages: {
-      '#FFFFFF': '/lovable-uploads/47d60302-d1d8-4ed9-8a86-587ee94631b8.png',
-      '#FF0000': '/lovable-uploads/7d31401b-90e8-420a-ac1a-0553b705632e.png',
-      '#0000FF': '/lovable-uploads/69f7e81d-c631-418d-b38c-f1eedf3c0f12.png',
-    }
+    colorImages: {}
   },
   {
     id: 'model-x',
     model: 'Model X',
     type: 'suv',
-    image: '/lovable-uploads/87310600-2a51-4edd-a0b3-4ae26fc44398.png',
+    image: '',
     price: 299,
     priceUnit: '/mo',
     tagline: 'Premium SUV with falcon wing doors',
@@ -75,13 +71,14 @@ export const vehicles: Vehicle[] = [
       acceleration: 3.8,
     },
     available: true,
-    colors: ['#FFFFFF', '#000000', '#C0C0C0', '#0000FF']
+    colors: ['#FFFFFF', '#000000', '#C0C0C0', '#0000FF'],
+    colorImages: {}
   },
   {
     id: 'model-y',
     model: 'Model Y',
     type: 'suv',
-    image: '/lovable-uploads/e42401ea-2fd0-4cf6-aeda-6103d873b447.png',
+    image: '',
     price: 199,
     priceUnit: '/mo',
     tagline: 'Versatile electric crossover SUV',
@@ -98,13 +95,14 @@ export const vehicles: Vehicle[] = [
       acceleration: 4.8,
     },
     available: true,
-    colors: ['#FFFFFF', '#000000', '#C0C0C0', '#FF0000']
+    colors: ['#FFFFFF', '#000000', '#C0C0C0', '#FF0000'],
+    colorImages: {}
   },
   {
     id: 'cybertruck',
     model: 'Cybertruck',
     type: 'truck',
-    image: '/lovable-uploads/02bed47b-1f8e-4f76-96e0-fe121baef92e.png',
+    image: '',
     price: 349,
     priceUnit: '/mo',
     tagline: 'Futuristic electric pickup truck',
@@ -121,6 +119,7 @@ export const vehicles: Vehicle[] = [
       acceleration: 2.9,
     },
     available: true,
-    colors: ['#C0C0C0']
+    colors: ['#C0C0C0'],
+    colorImages: {}
   }
 ];
