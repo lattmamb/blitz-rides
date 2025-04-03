@@ -7,6 +7,7 @@ import VehicleCard from '@/components/VehicleCard';
 import FeaturesSection from '@/components/FeaturesSection';
 import Map from '@/components/Map';
 import { vehicles } from '@/data/vehicles';
+import TeslaVehiclesParallax from '@/components/TeslaVehiclesParallax';
 import ThreeDCardDemo from '@/components/ui/3d-card-demo';
 import ExpandableCardDemoStandard from '@/components/ui/expandable-card-demo-standard';
 
@@ -47,14 +48,16 @@ const Index = () => {
         <SearchFilter onSearch={handleSearch} />
       </div>
 
+      {/* Tesla Vehicles Parallax Showcase */}
+      <TeslaVehiclesParallax />
+      
       <section className="py-16">
         <div className="container mx-auto px-4">
           <div className="mb-10">
-            <h2 className="text-3xl md:text-4xl font-bold mb-4 gradient-text text-center">Tesla Vehicles</h2>
+            <h2 className="text-3xl md:text-4xl font-bold mb-4 gradient-text text-center">Available Now</h2>
             <p className="text-xl text-white/70 mb-8 text-center max-w-3xl mx-auto">
-              Experience the pinnacle of electric vehicle technology with our fleet of Tesla
-              vehicles. From the sleek Model 3 to the versatile Cybertruck, find the perfect Tesla
-              for your needs.
+              Browse our current inventory of Tesla vehicles ready for immediate rental.
+              Select your perfect electric ride and experience the future today.
             </p>
           </div>
 
