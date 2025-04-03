@@ -2,6 +2,7 @@
 import React, { useState } from "react";
 import { HoveredLink, Menu, MenuItem, ProductItem } from "@/components/ui/navbar-menu";
 import { cn } from "@/lib/utils";
+import { motion } from "framer-motion";
 
 export default function NavbarDemo() {
   return (
@@ -13,8 +14,17 @@ export default function NavbarDemo() {
 
 function Navbar({ className }: { className?: string }) {
   const [active, setActive] = useState<string | null>(null);
+  
+  const menuVariants = {
+    hidden: { opacity: 0, y: -10 },
+    visible: { opacity: 1, y: 0, transition: { duration: 0.3 } }
+  };
+  
   return (
-    <div
+    <motion.div
+      initial="hidden"
+      animate="visible"
+      variants={menuVariants}
       className={cn("fixed top-4 inset-x-0 max-w-2xl mx-auto z-50", className)}
     >
       <Menu setActive={setActive}>
@@ -71,6 +81,6 @@ function Navbar({ className }: { className?: string }) {
           </div>
         </MenuItem>
       </Menu>
-    </div>
+    </motion.div>
   );
 }
