@@ -25,15 +25,6 @@
     --input: 240 3.7% 15.9%;
     --ring: 240 4.9% 83.9%;
     --radius: 0.75rem;
-    
-    /* Custom variables from the provided HTML */
-    --unity-primary: #007aff;
-    --unity-secondary: #5856d6;
-    --unity-dark: #1d1d1f;
-    --unity-light: #f5f5f7;
-    --unity-success: #34c759;
-    --unity-gradient-start: #000000;
-    --unity-gradient-end: #222222;
   }
 }
 
@@ -98,37 +89,5 @@
     background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
     background-size: 200% auto;
     @apply animate-shine;
-  }
-  
-  /* Additional styles from the provided HTML */
-  .unity-gradient-bg {
-    background: linear-gradient(135deg, var(--unity-gradient-start), var(--unity-gradient-end));
-  }
-  
-  .unity-hero-after::after {
-    content: '';
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    height: 30%;
-    background: linear-gradient(to top, rgba(0,0,0,0.7), transparent);
-    z-index: 1;
-  }
-  
-  .unity-cta-button {
-    @apply bg-[#007aff] text-white border-none py-2.5 px-5 rounded-full font-semibold cursor-pointer transition-all;
-  }
-  
-  .unity-cta-button:hover {
-    @apply transform scale-105 shadow-[0_5px_15px_rgba(0,122,255,0.4)];
-  }
-  
-  .unity-secondary-button {
-    @apply bg-white/10 text-white border border-white/30 py-2.5 px-5 rounded-full font-semibold cursor-pointer transition-all;
-  }
-  
-  .unity-secondary-button:hover {
-    @apply bg-white/20;
   }
 }

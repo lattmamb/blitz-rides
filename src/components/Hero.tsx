@@ -2,7 +2,7 @@
 import React, { useEffect, useRef } from "react";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
-import { ArrowDown, ChevronRight } from "lucide-react";
+import { ArrowDown } from "lucide-react";
 
 const Hero: React.FC = () => {
   const heroRef = useRef<HTMLDivElement>(null);
@@ -47,34 +47,28 @@ const Hero: React.FC = () => {
         <div className="absolute bottom-20 right-20 w-96 h-96 bg-tesla-purple/20 rounded-full blur-[120px] parallax-bg"></div>
       </div>
       
-      {/* Hero overlay gradient */}
-      <div className="absolute bottom-0 left-0 w-full h-[30%] bg-gradient-to-t from-black to-transparent z-10"></div>
-      
       {/* Content container */}
       <div className="container relative z-10 mx-auto px-4 py-16 md:py-32">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
           <div className="flex flex-col justify-center">
             <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold mb-6">
-              <span className="gradient-text">Rural Mobility</span>
+              <span className="gradient-text">Rent Your Dream</span>
               <br />
-              <span className="text-glow">Reimagined</span>
+              <span className="text-glow">Electric Vehicle</span>
             </h1>
             
             <p className="text-xl text-white/80 mb-8 max-w-lg">
-              Experience the future with Unity Fleet's revolutionary transportation ecosystem, 
-              bringing premium electric and autonomous vehicles to rural communities.
+              Experience the future of transportation with our premium electric 
+              vehicle rental service. Zero emissions, maximum performance.
             </p>
             
             <div className="flex flex-col sm:flex-row gap-4">
               <Button asChild size="lg" className="bg-tesla-blue hover:bg-tesla-blue/90 text-white font-medium px-8">
-                <Link to="/vehicles">Explore Electric Vehicles</Link>
+                <Link to="/vehicles">Browse Electric Vehicles</Link>
               </Button>
               
               <Button asChild variant="outline" size="lg" className="border-white/20 bg-glass hover:bg-white/10 text-white">
-                <Link to="/about" className="flex items-center">
-                  Learn About Our Vision
-                  <ChevronRight className="ml-2 h-4 w-4" />
-                </Link>
+                <Link to="/how-it-works">Learn More</Link>
               </Button>
             </div>
           </div>
