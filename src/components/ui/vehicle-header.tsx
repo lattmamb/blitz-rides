@@ -1,5 +1,6 @@
 
 import React from "react";
+import NavbarDemo from "./navbar-menu-demo";
 
 export const VehicleHeader = () => {
   return (
@@ -11,6 +12,10 @@ export const VehicleHeader = () => {
         Discover our lineup of premium electric vehicles. Cutting-edge technology,
         breathtaking design, and zero emissions. Explore and reserve your Tesla today.
       </p>
+      
+      <div className="mt-10">
+        <NavbarDemo />
+      </div>
     </div>
   );
 };
