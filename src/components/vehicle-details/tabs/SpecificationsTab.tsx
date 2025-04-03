@@ -11,7 +11,7 @@ const SpecificationsTab: React.FC<SpecificationsTabProps> = ({ vehicle }) => {
     <div className="glass-card p-6">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
         <div>
-          <h3 className="text-lg font-bold mb-4 gradient-text">Performance & Specs</h3>
+          <h3 className="text-lg font-bold mb-4">Performance & Specs</h3>
           <ul className="space-y-4">
             <li className="flex justify-between items-center border-b border-white/10 pb-2">
               <span className="text-white/70">Model</span>
@@ -33,15 +33,11 @@ const SpecificationsTab: React.FC<SpecificationsTabProps> = ({ vehicle }) => {
               <span className="text-white/70">Charging</span>
               <span className="font-medium">250 kW Supercharger</span>
             </li>
-            <li className="flex justify-between items-center border-b border-white/10 pb-2">
-              <span className="text-white/70">Drive</span>
-              <span className="font-medium">Dual Motor All-Wheel Drive</span>
-            </li>
           </ul>
         </div>
         
         <div>
-          <h3 className="text-lg font-bold mb-4 gradient-text">Interior & Comfort</h3>
+          <h3 className="text-lg font-bold mb-4">Interior & Comfort</h3>
           <ul className="space-y-4">
             <li className="flex justify-between items-center border-b border-white/10 pb-2">
               <span className="text-white/70">Seating</span>
@@ -62,10 +58,6 @@ const SpecificationsTab: React.FC<SpecificationsTabProps> = ({ vehicle }) => {
             <li className="flex justify-between items-center border-b border-white/10 pb-2">
               <span className="text-white/70">Over-the-air Updates</span>
               <span className="font-medium">Yes</span>
-            </li>
-            <li className="flex justify-between items-center border-b border-white/10 pb-2">
-              <span className="text-white/70">Climate Control</span>
-              <span className="font-medium">Tri-zone</span>
             </li>
           </ul>
         </div>

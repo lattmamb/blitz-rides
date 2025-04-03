@@ -1,3 +1,4 @@
+
 import { Vehicle, SubscriptionPlan, ChargingStation } from '../types';
 
 export const vehicles: Vehicle[] = [
@@ -5,7 +6,7 @@ export const vehicles: Vehicle[] = [
     id: 'model-s',
     model: 'Model S',
     type: 'sedan',
-    image: '/lovable-uploads/7b3b3a96-e061-4c6b-b8f9-0944bf603080.png',
+    image: '/lovable-uploads/011215ed-22f9-4462-8492-3cdff3c58719.png',
     price: 249,
     priceUnit: '/mo',
     tagline: 'Premium electric sedan with incredible range',
@@ -22,13 +23,13 @@ export const vehicles: Vehicle[] = [
       acceleration: 3.1,
     },
     available: true,
-    colors: ['#FFFFFF', '#FF0000', '#000000', '#C0C0C0', '#0000FF']
+    colors: ['#FFFFFF', '#000000', '#C0C0C0', '#FF0000', '#0000FF']
   },
   {
     id: 'model-3',
     model: 'Model 3',
     type: 'sedan',
-    image: '/lovable-uploads/b59239d4-bc7c-42ba-a761-87979daf1343.png',
+    image: '/lovable-uploads/249e58e7-1c09-4735-bbb3-fadcddea1e23.png',
     price: 189,
     priceUnit: '/mo',
     tagline: 'Affordable electric sedan with amazing value',
@@ -45,13 +46,13 @@ export const vehicles: Vehicle[] = [
       acceleration: 5.8,
     },
     available: true,
-    colors: ['#FFFFFF', '#FF0000', '#000000', '#C0C0C0']
+    colors: ['#FFFFFF', '#000000', '#C0C0C0', '#FF0000']
   },
   {
     id: 'model-x',
     model: 'Model X',
     type: 'suv',
-    image: '/lovable-uploads/b633d130-9636-4d90-80bf-10d14e8cfb94.png',
+    image: '/lovable-uploads/87310600-2a51-4edd-a0b3-4ae26fc44398.png',
     price: 299,
     priceUnit: '/mo',
     tagline: 'Premium SUV with falcon wing doors',
@@ -68,13 +69,13 @@ export const vehicles: Vehicle[] = [
       acceleration: 3.8,
     },
     available: true,
-    colors: ['#FFFFFF', '#0000FF', '#000000', '#C0C0C0']
+    colors: ['#FFFFFF', '#000000', '#C0C0C0', '#0000FF']
   },
   {
     id: 'model-y',
     model: 'Model Y',
     type: 'suv',
-    image: '/lovable-uploads/732d1392-25f2-4731-9e6d-4bc9f3ca22d1.png',
+    image: '/lovable-uploads/e42401ea-2fd0-4cf6-aeda-6103d873b447.png',
     price: 199,
     priceUnit: '/mo',
     tagline: 'Versatile electric crossover SUV',
@@ -91,7 +92,7 @@ export const vehicles: Vehicle[] = [
       acceleration: 4.8,
     },
     available: true,
-    colors: ['#FFFFFF', '#0000FF', '#000000', '#C0C0C0', '#FF0000']
+    colors: ['#FFFFFF', '#000000', '#C0C0C0', '#FF0000']
   },
   {
     id: 'cybertruck',

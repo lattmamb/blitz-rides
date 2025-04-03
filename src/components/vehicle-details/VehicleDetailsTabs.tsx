@@ -13,28 +13,22 @@ interface VehicleDetailsTabsProps {
 const VehicleDetailsTabs: React.FC<VehicleDetailsTabsProps> = ({ vehicle }) => {
   return (
     <div className="mb-12">
-      <Tabs defaultValue="specifications" className="w-full">
-        <TabsList className="glass-effect w-full mb-6 grid grid-cols-3 gap-2">
-          <TabsTrigger value="specifications" className="data-[state=active]:bg-tesla-blue/30 data-[state=active]:text-white">
-            Specifications
-          </TabsTrigger>
-          <TabsTrigger value="availability" className="data-[state=active]:bg-tesla-blue/30 data-[state=active]:text-white">
-            Availability
-          </TabsTrigger>
-          <TabsTrigger value="reviews" className="data-[state=active]:bg-tesla-blue/30 data-[state=active]:text-white">
-            Reviews
-          </TabsTrigger>
+      <Tabs defaultValue="specifications">
+        <TabsList className="glass-effect w-full mb-6">
+          <TabsTrigger value="specifications" className="flex-1">Specifications</TabsTrigger>
+          <TabsTrigger value="availability" className="flex-1">Availability</TabsTrigger>
+          <TabsTrigger value="reviews" className="flex-1">Reviews</TabsTrigger>
         </TabsList>
         
-        <TabsContent value="specifications" className="animate-in fade-in-50 duration-300">
+        <TabsContent value="specifications">
           <SpecificationsTab vehicle={vehicle} />
         </TabsContent>
         
-        <TabsContent value="availability" className="animate-in fade-in-50 duration-300">
+        <TabsContent value="availability">
           <AvailabilityTab vehicle={vehicle} />
         </TabsContent>
         
-        <TabsContent value="reviews" className="animate-in fade-in-50 duration-300">
+        <TabsContent value="reviews">
           <ReviewsTab />
         </TabsContent>
       </Tabs>

@@ -5,15 +5,15 @@
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 29 10% 3.9%;
-    --card: 0 0% 100%;
-    --card-foreground: 29 10% 3.9%;
-    --popover: 0 0% 100%;
-    --popover-foreground: 29 10% 3.9%;
-    --primary: 212 100% 50%;
-    --primary-foreground: 0 0% 98%;
-    --secondary: 241 81% 59%;
+    --background: 240 10% 3.9%;
+    --foreground: 0 0% 98%;
+    --card: 240 10% 3.9%;
+    --card-foreground: 0 0% 98%;
+    --popover: 240 10% 3.9%;
+    --popover-foreground: 0 0% 98%;
+    --primary: 0 0% 98%;
+    --primary-foreground: 240 5.9% 10%;
+    --secondary: 240 3.7% 15.9%;
     --secondary-foreground: 0 0% 98%;
     --muted: 240 3.7% 15.9%;
     --muted-foreground: 240 5% 64.9%;
@@ -23,18 +23,19 @@
     --destructive-foreground: 0 0% 98%;
     --border: 240 3.7% 15.9%;
     --input: 240 3.7% 15.9%;
-    --ring: 212 100% 50%;
+    --ring: 240 4.9% 83.9%;
     --radius: 0.75rem;
   }
 }
 
 @layer base {
   * {
-    @apply border-border selection:bg-unity-blue/20 selection:text-black;
+    @apply border-border selection:bg-tesla-blue/20 selection:text-white;
   }
   
   body {
-    @apply bg-white text-foreground antialiased overflow-x-hidden font-sans;
+    @apply bg-black text-foreground antialiased overflow-x-hidden font-sans;
+    background-image: radial-gradient(circle at 50% 0%, #1a1a1a 0%, #0a0a0a 100%);
   }
 
   html {
@@ -47,48 +48,46 @@
   }
   
   ::-webkit-scrollbar-track {
-    @apply bg-unity-light;
+    @apply bg-tesla-dark;
   }
   
   ::-webkit-scrollbar-thumb {
-    @apply bg-unity-blue/50 rounded-full;
+    @apply bg-tesla-blue/50 rounded-full;
   }
   
   ::-webkit-scrollbar-thumb:hover {
-    @apply bg-unity-blue/80;
+    @apply bg-tesla-blue/80;
   }
 }
 
 @layer utilities {
   .glass-card {
-    @apply backdrop-blur-lg bg-black/5 border border-black/10 rounded-2xl shadow-lg;
+    @apply backdrop-blur-lg bg-glass border border-glass-border rounded-2xl shadow-[0_8px_32px_rgba(0,10,30,0.12)];
   }
   
   .glass-effect {
-    @apply backdrop-blur-md bg-black/30 border border-white/10;
+    @apply backdrop-blur-md bg-glass/30 border border-glass-border;
   }
 
-  .unity-gradient {
-    @apply bg-gradient-to-r from-unity-blue via-unity-purple to-unity-blue;
+  .text-glow {
+    @apply text-white drop-shadow-[0_0_10px_rgba(255,255,255,0.5)];
   }
   
-  .unity-button {
-    @apply bg-unity-blue text-white px-4 py-2 rounded-full hover:shadow-lg transition-all duration-300 font-medium;
-  }
-  
-  .unity-button-secondary {
-    @apply bg-white/10 text-white border border-white/30 px-4 py-2 rounded-full hover:bg-white/20 transition-all duration-300 font-medium;
+  .blue-glow {
+    @apply shadow-[0_0_15px_rgba(10,132,255,0.5)];
   }
 
-  .section-padding {
-    @apply py-24 px-4;
+  .gradient-text {
+    @apply bg-gradient-to-r from-white via-white/90 to-white/70 bg-clip-text text-transparent;
   }
   
-  .section-title {
-    @apply text-4xl md:text-5xl font-bold mb-4 text-center;
+  .gradient-blue-text {
+    @apply bg-gradient-to-r from-tesla-blue via-tesla-purple to-tesla-blue bg-clip-text text-transparent;
   }
-  
-  .section-subtitle {
-    @apply text-lg text-gray-600 mb-12 text-center max-w-2xl mx-auto;
+
+  .shine-effect {
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+    background-size: 200% auto;
+    @apply animate-shine;
   }
 }

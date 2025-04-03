@@ -63,13 +63,17 @@ export default {
 					border: 'hsl(var(--sidebar-border))',
 					ring: 'hsl(var(--sidebar-ring))'
 				},
-        // Unity Fleet custom colors
-        unity: {
-          blue: "#007AFF",
-          purple: "#5856D6",
-          dark: "#1D1D1F",
-          light: "#F5F5F7",
-          success: "#34C759"
+        // Custom colors for our app
+        tesla: {
+          blue: "#0A84FF",
+          purple: "#5E5CE6",
+          red: "#FF3B30",
+          green: "#34C759",
+          dark: {
+            DEFAULT: "#121212",
+            50: "rgba(18, 18, 18, 0.5)",
+            80: "rgba(18, 18, 18, 0.8)",
+          }
         },
         glass: {
           DEFAULT: "rgba(255, 255, 255, 0.05)",
@@ -112,10 +116,6 @@ export default {
         'shine': {
           '0%': { backgroundPosition: '200% 0' },
           '100%': { backgroundPosition: '-200% 0' },
-        },
-        'fade-in-up': {
-          '0%': { opacity: '0', transform: 'translateY(50px)' },
-          '100%': { opacity: '1', transform: 'translateY(0)' }
         }
 			},
 			animation: {
@@ -124,7 +124,6 @@ export default {
         'float': 'float 6s ease-in-out infinite',
         'pulse-glow': 'pulse-glow 3s ease-in-out infinite',
         'shine': 'shine 8s linear infinite',
-        'fade-in-up': 'fade-in-up 0.5s ease-out forwards'
 			}
 		}
 	},

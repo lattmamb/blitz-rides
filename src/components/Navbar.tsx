@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { Menu, X, Car } from "lucide-react";
+import { Menu, X, Car, User } from "lucide-react";
 
 const Navbar: React.FC = () => {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -34,8 +34,8 @@ const Navbar: React.FC = () => {
     return location.pathname === path;
   };
 
-  // Handle "Start Journey" button click
-  const handleStartJourney = () => {
+  // Handle "Book Now" button click - navigate to vehicles page
+  const handleBookNow = () => {
     navigate("/vehicles");
   };
 
@@ -43,64 +43,68 @@ const Navbar: React.FC = () => {
     <nav
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
         isScrolled
-          ? "bg-black/80 backdrop-blur-lg py-3"
-          : "bg-transparent py-5"
+          ? "bg-tesla-dark-80 backdrop-blur-lg py-2"
+          : "bg-transparent py-4"
       }`}
     >
       <div className="container mx-auto px-4 flex justify-between items-center">
         <Link to="/" className="flex items-center gap-2">
-          <Car className="h-6 w-6 text-unity-blue" />
-          <span className="text-xl font-bold text-white">Unity Fleet</span>
+          <Car className="h-6 w-6 text-tesla-blue" />
+          <span className="text-xl font-bold gradient-text">CarFleet</span>
         </Link>
 
         {/* Desktop Navigation */}
         <div className="hidden md:flex items-center gap-8">
-          <a 
-            href="#services" 
-            className="text-white/80 hover:text-white transition-colors"
+          <Link 
+            to="/" 
+            className={`transition-colors ${isActiveRoute('/') ? 'text-white' : 'text-white/80 hover:text-white'}`}
           >
-            Services
-          </a>
+            Home
+          </Link>
           <Link 
             to="/vehicles" 
             className={`transition-colors ${isActiveRoute('/vehicles') ? 'text-white' : 'text-white/80 hover:text-white'}`}
           >
             Vehicles
           </Link>
-          <a 
-            href="#unitylink"
-            className="text-white/80 hover:text-white transition-colors"
+          <Link 
+            to="/pricing" 
+            className={`transition-colors ${isActiveRoute('/pricing') ? 'text-white' : 'text-white/80 hover:text-white'}`}
           >
-            UnityLink Hubs
-          </a>
-          <a 
-            href="#vision"
-            className="text-white/80 hover:text-white transition-colors"
+            Pricing
+          </Link>
+          <Link 
+            to="/locations" 
+            className={`transition-colors ${isActiveRoute('/locations') ? 'text-white' : 'text-white/80 hover:text-white'}`}
           >
-            VisionOS
-          </a>
-          <a 
-            href="#token"
-            className="text-white/80 hover:text-white transition-colors"
+            Locations
+          </Link>
+          <Link 
+            to="/about" 
+            className={`transition-colors ${isActiveRoute('/about') ? 'text-white' : 'text-white/80 hover:text-white'}`}
           >
-            Atlas Token
-          </a>
-          <a 
-            href="#impact"
-            className="text-white/80 hover:text-white transition-colors"
-          >
-            Rural Impact
-          </a>
+            About
+          </Link>
         </div>
 
-        {/* Right side button */}
-        <div className="hidden md:block">
-          <button 
-            className="unity-button"
-            onClick={handleStartJourney}
+        {/* Right side buttons */}
+        <div className="hidden md:flex items-center gap-4">
+          <Link to="/dashboard">
+            <Button 
+              variant="outline" 
+              size="sm" 
+              className={`border-tesla-blue/30 hover:bg-tesla-blue/20 ${isActiveRoute('/dashboard') ? 'bg-tesla-blue/20' : ''}`}
+            >
+              <User className="w-4 h-4 mr-2" />
+              Dashboard
+            </Button>
+          </Link>
+          <Button 
+            className="bg-tesla-blue hover:bg-tesla-blue/90 text-white"
+            onClick={handleBookNow}
           >
-            Start Your Journey
-          </button>
+            Book Now
+          </Button>
         </div>
 
         {/* Mobile menu button */}
@@ -114,50 +118,54 @@ const Navbar: React.FC = () => {
 
       {/* Mobile menu */}
       {isMenuOpen && (
-        <div className="md:hidden bg-black/90 backdrop-blur-lg absolute top-full left-0 right-0 py-4 px-4 flex flex-col gap-4">
-          <a
-            href="#services"
-            className="py-2 text-white/80 hover:text-white transition-colors"
+        <div className="md:hidden glass-effect absolute top-full left-0 right-0 py-4 px-4 flex flex-col gap-4">
+          <Link
+            to="/"
+            className={`py-2 transition-colors ${isActiveRoute('/') ? 'text-white' : 'text-white/80 hover:text-white'}`}
           >
-            Services
-          </a>
+            Home
+          </Link>
           <Link
             to="/vehicles"
             className={`py-2 transition-colors ${isActiveRoute('/vehicles') ? 'text-white' : 'text-white/80 hover:text-white'}`}
           >
             Vehicles
           </Link>
-          <a
-            href="#unitylink"
-            className="py-2 text-white/80 hover:text-white transition-colors"
+          <Link
+            to="/pricing"
+            className={`py-2 transition-colors ${isActiveRoute('/pricing') ? 'text-white' : 'text-white/80 hover:text-white'}`}
           >
-            UnityLink Hubs
-          </a>
-          <a
-            href="#vision"
-            className="py-2 text-white/80 hover:text-white transition-colors"
+            Pricing
+          </Link>
+          <Link
+            to="/locations"
+            className={`py-2 transition-colors ${isActiveRoute('/locations') ? 'text-white' : 'text-white/80 hover:text-white'}`}
           >
-            VisionOS
-          </a>
-          <a
-            href="#token"
-            className="py-2 text-white/80 hover:text-white transition-colors"
+            Locations
+          </Link>
+          <Link
+            to="/about"
+            className={`py-2 transition-colors ${isActiveRoute('/about') ? 'text-white' : 'text-white/80 hover:text-white'}`}
           >
-            Atlas Token
-          </a>
-          <a
-            href="#impact"
-            className="py-2 text-white/80 hover:text-white transition-colors"
-          >
-            Rural Impact
-          </a>
-          <div className="pt-2">
-            <button 
-              className="unity-button w-full"
-              onClick={handleStartJourney}
+            About
+          </Link>
+          <div className="flex flex-col gap-2 pt-2 border-t border-white/10">
+            <Link to="/dashboard">
+              <Button 
+                variant="outline" 
+                size="sm" 
+                className={`w-full border-tesla-blue/30 ${isActiveRoute('/dashboard') ? 'bg-tesla-blue/20 text-white' : 'text-white'}`}
+              >
+                <User className="w-4 h-4 mr-2" />
+                Dashboard
+              </Button>
+            </Link>
+            <Button 
+              className="w-full bg-tesla-blue hover:bg-tesla-blue/90 text-white"
+              onClick={handleBookNow}
             >
-              Start Your Journey
-            </button>
+              Book Now
+            </Button>
           </div>
         </div>
       )}
