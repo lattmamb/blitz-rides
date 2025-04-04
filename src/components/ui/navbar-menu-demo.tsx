@@ -57,10 +57,10 @@ function Navbar({ className }: { className?: string }) {
               description="Affordable sedan with cutting-edge technology."
             />
             <ProductItem
-              title="Cybertruck"
-              href="/vehicles/cybertruck"
-              src="https://assets.aceternity.com/demos/tesla-cybertruck.webp"
-              description="Revolutionary electric pickup truck with futuristic design."
+              title="Roadster"
+              href="/vehicles/roadster"
+              src="https://assets.aceternity.com/demos/tesla-roadster.webp"
+              description="Revolutionary electric supercar with unmatched performance."
             />
           </div>
         </MenuItem>

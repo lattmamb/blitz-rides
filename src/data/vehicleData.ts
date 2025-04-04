@@ -136,5 +136,32 @@ export const vehicles: Vehicle[] = [
     colorImages: {
       '#C0C0C0': 'https://assets.aceternity.com/demos/tesla-cybertruck.webp',
     }
+  },
+  {
+    id: 'roadster',
+    model: 'Roadster',
+    type: 'sports',
+    image: 'https://assets.aceternity.com/demos/tesla-roadster.webp',
+    price: 499,
+    priceUnit: '/mo',
+    tagline: 'The quickest car in the world with record-setting acceleration',
+    features: [
+      'Range: 620 miles',
+      '0-60 mph in 1.9 seconds',
+      '250+ mph top speed',
+      'Removable glass roof',
+      'All-wheel drive'
+    ],
+    performance: {
+      range: 620,
+      topSpeed: 250,
+      acceleration: 1.9,
+    },
+    available: true,
+    colors: ['#FF0000', '#FFFFFF', '#000000'],
+    colorImages: {
+      '#FF0000': 'https://assets.aceternity.com/demos/tesla-roadster.webp',
+      '#FFFFFF': 'https://assets.aceternity.com/demos/tesla-roadster-white.webp',
+    }
   }
 ];
