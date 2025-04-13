@@ -1,7 +1,5 @@
-
 import React, { useState, useEffect } from 'react';
 import MainLayout from '@/layouts/MainLayout';
-import Hero from '@/components/Hero';
 import SearchFilter from '@/components/SearchFilter';
 import VehicleCard from '@/components/VehicleCard';
 import FeaturesSection from '@/components/FeaturesSection';
@@ -108,12 +106,14 @@ const Index = () => {
 
   return (
     <MainLayout>
-      <Hero />
       
       <div className="container mx-auto px-4">
         <SearchFilter onSearch={handleSearch} />
       </div>
 
+      {/* Removed Hero section */}
+
+      {/* Remaining content stays the same */}
       {/* Featured 3D Vehicle Model */}
       <motion.section 
         className="py-16 mt-10 overflow-hidden relative"
