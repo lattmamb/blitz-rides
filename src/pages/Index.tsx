@@ -17,7 +17,6 @@ const Index = () => {
   const [filteredVehicles, setFilteredVehicles] = useState(vehicles);
   const [isLoading, setIsLoading] = useState(true);
   
-  // Simulate loading state
   useEffect(() => {
     const timer = setTimeout(() => {
       setIsLoading(false);
@@ -26,7 +25,6 @@ const Index = () => {
     return () => clearTimeout(timer);
   }, []);
   
-  // Scroll animations
   const { scrollYProgress } = useScroll();
   const opacity = useTransform(scrollYProgress, [0, 0.1], [1, 0]);
   const scale = useTransform(scrollYProgress, [0, 0.1], [1, 0.9]);
@@ -39,7 +37,6 @@ const Index = () => {
   }) => {
     let results = [...vehicles];
 
-    // Filter by query (model name)
     if (filters.query) {
       const query = filters.query.toLowerCase();
       results = results.filter(
@@ -47,7 +44,6 @@ const Index = () => {
       );
     }
 
-    // Filter by vehicle type
     if (filters.vehicleType !== 'all') {
       results = results.filter(
         (vehicle) => vehicle.type === filters.vehicleType
@@ -57,7 +53,6 @@ const Index = () => {
     setFilteredVehicles(results);
   };
   
-  // Loading screen
   if (isLoading) {
     return (
       <div className="fixed inset-0 bg-black flex items-center justify-center z-50">
@@ -111,10 +106,6 @@ const Index = () => {
         <SearchFilter onSearch={handleSearch} />
       </div>
 
-      {/* Removed Hero section */}
-
-      {/* Remaining content stays the same */}
-      {/* Featured 3D Vehicle Model */}
       <motion.section 
         className="py-16 mt-10 overflow-hidden relative"
         initial={{ opacity: 0 }}
@@ -155,17 +146,14 @@ const Index = () => {
         </div>
       </motion.section>
 
-      {/* Tesla Vehicles Parallax Showcase */}
       <TeslaVehiclesParallax />
       
-      {/* Tesla Cards Carousel */}
       <div className="py-10 relative overflow-hidden">
         <div className="absolute inset-0 bg-gradient-radial from-tesla-dark-80 to-black"></div>
         <div className="absolute inset-0 bg-noise opacity-[0.02]"></div>
         <TeslaCardCarousel />
       </div>
       
-      {/* SparklesPreviewTesla Showcase */}
       <SparklesPreviewTesla />
       
       <motion.section 
