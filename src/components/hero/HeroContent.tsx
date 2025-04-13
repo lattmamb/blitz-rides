@@ -1,143 +1,70 @@
 
 import React from "react";
-import { motion, MotionValue } from "framer-motion";
-import { Button } from "@/components/ui/button";
+import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
-import { ChevronRight, Zap } from "lucide-react";
+import HeroCard3D from "./HeroCard3D";
 
-type HeroContentProps = {
-  rotateX: MotionValue<number>;
-  rotateY: MotionValue<number>;
-  headingRotateX: MotionValue<number>;
-  headingRotateY: MotionValue<number>;
-};
-
-const HeroContent: React.FC<HeroContentProps> = ({
-  rotateX,
-  rotateY,
-  headingRotateX,
-  headingRotateY,
-}) => {
+const HeroContent: React.FC = () => {
   return (
-    <motion.div 
-      className="flex flex-col items-center justify-center text-center max-w-4xl mx-auto"
-      initial={{ opacity: 0, y: 30 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ 
-        duration: 1,
-        ease: "easeOut"
-      }}
-    >
-      <motion.div
-        initial={{ opacity: 0, scale: 0.9 }}
-        animate={{ opacity: 1, scale: 1 }}
-        transition={{ duration: 0.8, delay: 0.2 }}
-        className="mb-10 relative"
-      >
-        <motion.div
-          className="absolute -top-16 left-1/2 transform -translate-x-1/2 w-20 h-20 bg-tesla-blue/20 rounded-full blur-lg"
-          animate={{ 
-            scale: [1, 1.2, 1],
-            opacity: [0.5, 0.8, 0.5]
-          }}
-          transition={{ 
-            duration: 4, 
-            repeat: Infinity,
-            ease: "easeInOut" 
-          }}
-        />
+    <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="pt-20 pb-16 md:pt-32 md:pb-28">
+        <motion.h1
+          className="text-4xl md:text-6xl lg:text-7xl font-bold text-white text-center mb-4 md:mb-6"
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
+        >
+          <span className="gradient-text">Unity Fleet</span>
+        </motion.h1>
+        
+        <motion.p
+          className="text-lg md:text-xl text-white/80 text-center max-w-3xl mx-auto mb-8 md:mb-10"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.6, delay: 0.2 }}
+        >
+          Experience the future of transportation with our premium Tesla rental service.
+          Discover luxury electric vehicles for your next adventure.
+        </motion.p>
+        
         <motion.div 
-          className="w-14 h-14 mx-auto mb-6 relative"
-          style={{
-            rotateY,
-            rotateX
-          }}
-        >
-          <motion.div 
-            className="w-14 h-14 absolute inset-0 flex items-center justify-center"
-            animate={{ 
-              boxShadow: ['0 0 20px 2px rgba(10,132,255,0.3)', '0 0 30px 5px rgba(10,132,255,0.5)', '0 0 20px 2px rgba(10,132,255,0.3)']
-            }}
-            transition={{ 
-              duration: 3, 
-              repeat: Infinity,
-              ease: "easeInOut" 
-            }}
-          >
-            <Zap size={36} className="text-tesla-blue" />
-          </motion.div>
-        </motion.div>
-      </motion.div>
-      
-      <motion.h1 
-        className="text-5xl md:text-7xl lg:text-8xl font-bold mb-6 tracking-tight"
-        style={{
-          perspective: 1000,
-          rotateX: headingRotateX,
-          rotateY: headingRotateY
-        }}
-      >
-        <motion.span 
-          className="block bg-clip-text text-transparent bg-gradient-to-b from-white via-white/95 to-white/70 relative"
+          className="flex justify-center space-x-4 mb-12 md:mb-16"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.4 }}
+          transition={{ duration: 0.6, delay: 0.4 }}
         >
-          Rent Your Dream
-        </motion.span>
-        <motion.span 
-          className="block bg-clip-text text-transparent bg-gradient-to-r from-tesla-blue/90 via-white to-tesla-purple/90 relative mt-1"
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.6 }}
-        >
-          Electric Vehicle
-        </motion.span>
-      </motion.h1>
-      
-      <motion.p 
-        className="text-xl text-white/80 mb-10 max-w-2xl"
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.8, delay: 0.8 }}
-      >
-        Experience the future of transportation with our premium electric 
-        vehicle rental service. Zero emissions, maximum performance.
-      </motion.p>
-      
-      <motion.div 
-        className="flex flex-col sm:flex-row gap-4"
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.8, delay: 1 }}
-      >
-        <motion.div
-          whileHover={{ scale: 1.05 }}
-          whileTap={{ scale: 0.95 }}
-        >
-          <Button asChild className="tesla-button bg-gradient-to-r from-tesla-blue to-tesla-purple px-8 py-6 text-lg">
-            <Link to="/vehicles" className="relative z-10 flex items-center">
-              Browse Vehicles
-              <ChevronRight className="ml-1 group-hover:translate-x-1 transition-transform duration-200" size={18} />
-            </Link>
-          </Button>
+          <Link to="/vehicles" className="tesla-button">
+            Browse Vehicles
+          </Link>
+          <Link to="/pricing" className="tesla-button-outline">
+            View Pricing
+          </Link>
         </motion.div>
         
-        <motion.div
-          whileHover={{ scale: 1.05 }}
-          whileTap={{ scale: 0.95 }}
+        <motion.div 
+          className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.8, delay: 0.6 }}
         >
-          <Button asChild variant="outline" className="tesla-button-outline px-8 py-6 text-lg">
-            <Link to="/how-it-works" className="flex items-center group">
-              <span>Learn More</span>
-              <span className="ml-1 opacity-0 group-hover:opacity-100 group-hover:translate-x-1 transition-all duration-200">
-                <ChevronRight size={18} />
-              </span>
-            </Link>
-          </Button>
+          <HeroCard3D 
+            imageSrc="/lovable-uploads/011215ed-22f9-4462-8492-3cdff3c58719.png" 
+            title="Tesla Model S"
+            subtitle="Premium Sedan"
+          />
+          <HeroCard3D 
+            imageSrc="/lovable-uploads/87310600-2a51-4edd-a0b3-4ae26fc44398.png"
+            title="Tesla Model 3"
+            subtitle="Performance Edition"
+          />
+          <HeroCard3D 
+            imageSrc="/lovable-uploads/011215ed-22f9-4462-8492-3cdff3c58719.png"
+            title="Tesla Model X"
+            subtitle="Premium SUV"
+          />
         </motion.div>
-      </motion.div>
-    </motion.div>
+      </div>
+    </div>
   );
 };
 

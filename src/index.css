@@ -25,6 +25,12 @@
     --input: 240 3.7% 15.9%;
     --ring: 240 4.9% 83.9%;
     --radius: 0.75rem;
+    
+    /* 3D Card Variables */
+    --card-radius: 16px;
+    --neomorphic-shadow-light: rgba(255, 255, 255, 0.7);
+    --neomorphic-shadow-dark: rgba(0, 0, 0, 0.25);
+    --glow-color: rgba(255, 255, 255, 0.2);
   }
 }
 
@@ -170,5 +176,125 @@
   
   .tesla-input {
     @apply bg-glass/20 border-none rounded-lg px-4 py-2 text-white placeholder:text-white/40 focus:ring-2 focus:ring-tesla-blue/30 transition-all;
+  }
+
+  /* 3D Card Classes */
+  .unity-neocard-wrapper {
+    @apply flex justify-center items-center p-4;
+    perspective: 1200px; /* for 3D perspective */
+    transition: 0.5s ease-in-out all;
+  }
+
+  .unity-neocard {
+    position: relative;
+    width: 280px;
+    height: 380px;
+    border-radius: var(--card-radius);
+    overflow: hidden;
+    background: linear-gradient(
+      120deg,
+      rgba(255, 255, 255, 0.05),
+      rgba(255, 255, 255, 0.02)
+    );
+    backdrop-filter: blur(12px) saturate(180%);
+    box-shadow: 
+      5px 5px 15px var(--neomorphic-shadow-dark),
+      -5px -5px 15px var(--neomorphic-shadow-light);
+    transform-style: preserve-3d;
+    transition: 0.5s all;
+    cursor: pointer;
+  }
+
+  .unity-neocard:hover {
+    transform: scale(1.05);
+    box-shadow:
+      0 0 20px 0 rgba(255, 255, 255, 0.3),
+      5px 5px 20px var(--neomorphic-shadow-dark),
+      -5px -5px 20px var(--neomorphic-shadow-light);
+  }
+
+  .obj {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    transform-style: preserve-3d;
+    transition: 0.5s all;
+    transform: rotateX(-15deg) rotateY(15deg);
+    border-radius: var(--card-radius);
+    overflow: hidden;
+  }
+
+  .objchild {
+    animation: rotate 10s infinite linear;
+    transform-style: preserve-3d;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+  }
+
+  .objchild::after {
+    content: "";
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    filter: blur(20px);
+    box-shadow: 0 0 50px 5px rgba(10, 132, 255, 0.5);
+    transform: rotateX(90deg) scale(1.1) translateZ(-120px);
+  }
+
+  .inn6 {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: #151515;
+    transform: rotateX(0deg) translateZ(0px);
+    animation: updown 4s infinite ease-in-out;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    border-radius: var(--card-radius);
+  }
+
+  @keyframes rotate {
+    0% {
+      transform: rotate3d(0,1,0,0deg);
+    }
+    100% {
+      transform: rotate3d(0,1,0,360deg);
+    }
+  }
+
+  @keyframes updown {
+    0% {
+      transform: translateY(0px) rotateX(0deg) translateZ(0px);
+    }
+    50% {
+      transform: translateY(10px) rotateX(5deg) translateZ(5px);
+    }
+    100% {
+      transform: translateY(0px) rotateX(0deg) translateZ(0px);
+    }
+  }
+
+  .unity-fleet-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: var(--card-radius);
+  }
+
+  .unity-branding {
+    position: absolute;
+    bottom: 15px;
+    left: 15px;
+    right: 15px;
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+    background: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(5px);
+    border-radius: 10px;
+    z-index: 10;
   }
 }
