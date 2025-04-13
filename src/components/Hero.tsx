@@ -20,12 +20,25 @@ const Hero: React.FC = () => {
   const scale = useTransform(scrollYProgress, [0, 0.8], [1, 0.9]);
   const y = useTransform(scrollYProgress, [0, 0.8], [0, 150]);
   
+  // Create motion values for mouse position
   const mouseX = useMotionValue(0);
   const mouseY = useMotionValue(0);
   
   const springConfig = { damping: 20, stiffness: 300 };
   const springX = useSpring(mouseX, springConfig);
   const springY = useSpring(mouseY, springConfig);
+  
+  // Create derived motion values for the UI effects
+  const gradientX1 = useTransform(mouseX, value => value * 1);
+  const gradientOpacity1 = useTransform(mouseY, value => 0.8 - (value * 0.6));
+  const gradientX2 = useTransform(mouseX, value => -value * 1);
+  const gradientOpacity2 = useTransform(mouseY, value => 0.2 + (value * 0.6));
+  
+  // Create motion values for 3D rotation effects
+  const rotateY = useTransform(mouseX, value => value * 30);
+  const rotateX = useTransform(mouseY, value => -value * 30);
+  const headingRotateX = useTransform(mouseY, value => -value * 4);
+  const headingRotateY = useTransform(mouseX, value => value * 4);
   
   useEffect(() => {
     const handleMouseMove = (e: MouseEvent) => {
@@ -39,8 +52,8 @@ const Hero: React.FC = () => {
       setMousePosition({ x: xPos, y: yPos });
       
       // Update motion values for parallax effect
-      mouseX.set(xPos * 20);
-      mouseY.set(yPos * 20);
+      mouseX.set(xPos);
+      mouseY.set(yPos);
       
       // Apply parallax to background elements if hero ref exists
       if (heroRef.current) {
@@ -138,8 +151,8 @@ const Hero: React.FC = () => {
         className="absolute inset-x-0 top-1/3 z-0 h-px w-full"
         style={{
           background: "linear-gradient(90deg, rgba(0,0,0,0), rgba(10,132,255,0.5), rgba(0,0,0,0))",
-          x: useTransform(() => mousePosition.x * 20),
-          opacity: useTransform(() => 0.8 - (mousePosition.y * 0.6))
+          x: gradientX1,
+          opacity: gradientOpacity1
         }}
       />
       
@@ -147,8 +160,8 @@ const Hero: React.FC = () => {
         className="absolute inset-x-0 top-2/3 z-0 h-px w-full"
         style={{
           background: "linear-gradient(90deg, rgba(0,0,0,0), rgba(94,92,230,0.5), rgba(0,0,0,0))",
-          x: useTransform(() => -mousePosition.x * 20),
-          opacity: useTransform(() => 0.2 + (mousePosition.y * 0.6))
+          x: gradientX2,
+          opacity: gradientOpacity2
         }}
       />
       
@@ -188,8 +201,8 @@ const Hero: React.FC = () => {
             <motion.div 
               className="w-14 h-14 mx-auto mb-6 relative"
               style={{
-                rotateY: useTransform(() => mousePosition.x * 30),
-                rotateX: useTransform(() => -mousePosition.y * 30)
+                rotateY,
+                rotateX
               }}
             >
               <motion.div 
@@ -212,8 +225,8 @@ const Hero: React.FC = () => {
             className="text-5xl md:text-7xl lg:text-8xl font-bold mb-6 tracking-tight"
             style={{
               perspective: 1000,
-              rotateX: useTransform(() => -mousePosition.y * 4),
-              rotateY: useTransform(() => mousePosition.x * 4)
+              rotateX: headingRotateX,
+              rotateY: headingRotateY
             }}
           >
             <motion.span 
