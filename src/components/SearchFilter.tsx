@@ -1,7 +1,8 @@
 
 import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { Search, Calendar, MapPin } from "lucide-react";
+import { Search, Calendar, MapPin, Car, ArrowRight } from "lucide-react";
+import { motion } from "framer-motion";
 
 interface SearchFilterProps {
   onSearch: (filters: {
@@ -29,22 +30,45 @@ const SearchFilter: React.FC<SearchFilterProps> = ({ onSearch }) => {
   };
 
   return (
-    <div className="glass-card py-6 px-6 md:px-8 w-full max-w-6xl mx-auto -mt-20 relative z-20">
-      <h2 className="text-xl font-semibold mb-4">Search Cars</h2>
+    <motion.div 
+      className="glass-card py-8 px-8 w-full max-w-6xl mx-auto -mt-28 relative z-20"
+      initial={{ opacity: 0, y: 30 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.6, delay: 0.2 }}
+    >
+      <motion.h2 
+        className="text-xl font-semibold mb-6 bg-clip-text text-transparent bg-gradient-to-r from-white to-white/80"
+        initial={{ opacity: 0, y: 10 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6, delay: 0.3 }}
+      >
+        Find Your Perfect Tesla
+      </motion.h2>
       
-      <form onSubmit={handleSubmit} className="grid grid-cols-1 md:grid-cols-4 gap-4">
-        <div className="glass-effect p-3 rounded-lg flex items-center gap-3">
-          <Search className="h-5 w-5 text-white/70" />
+      <form onSubmit={handleSubmit} className="grid grid-cols-1 md:grid-cols-4 gap-5">
+        <motion.div 
+          className="glass-effect p-4 rounded-xl flex items-center gap-3"
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.4 }}
+        >
+          <Search className="h-5 w-5 text-tesla-blue" />
           <input
             type="text"
-            placeholder="Search by name or model"
+            placeholder="Search by model..."
             value={query}
             onChange={(e) => setQuery(e.target.value)}
             className="bg-transparent border-none outline-none w-full text-white placeholder-white/50"
           />
-        </div>
+        </motion.div>
 
-        <div className="glass-effect p-3 rounded-lg">
+        <motion.div 
+          className="glass-effect p-4 rounded-xl flex items-center gap-3"
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.5 }}
+        >
+          <Car className="h-5 w-5 text-tesla-blue" />
           <select
             value={vehicleType}
             onChange={(e) => setVehicleType(e.target.value)}
@@ -56,10 +80,18 @@ const SearchFilter: React.FC<SearchFilterProps> = ({ onSearch }) => {
             <option value="truck" className="bg-tesla-dark">Truck</option>
             <option value="sports" className="bg-tesla-dark">Sports</option>
           </select>
-        </div>
+          <div className="pointer-events-none">
+            <ArrowRight className="h-4 w-4 text-white/50 rotate-90" />
+          </div>
+        </motion.div>
 
-        <div className="glass-effect p-3 rounded-lg flex items-center gap-3">
-          <MapPin className="h-5 w-5 text-white/70" />
+        <motion.div 
+          className="glass-effect p-4 rounded-xl flex items-center gap-3"
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.6 }}
+        >
+          <MapPin className="h-5 w-5 text-tesla-blue" />
           <select
             value={location}
             onChange={(e) => setLocation(e.target.value)}
@@ -71,16 +103,28 @@ const SearchFilter: React.FC<SearchFilterProps> = ({ onSearch }) => {
             <option value="ny" className="bg-tesla-dark">New York</option>
             <option value="chicago" className="bg-tesla-dark">Chicago</option>
           </select>
-        </div>
+          <div className="pointer-events-none">
+            <ArrowRight className="h-4 w-4 text-white/50 rotate-90" />
+          </div>
+        </motion.div>
 
-        <Button 
-          type="submit" 
-          className="bg-tesla-blue hover:bg-tesla-blue/90 text-white"
+        <motion.div
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.7 }}
+          whileHover={{ scale: 1.03 }}
+          whileTap={{ scale: 0.97 }}
         >
-          Search
-        </Button>
+          <Button 
+            type="submit" 
+            className="w-full h-full bg-gradient-to-r from-tesla-blue to-tesla-purple hover:brightness-110 transition-all flex items-center justify-center gap-2 text-white"
+          >
+            <span>Search</span>
+            <Search className="h-4 w-4" />
+          </Button>
+        </motion.div>
       </form>
-    </div>
+    </motion.div>
   );
 };
 

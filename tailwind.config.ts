@@ -76,9 +76,9 @@ export default {
           }
         },
         glass: {
-          DEFAULT: "rgba(255, 255, 255, 0.05)",
-          border: "rgba(255, 255, 255, 0.1)",
-          highlight: "rgba(255, 255, 255, 0.2)",
+          DEFAULT: "rgba(255, 255, 255, 0.03)",
+          border: "rgba(255, 255, 255, 0.05)",
+          highlight: "rgba(255, 255, 255, 0.1)",
         }
 			},
 			borderRadius: {
@@ -116,6 +116,31 @@ export default {
         'shine': {
           '0%': { backgroundPosition: '200% 0' },
           '100%': { backgroundPosition: '-200% 0' },
+        },
+        'rotate-3d': {
+          '0%': {
+            transform: 'perspective(1000px) rotateX(0deg) rotateY(0deg)'
+          },
+          '25%': {
+            transform: 'perspective(1000px) rotateX(3deg) rotateY(3deg)'
+          },
+          '75%': {
+            transform: 'perspective(1000px) rotateX(-3deg) rotateY(-3deg)'
+          },
+          '100%': {
+            transform: 'perspective(1000px) rotateX(0deg) rotateY(0deg)'
+          }
+        },
+        'morph-blob': {
+          '0%': {
+            borderRadius: '60% 40% 30% 70% / 60% 30% 70% 40%'
+          },
+          '50%': {
+            borderRadius: '30% 60% 70% 40% / 50% 60% 30% 60%'
+          },
+          '100%': {
+            borderRadius: '60% 40% 30% 70% / 60% 30% 70% 40%'
+          }
         }
 			},
 			animation: {
@@ -124,7 +149,13 @@ export default {
         'float': 'float 6s ease-in-out infinite',
         'pulse-glow': 'pulse-glow 3s ease-in-out infinite',
         'shine': 'shine 8s linear infinite',
-			}
+        'rotate-3d': 'rotate-3d 12s ease-in-out infinite',
+        'morph-blob': 'morph-blob 8s ease-in-out infinite'
+			},
+      backgroundImage: {
+        'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
+        'noise': "url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzMDAiIGhlaWdodD0iMzAwIj48ZmlsdGVyIGlkPSJhIiB4PSIwIiB5PSIwIj48ZmVUdXJidWxlbmNlIGJhc2VGcmVxdWVuY3k9Ii43NSIgc3RpdGNoVGlsZXM9InN0aXRjaCIgdHlwZT0iZnJhY3RhbE5vaXNlIi8+PGZlQ29sb3JNYXRyaXggdHlwZT0ic2F0dXJhdGUiIHZhbHVlcz0iMCIvPjwvZmlsdGVyPjxwYXRoIGQ9Ik0wIDBoMzAwdjMwMEgweiIgZmlsdGVyPSJ1cmwoI2EpIiBvcGFjaXR5PSIuMDUiLz48L3N2Zz4=')",
+      }
 		}
 	},
 	plugins: [require("tailwindcss-animate")],

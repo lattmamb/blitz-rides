@@ -31,6 +31,7 @@
 @layer base {
   * {
     @apply border-border selection:bg-tesla-blue/20 selection:text-white;
+    font-family: 'SF Pro Display', -apple-system, BlinkMacSystemFont, sans-serif;
   }
   
   body {
@@ -62,11 +63,54 @@
 
 @layer utilities {
   .glass-card {
-    @apply backdrop-blur-lg bg-glass border border-glass-border rounded-2xl shadow-[0_8px_32px_rgba(0,10,30,0.12)];
+    @apply backdrop-blur-lg bg-glass border-none rounded-2xl shadow-[0_8px_32px_rgba(0,10,30,0.12)];
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .glass-card::before {
+    content: "";
+    @apply absolute inset-0 bg-gradient-to-b from-white/[0.15] to-transparent rounded-2xl pointer-events-none;
+    z-index: 0;
+  }
+  
+  .glass-card::after {
+    content: "";
+    @apply absolute inset-0 rounded-2xl opacity-40 pointer-events-none;
+    background: linear-gradient(120deg, rgba(255,255,255,0) 30%, rgba(255,255,255,0.2) 38%, rgba(255,255,255,0) 48%);
+    background-size: 200% 100%;
+    background-position-x: 180%;
+    animation: shine 3s infinite;
+  }
+  
+  @keyframes shine {
+    to {
+      background-position-x: -20%;
+    }
   }
   
   .glass-effect {
-    @apply backdrop-blur-md bg-glass/30 border border-glass-border;
+    @apply backdrop-blur-md bg-glass/30 border-none;
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .glass-effect::before {
+    content: "";
+    @apply absolute inset-0 bg-gradient-to-b from-white/[0.05] to-transparent pointer-events-none;
+    z-index: 1;
+  }
+
+  .neo-card {
+    @apply rounded-2xl bg-[#0e0e0e] shadow-[0_-5px_15px_rgba(255,255,255,0.03),0_10px_15px_rgba(0,0,0,0.5)];
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .neo-card::before {
+    content: "";
+    @apply absolute inset-0 bg-gradient-to-b from-white/[0.05] to-transparent pointer-events-none;
+    z-index: 0;
   }
 
   .text-glow {
@@ -89,5 +133,42 @@
     background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
     background-size: 200% auto;
     @apply animate-shine;
+  }
+  
+  .tesla-button {
+    @apply relative overflow-hidden bg-tesla-blue text-white rounded-full px-6 py-3 font-medium transition-all duration-300;
+  }
+  
+  .tesla-button::after {
+    content: "";
+    @apply absolute inset-0 opacity-0 transition-opacity duration-300;
+    background: linear-gradient(120deg, rgba(255,255,255,0) 30%, rgba(255,255,255,0.2) 38%, rgba(255,255,255,0) 48%);
+    background-size: 200% 100%;
+    background-position-x: 180%;
+  }
+  
+  .tesla-button:hover::after {
+    @apply opacity-100;
+    animation: shine 1.5s infinite;
+  }
+  
+  .tesla-button-outline {
+    @apply relative overflow-hidden bg-transparent border border-white/20 text-white rounded-full px-6 py-3 font-medium transition-all duration-300;
+  }
+  
+  .tesla-button-outline:hover {
+    @apply border-white/40 bg-white/5;
+  }
+  
+  .tesla-card-hover {
+    @apply transition-all duration-300;
+  }
+  
+  .tesla-card-hover:hover {
+    @apply transform -translate-y-1 shadow-[0_14px_30px_rgba(0,0,0,0.15),0_0_10px_rgba(10,132,255,0.2)];
+  }
+  
+  .tesla-input {
+    @apply bg-glass/20 border-none rounded-lg px-4 py-2 text-white placeholder:text-white/40 focus:ring-2 focus:ring-tesla-blue/30 transition-all;
   }
 }
