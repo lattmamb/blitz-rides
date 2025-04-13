@@ -14,9 +14,9 @@ const HeroCard3D: React.FC<HeroCard3DProps> = ({
   subtitle 
 }) => {
   return (
-    <div className="unity-neocard-wrapper">
+    <div className="card-3d-wrapper">
       <motion.div 
-        className="unity-neocard"
+        className="card-3d"
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8, delay: 0.3 }}
@@ -25,7 +25,7 @@ const HeroCard3D: React.FC<HeroCard3DProps> = ({
           <div className="objchild">
             <div className="inn6">
               <img
-                className="unity-fleet-image"
+                className="card-3d-image"
                 src={imageSrc}
                 alt={title || "Unity Fleet"}
               />
@@ -34,7 +34,7 @@ const HeroCard3D: React.FC<HeroCard3DProps> = ({
         </div>
         
         {(title || subtitle) && (
-          <div className="unity-branding">
+          <div className="card-3d-content">
             <motion.div
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
