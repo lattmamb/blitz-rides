@@ -100,8 +100,8 @@ const Hero: React.FC = () => {
             ease: "easeInOut" 
           }}
           style={{
-            x: useTransform(springX, value => value * -1.2),
-            y: useTransform(springY, value => value * -1.2)
+            x: springX,
+            y: springY
           }}
         />
         
@@ -119,16 +119,16 @@ const Hero: React.FC = () => {
             delay: 1
           }}
           style={{
-            x: useTransform(springX, value => value * -1.5),
-            y: useTransform(springY, value => value * -1.5)
+            x: springX,
+            y: springY
           }}
         />
         
         <motion.div 
           className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] rounded-full bg-gradient-radial from-[#121212] to-transparent opacity-50 blur-[60px] parallax-bg"
           style={{
-            x: useTransform(springX, value => value * -0.7),
-            y: useTransform(springY, value => value * -0.7)
+            x: springX,
+            y: springY
           }}
         />
       </div>
@@ -138,8 +138,8 @@ const Hero: React.FC = () => {
         className="absolute inset-x-0 top-1/3 z-0 h-px w-full"
         style={{
           background: "linear-gradient(90deg, rgba(0,0,0,0), rgba(10,132,255,0.5), rgba(0,0,0,0))",
-          x: useTransform(mousePosition.x, [-0.5, 0.5], ['-20%', '20%']),
-          opacity: useTransform(mousePosition.y, [-0.5, 0.5], [0.8, 0.2])
+          x: useTransform(() => mousePosition.x * 20),
+          opacity: useTransform(() => 0.8 - (mousePosition.y * 0.6))
         }}
       />
       
@@ -147,8 +147,8 @@ const Hero: React.FC = () => {
         className="absolute inset-x-0 top-2/3 z-0 h-px w-full"
         style={{
           background: "linear-gradient(90deg, rgba(0,0,0,0), rgba(94,92,230,0.5), rgba(0,0,0,0))",
-          x: useTransform(mousePosition.x, [-0.5, 0.5], ['20%', '-20%']),
-          opacity: useTransform(mousePosition.y, [-0.5, 0.5], [0.2, 0.8])
+          x: useTransform(() => -mousePosition.x * 20),
+          opacity: useTransform(() => 0.2 + (mousePosition.y * 0.6))
         }}
       />
       
@@ -188,8 +188,8 @@ const Hero: React.FC = () => {
             <motion.div 
               className="w-14 h-14 mx-auto mb-6 relative"
               style={{
-                rotateY: useTransform(mousePosition.x, [-0.5, 0.5], [-15, 15]),
-                rotateX: useTransform(mousePosition.y, [-0.5, 0.5], [15, -15])
+                rotateY: useTransform(() => mousePosition.x * 30),
+                rotateX: useTransform(() => -mousePosition.y * 30)
               }}
             >
               <motion.div 
@@ -212,8 +212,8 @@ const Hero: React.FC = () => {
             className="text-5xl md:text-7xl lg:text-8xl font-bold mb-6 tracking-tight"
             style={{
               perspective: 1000,
-              rotateX: useTransform(mousePosition.y, [-0.5, 0.5], [2, -2]),
-              rotateY: useTransform(mousePosition.x, [-0.5, 0.5], [-2, 2])
+              rotateX: useTransform(() => -mousePosition.y * 4),
+              rotateY: useTransform(() => mousePosition.x * 4)
             }}
           >
             <motion.span 
