@@ -1,11 +1,12 @@
 
 import React from 'react';
 import { Separator } from '@/components/ui/separator';
-import { Check, CreditCard } from 'lucide-react';
+import { Check, CreditCard, Info, Star } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { cn } from '@/lib/utils';
 import { useTheme } from '@/context/ThemeContext';
 import { SubscriptionPlan, Vehicle } from '@/types';
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 
 interface BookingSummaryProps {
   vehicle: Vehicle;
@@ -48,6 +49,13 @@ const BookingSummary: React.FC<BookingSummaryProps> = ({
         theme={theme} 
       />
       
+      {selectedPlanDetails && (
+        <SubscriptionDetails 
+          selectedPlanDetails={selectedPlanDetails} 
+          theme={theme} 
+        />
+      )}
+      
       <PriceSummary selectedPlanDetails={selectedPlanDetails} theme={theme} />
       
       <SecurityNote theme={theme} />
@@ -76,6 +84,7 @@ const VehicleInfo = ({ vehicle }) => (
 
 const SubscriptionOptions = ({ subscriptionPlans, selectedPlan, setSelectedPlan, theme }) => (
   <div className="space-y-4 mb-6">
+    <h3 className="text-sm font-medium text-white/70 mb-2">Select a Subscription Plan</h3>
     {subscriptionPlans.map(plan => (
       <motion.div
         key={plan.id}
@@ -86,13 +95,22 @@ const SubscriptionOptions = ({ subscriptionPlans, selectedPlan, setSelectedPlan,
           selectedPlan === plan.id ? 'border-tesla-blue/50 bg-tesla-blue/10' : 'border-glass-border hover:border-white/20',
           theme === 'neoPulse' && "glass-effect",
           theme === 'quantumGlass' && "glass-premium",
-          theme === 'orbitalDark' && "glass-effect"
+          theme === 'orbitalDark' && "glass-effect",
+          plan.recommended && !selectedPlan && "ring-2 ring-tesla-blue/50"
         )}
         onClick={() => setSelectedPlan(plan.id)}
       >
         <div className="flex justify-between items-center">
           <div>
-            <h4 className="font-medium">{plan.name}</h4>
+            <div className="flex items-center gap-2">
+              <h4 className="font-medium">{plan.name}</h4>
+              {plan.recommended && (
+                <span className="bg-tesla-blue text-white text-xs px-2 py-0.5 rounded-full flex items-center">
+                  <Star className="h-3 w-3 mr-1" fill="white" />
+                  Recommended
+                </span>
+              )}
+            </div>
             <p className="text-sm text-white/70">{plan.duration}</p>
           </div>
           <div className="flex items-center">
@@ -107,6 +125,43 @@ const SubscriptionOptions = ({ subscriptionPlans, selectedPlan, setSelectedPlan,
         </div>
       </motion.div>
     ))}
+  </div>
+);
+
+const SubscriptionDetails = ({ selectedPlanDetails, theme }) => (
+  <div className="mb-6">
+    <div className="flex items-center justify-between mb-3">
+      <h3 className="text-sm font-medium text-white/70">Plan Features</h3>
+      <TooltipProvider>
+        <Tooltip>
+          <TooltipTrigger asChild>
+            <div className="p-1 rounded-full bg-white/10 cursor-help">
+              <Info className="h-3 w-3 text-white/70" />
+            </div>
+          </TooltipTrigger>
+          <TooltipContent className="max-w-xs">
+            Features included in your selected subscription plan. All plans include Tesla account integration, 24/7 support, and charging access.
+          </TooltipContent>
+        </Tooltip>
+      </TooltipProvider>
+    </div>
+    <div className={cn(
+      "rounded-md p-3 text-sm",
+      theme === 'neoPulse' && "glass-effect",
+      theme === 'quantumGlass' && "glass-premium",
+      theme === 'orbitalDark' && "glass-blue"
+    )}>
+      <ul className="space-y-2">
+        {selectedPlanDetails.features.map((feature, idx) => (
+          <li key={idx} className="flex items-start gap-2">
+            <div className="mt-0.5 p-1 rounded-full bg-tesla-blue/20 text-tesla-blue">
+              <Check className="h-3 w-3" />
+            </div>
+            <span className="text-white/80 text-sm">{feature}</span>
+          </li>
+        ))}
+      </ul>
+    </div>
   </div>
 );
 
@@ -140,6 +195,12 @@ const PriceSummary = ({ selectedPlanDetails, theme }) => (
           ${((selectedPlanDetails?.price || 0) + (selectedPlanDetails?.price || 0) * 0.085).toFixed(2)}{selectedPlanDetails?.priceUnit}
         </span>
       </div>
+      <div className="text-xs text-white/50 text-right italic">
+        Billed {selectedPlanDetails?.duration.toLowerCase() === 'monthly' ? 'monthly' : 
+               selectedPlanDetails?.duration.toLowerCase() === '3 months' ? 'quarterly' : 
+               selectedPlanDetails?.duration.toLowerCase() === '6 months' ? 'bi-annually' : 
+               selectedPlanDetails?.duration.toLowerCase() === 'annual' ? 'annually' : 'as per plan'}
+      </div>
     </div>
   </>
 );
@@ -155,7 +216,7 @@ const SecurityNote = ({ theme }) => (
       <CreditCard className="h-5 w-5 mr-2 text-tesla-blue mt-0.5" />
       <span>
         You won't be charged until your subscription is confirmed. Cancellation is available 
-        up to 24 hours before your delivery date.
+        up to 24 hours before your delivery date. All payments are securely processed.
       </span>
     </div>
   </div>

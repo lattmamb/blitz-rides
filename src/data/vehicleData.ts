@@ -6,7 +6,7 @@ export const vehicles: Vehicle[] = [
     id: 'model-s',
     model: 'Model S',
     type: 'sedan',
-    image: 'https://assets.aceternity.com/demos/tesla-model-s.webp',
+    image: 'https://digitalassets.tesla.com/tesla-contents/image/upload/f_auto,q_auto/Mega-Menu-Vehicles-Model-S.png',
     price: 249,
     priceUnit: '/mo',
     tagline: 'Premium electric sedan with incredible range',
@@ -25,9 +25,9 @@ export const vehicles: Vehicle[] = [
     available: true,
     colors: ['#FFFFFF', '#000000', '#C0C0C0', '#FF0000', '#0000FF'],
     colorImages: {
-      '#FFFFFF': 'https://assets.aceternity.com/demos/tesla-model-s.webp',
-      '#000000': 'https://assets.aceternity.com/demos/tesla-model-s-black.webp',
-      '#C0C0C0': 'https://assets.aceternity.com/demos/tesla-model-s-silver.webp',
+      '#FFFFFF': 'https://digitalassets.tesla.com/tesla-contents/image/upload/f_auto,q_auto/Mega-Menu-Vehicles-Model-S.png',
+      '#000000': 'https://digitalassets.tesla.com/tesla-contents/image/upload/f_auto,q_auto:best/Model-S-Main-Hero-Desktop-LHD-Animation.png',
+      '#C0C0C0': 'https://digitalassets.tesla.com/tesla-contents/image/upload/f_auto,q_auto/Model-S-Exterior-Gray-Desktop.png',
     },
     rating: 4.9,
     reviewCount: 128
@@ -36,7 +36,7 @@ export const vehicles: Vehicle[] = [
     id: 'model-3',
     model: 'Model 3',
     type: 'sedan',
-    image: 'https://assets.aceternity.com/demos/tesla-model-3.webp',
+    image: 'https://digitalassets.tesla.com/tesla-contents/image/upload/f_auto,q_auto/Mega-Menu-Vehicles-Model-3-LHD.png',
     price: 189,
     priceUnit: '/mo',
     tagline: 'Affordable electric sedan with amazing value',
@@ -55,8 +55,8 @@ export const vehicles: Vehicle[] = [
     available: true,
     colors: ['#FFFFFF', '#FF0000', '#0000FF'],
     colorImages: {
-      '#FFFFFF': 'https://assets.aceternity.com/demos/tesla-model-3.webp',
-      '#FF0000': 'https://assets.aceternity.com/demos/tesla-model-3-red.webp',
+      '#FFFFFF': 'https://digitalassets.tesla.com/tesla-contents/image/upload/f_auto,q_auto/Mega-Menu-Vehicles-Model-3-LHD.png',
+      '#FF0000': 'https://digitalassets.tesla.com/tesla-contents/image/upload/f_auto,q_auto/Model-3-Main-Hero-Desktop-LHD.png',
     },
     rating: 4.7,
     reviewCount: 215
@@ -65,7 +65,7 @@ export const vehicles: Vehicle[] = [
     id: 'model-x',
     model: 'Model X',
     type: 'suv',
-    image: 'https://assets.aceternity.com/demos/tesla-model-x.webp',
+    image: 'https://digitalassets.tesla.com/tesla-contents/image/upload/f_auto,q_auto/Mega-Menu-Vehicles-Model-X.png',
     price: 299,
     priceUnit: '/mo',
     tagline: 'Premium SUV with falcon wing doors',
@@ -84,8 +84,8 @@ export const vehicles: Vehicle[] = [
     available: true,
     colors: ['#FFFFFF', '#000000', '#C0C0C0', '#0000FF'],
     colorImages: {
-      '#FFFFFF': 'https://assets.aceternity.com/demos/tesla-model-x.webp',
-      '#000000': 'https://assets.aceternity.com/demos/tesla-model-x-black.webp',
+      '#FFFFFF': 'https://digitalassets.tesla.com/tesla-contents/image/upload/f_auto,q_auto/Mega-Menu-Vehicles-Model-X.png',
+      '#000000': 'https://digitalassets.tesla.com/tesla-contents/image/upload/f_auto,q_auto/Model-X-Exterior-Hero-Desktop-Global.png',
     },
     rating: 4.8,
     reviewCount: 92
@@ -94,7 +94,7 @@ export const vehicles: Vehicle[] = [
     id: 'model-y',
     model: 'Model Y',
     type: 'suv',
-    image: 'https://assets.aceternity.com/demos/tesla-model-y.webp',
+    image: 'https://digitalassets.tesla.com/tesla-contents/image/upload/f_auto,q_auto/Mega-Menu-Vehicles-Model-Y.png',
     price: 199,
     priceUnit: '/mo',
     tagline: 'Versatile electric crossover SUV',
@@ -113,8 +113,8 @@ export const vehicles: Vehicle[] = [
     available: true,
     colors: ['#FFFFFF', '#000000', '#C0C0C0', '#FF0000'],
     colorImages: {
-      '#FFFFFF': 'https://assets.aceternity.com/demos/tesla-model-y.webp',
-      '#FF0000': 'https://assets.aceternity.com/demos/tesla-model-y-red.webp',
+      '#FFFFFF': 'https://digitalassets.tesla.com/tesla-contents/image/upload/f_auto,q_auto/Mega-Menu-Vehicles-Model-Y.png',
+      '#FF0000': 'https://digitalassets.tesla.com/tesla-contents/image/upload/f_auto,q_auto/Model-Y-Main-Hero-Desktop-Global.png',
     },
     rating: 4.6,
     reviewCount: 187
@@ -123,7 +123,7 @@ export const vehicles: Vehicle[] = [
     id: 'cybertruck',
     model: 'Cybertruck',
     type: 'truck',
-    image: 'https://assets.aceternity.com/demos/tesla-cybertruck.webp',
+    image: 'https://digitalassets.tesla.com/tesla-contents/image/upload/f_auto,q_auto/Mega-Menu-Vehicles-Cybertruck.png',
     price: 349,
     priceUnit: '/mo',
     tagline: 'Futuristic electric pickup truck',
@@ -142,7 +142,7 @@ export const vehicles: Vehicle[] = [
     available: true,
     colors: ['#C0C0C0'],
     colorImages: {
-      '#C0C0C0': 'https://assets.aceternity.com/demos/tesla-cybertruck.webp',
+      '#C0C0C0': 'https://digitalassets.tesla.com/tesla-contents/image/upload/f_auto,q_auto/Mega-Menu-Vehicles-Cybertruck.png',
     },
     rating: 4.9,
     reviewCount: 76
@@ -151,7 +151,7 @@ export const vehicles: Vehicle[] = [
     id: 'roadster',
     model: 'Roadster',
     type: 'sports',
-    image: 'https://assets.aceternity.com/demos/tesla-roadster.webp',
+    image: 'https://digitalassets.tesla.com/tesla-contents/image/upload/f_auto,q_auto/roadster_front.png',
     price: 499,
     priceUnit: '/mo',
     tagline: 'The quickest car in the world with record-setting acceleration',
@@ -170,8 +170,8 @@ export const vehicles: Vehicle[] = [
     available: true,
     colors: ['#FF0000', '#FFFFFF', '#000000'],
     colorImages: {
-      '#FF0000': 'https://assets.aceternity.com/demos/tesla-roadster.webp',
-      '#FFFFFF': 'https://assets.aceternity.com/demos/tesla-roadster-white.webp',
+      '#FF0000': 'https://digitalassets.tesla.com/tesla-contents/image/upload/f_auto,q_auto/roadster_front.png',
+      '#FFFFFF': 'https://digitalassets.tesla.com/tesla-contents/image/upload/f_auto,q_auto/roadster_side.png',
     },
     rating: 5.0,
     reviewCount: 42
