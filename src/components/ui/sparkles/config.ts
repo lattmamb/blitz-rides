@@ -1,5 +1,5 @@
 import { ParticlesProps } from "./types";
-import type { CollisionMode, SingleOrMultiple } from "@tsparticles/engine";
+import type { CollisionMode, PixelMode, SingleOrMultiple } from "@tsparticles/engine";
 
 export const getParticlesConfig = (props: ParticlesProps) => {
   const {
@@ -128,7 +128,7 @@ export const getParticlesConfig = (props: ParticlesProps) => {
         center: {
           x: 50,
           y: 50,
-          mode: "percent",
+          mode: "percent" as "percent" | PixelMode | "precise",
           radius: 0,
         },
         decay: 0,
