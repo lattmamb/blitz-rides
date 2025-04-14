@@ -90,16 +90,20 @@ const IntelligentLoading = ({
               transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
             />
             
-            <Loader2 
-              className={cn(
-                "w-10 h-10",
-                theme === 'neoPulse' ? "text-tesla-blue" : 
-                theme === 'quantumGlass' ? "text-white" :
-                "text-tesla-orange"
-              )}
+            {/* Fix: Wrapping Loader2 in a motion.div for animation */}
+            <motion.div
               animate={{ rotate: 360 }}
               transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
-            />
+            >
+              <Loader2 
+                className={cn(
+                  "w-10 h-10",
+                  theme === 'neoPulse' ? "text-tesla-blue" : 
+                  theme === 'quantumGlass' ? "text-white" :
+                  "text-tesla-orange"
+                )}
+              />
+            </motion.div>
           </motion.div>
           
           <motion.h3
