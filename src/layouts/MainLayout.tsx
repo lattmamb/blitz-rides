@@ -1,8 +1,10 @@
+
 import React, { useState, useEffect } from 'react';
 import Footer from '@/components/Footer';
 import AIAssistant from '@/components/AIAssistant';
 import NavbarDemo from '@/components/ui/navbar-menu-demo';
 import { motion, AnimatePresence } from 'framer-motion';
+import GalaxyBackground from '@/components/ui/galaxy-background';
 
 interface MainLayoutProps {
   children: React.ReactNode;
@@ -25,7 +27,11 @@ const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
   }, []);
 
   return (
-    <div className="min-h-screen flex flex-col">
+    <div className="min-h-screen flex flex-col relative">
+      {/* Galaxy Background Effect (subtle) */}
+      <div className="fixed inset-0 z-[-1]">
+        <GalaxyBackground interactive starDensity={30} speed={0.2} />
+      </div>
       
       {/* Fixed NavMenu for initial view */}
       <AnimatePresence>
@@ -93,7 +99,19 @@ const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
         )}
       </AnimatePresence>
       
-      <main className="flex-grow">{children}</main>
+      <main className="flex-grow relative">
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={window.location.pathname}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.4 }}
+          >
+            {children}
+          </motion.div>
+        </AnimatePresence>
+      </main>
       <Footer />
       <AIAssistant />
     </div>
@@ -110,7 +128,7 @@ const FloatingNavItem: React.FC<FloatingNavItemProps> = ({ label, position }) =>
   
   return (
     <motion.div
-      className="glass-card rounded-full p-3 cursor-pointer shadow-lg blue-glow"
+      className="glx-card rounded-full p-3 cursor-pointer shadow-lg blue-glow"
       animate={{ 
         y: [0, -10, 0],
         scale: isHovered ? 1.1 : 1,

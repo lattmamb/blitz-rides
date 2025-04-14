@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import MainLayout from '@/layouts/MainLayout';
 import SearchFilter from '@/components/SearchFilter';
-import VehicleCard from '@/components/VehicleCard';
 import FeaturesSection from '@/components/FeaturesSection';
 import Map from '@/components/Map';
 import { vehicles } from '@/data/vehicles';
@@ -12,6 +11,8 @@ import { SparklesPreviewTesla } from '@/components/ui/sparkles-demo';
 import TeslaCardCarousel from '@/components/TeslaCardCarousel';
 import { motion, useScroll, useTransform } from "framer-motion";
 import Vehicle3DModel from '@/components/Vehicle3DModel';
+import GlxVehicleCard from '@/components/GlxVehicleCard';
+import GalaxyBackground from '@/components/ui/galaxy-background';
 
 const Index = () => {
   const [filteredVehicles, setFilteredVehicles] = useState(vehicles);
@@ -54,97 +55,65 @@ const Index = () => {
   };
   
   if (isLoading) {
-    return (
-      <div className="fixed inset-0 bg-black flex items-center justify-center z-50">
-        <div className="relative flex flex-col items-center">
-          <motion.div 
-            className="w-20 h-20 relative"
-            animate={{ 
-              rotate: 360,
-            }}
-            transition={{ 
-              duration: 3, 
-              repeat: Infinity,
-              ease: "linear" 
-            }}
-          >
-            <div className="absolute inset-0 rounded-full border-2 border-white/10"></div>
-            <div className="absolute top-0 bottom-0 left-0 right-0">
-              <div className="w-full h-full border-t-2 border-tesla-blue rounded-full"></div>
-            </div>
-          </motion.div>
-          <motion.h1 
-            className="text-white text-xl mt-6"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.5, delay: 0.5 }}
-          >
-            Unity Fleet
-          </motion.h1>
-          <motion.div
-            className="bg-white/10 h-[2px] w-40 mt-2 rounded overflow-hidden"
-            initial={{ width: 0 }}
-            animate={{ width: 160 }}
-            transition={{ duration: 1.5, delay: 0.8 }}
-          >
-            <motion.div
-              className="h-full bg-tesla-blue"
-              initial={{ width: "0%" }}
-              animate={{ width: "100%" }}
-              transition={{ duration: 1.5, delay: 0.8 }}
-            />
-          </motion.div>
-        </div>
-      </div>
-    );
+    return null;
   }
 
   return (
     <MainLayout>
+      <motion.div 
+        className="relative min-h-screen flex items-center justify-center overflow-hidden"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 1 }}
+      >
+        <div className="absolute inset-0 z-0">
+          <GalaxyBackground starDensity={150} speed={0.4} />
+        </div>
+        
+        <div className="container mx-auto px-4 relative z-10 pt-32">
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.5 }}
+            className="text-center max-w-4xl mx-auto"
+          >
+            <motion.h1 
+              className="text-5xl md:text-7xl font-bold mb-4"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.7 }}
+            >
+              <span className="glx-text">Unity Fleet GLX</span>
+            </motion.h1>
+            
+            <motion.p 
+              className="text-xl text-white/80 mb-8"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.9 }}
+            >
+              Experience the future of mobility with our exclusive GLX lineup
+            </motion.p>
+            
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 1.1 }}
+            >
+              <SearchFilter onSearch={handleSearch} />
+            </motion.div>
+          </motion.div>
+        </div>
+        
+        <div className="absolute inset-0 overflow-hidden pointer-events-none">
+          <div className="absolute top-1/4 -left-[20%] w-[140%] h-[140%] glx-orbital border-white/5" style={{ animationDuration: '120s' }}></div>
+          <div className="absolute top-1/2 -left-[10%] w-[120%] h-[120%] glx-orbital border-white/3" style={{ animationDuration: '80s' }}></div>
+        </div>
+      </motion.div>
       
-      <div className="container mx-auto px-4">
+      <div className="container mx-auto px-4 mt-16">
         <SearchFilter onSearch={handleSearch} />
       </div>
-
-      <motion.section 
-        className="py-16 mt-10 overflow-hidden relative"
-        initial={{ opacity: 0 }}
-        whileInView={{ opacity: 1 }}
-        transition={{ duration: 0.8 }}
-        viewport={{ once: true }}
-      >
-        <div className="absolute inset-0 bg-noise opacity-[0.02]"></div>
-        <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-white/10 to-transparent"></div>
-        <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-white/10 to-transparent"></div>
-        
-        <div className="container mx-auto px-4">
-          <motion.h2 
-            className="text-4xl md:text-6xl font-bold mb-2 text-center bg-clip-text text-transparent bg-gradient-to-r from-white via-white/90 to-white/80"
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
-            viewport={{ once: true }}
-          >
-            Experience Tesla
-          </motion.h2>
-          <motion.p 
-            className="text-xl text-white/70 mb-12 text-center max-w-2xl mx-auto"
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.2 }}
-            viewport={{ once: true }}
-          >
-            Interact with our vehicles and discover the future of transportation
-          </motion.p>
-          
-          <div className="h-[500px]">
-            <Vehicle3DModel 
-              modelPath="https://assets.aceternity.com/demos/tesla-model-s.webp" 
-              label="Tesla Model S"
-            />
-          </div>
-        </div>
-      </motion.section>
 
       <TeslaVehiclesParallax />
       
@@ -168,7 +137,7 @@ const Index = () => {
         <div className="container mx-auto px-4">
           <div className="mb-10">
             <motion.h2 
-              className="text-3xl md:text-5xl font-bold mb-4 text-center bg-clip-text text-transparent bg-gradient-to-r from-white via-white/90 to-white/80"
+              className="text-3xl md:text-5xl font-bold mb-4 text-center glx-text"
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5 }}
@@ -197,7 +166,7 @@ const Index = () => {
                 transition={{ duration: 0.5, delay: index * 0.1 }}
                 viewport={{ once: true }}
               >
-                <VehicleCard vehicle={vehicle} />
+                <GlxVehicleCard vehicle={vehicle} />
               </motion.div>
             ))}
           </div>
@@ -218,7 +187,7 @@ const Index = () => {
         <div className="container mx-auto px-4">
           <div className="mb-10 text-center">
             <motion.h2 
-              className="text-3xl md:text-5xl font-bold mb-4 text-center bg-clip-text text-transparent bg-gradient-to-r from-white via-white/90 to-white/80"
+              className="text-3xl md:text-5xl font-bold mb-4 text-center glx-text"
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5 }}
@@ -256,7 +225,7 @@ const Index = () => {
         <div className="container mx-auto px-4">
           <div className="mb-10 text-center">
             <motion.h2 
-              className="text-3xl md:text-5xl font-bold mb-4 text-center bg-clip-text text-transparent bg-gradient-to-r from-white via-white/90 to-white/80"
+              className="text-3xl md:text-5xl font-bold mb-4 text-center glx-text"
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5 }}
@@ -294,7 +263,7 @@ const Index = () => {
         <div className="container mx-auto px-4">
           <div className="mb-10 text-center">
             <motion.h2 
-              className="text-3xl md:text-5xl font-bold mb-4 text-center bg-clip-text text-transparent bg-gradient-to-r from-white via-white/90 to-white/80"
+              className="text-3xl md:text-5xl font-bold mb-4 text-center glx-text"
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5 }}

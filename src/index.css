@@ -300,4 +300,79 @@
     border-radius: 10px;
     z-index: 10;
   }
+
+  /* GLX Theme Extensions */
+  .star-cluster {
+    @apply absolute rounded-full opacity-30 animate-pulse-glow;
+    background: radial-gradient(circle, rgba(10, 132, 255, 0.3) 0%, transparent 70%);
+  }
+  
+  .star-cluster-1 {
+    top: 15%;
+    left: 10%;
+    width: 200px;
+    height: 200px;
+    animation-delay: 0s;
+  }
+  
+  .star-cluster-2 {
+    bottom: 20%;
+    right: 15%;
+    width: 300px;
+    height: 300px;
+    animation-delay: 1s;
+  }
+  
+  .star-cluster-3 {
+    top: 40%;
+    right: 30%;
+    width: 150px;
+    height: 150px;
+    animation-delay: 2s;
+  }
+  
+  .glx-card {
+    @apply glass-card;
+    position: relative;
+    overflow: hidden;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+  }
+  
+  .glx-card::before {
+    content: "";
+    @apply absolute inset-0 bg-gradient-to-b from-white/[0.08] to-transparent rounded-2xl pointer-events-none;
+    z-index: 1;
+  }
+  
+  .glx-card::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    padding: 1px;
+    background: linear-gradient(120deg, rgba(94, 92, 230, 0.4) 0%, rgba(10, 132, 255, 0.4) 50%, transparent 100%);
+    mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    pointer-events: none;
+  }
+  
+  .glx-orbital {
+    @apply absolute rounded-full border border-white/10;
+    animation: orbit 20s linear infinite;
+  }
+  
+  @keyframes orbit {
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
+  }
+  
+  .glx-text {
+    @apply bg-gradient-to-r from-white via-tesla-blue to-white bg-clip-text text-transparent;
+  }
 }
