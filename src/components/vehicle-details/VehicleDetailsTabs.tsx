@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Gauge, Zap, Battery, ShieldCheck, Palette, Info } from 'lucide-react';
@@ -7,6 +6,19 @@ import { Vehicle } from '@/types';
 interface VehicleDetailsTabsProps {
   vehicle: Vehicle;
 }
+
+const getColorName = (hex: string) => {
+  switch(hex.toUpperCase()) {
+    case '#FFFFFF': return 'Pearl White';
+    case '#000000': return 'Solid Black';
+    case '#C0C0C0': return 'Silver Metallic';
+    case '#FF0000': return 'Red Multi-Coat';
+    case '#0000FF': return 'Deep Blue Metallic';
+    case '#808080': return 'Midnight Silver';
+    case '#A52A2A': return 'Brown Metallic';
+    default: return 'Custom Color';
+  }
+};
 
 const VehicleDetailsTabs: React.FC<VehicleDetailsTabsProps> = ({ vehicle }) => {
   const [activeTab, setActiveTab] = useState('performance');
@@ -43,7 +55,6 @@ const VehicleDetailsTabs: React.FC<VehicleDetailsTabsProps> = ({ vehicle }) => {
         Detailed Specifications
       </h2>
       
-      {/* Enhanced tabs navigation */}
       <div className="flex flex-wrap justify-center gap-2 md:gap-4 mb-8">
         {tabs.map((tab) => {
           const Icon = tab.icon;
@@ -82,7 +93,6 @@ const VehicleDetailsTabs: React.FC<VehicleDetailsTabsProps> = ({ vehicle }) => {
         })}
       </div>
       
-      {/* Tab content with glassmorphism and animations */}
       <div className="glass-premium p-8 rounded-2xl min-h-[300px]">
         <AnimatePresence mode="wait">
           {activeTab === 'performance' && (
@@ -208,7 +218,6 @@ const VehicleDetailsTabs: React.FC<VehicleDetailsTabsProps> = ({ vehicle }) => {
                 </motion.div>
               </div>
               
-              {/* Feature highlight at bottom */}
               <motion.div 
                 className="col-span-full mt-4 glass-blue p-6 rounded-xl"
                 variants={itemVariants}
