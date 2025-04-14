@@ -1,25 +1,30 @@
 
 import React, { useRef, useState, useEffect } from 'react';
 import { motion, useMotionValue, useTransform, useSpring } from 'framer-motion';
+import { Loader2 } from 'lucide-react';
 
 interface Vehicle3DModelProps {
   modelPath: string;
   label?: string;
   className?: string;
   interactive?: boolean;
+  onLoad?: () => void;
 }
 
 const Vehicle3DModel: React.FC<Vehicle3DModelProps> = ({ 
   modelPath, 
   label, 
   className = '',
-  interactive = true
+  interactive = true,
+  onLoad
 }) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const [rotationAngle, setRotationAngle] = useState(0);
   const [isAutoRotating, setIsAutoRotating] = useState(true);
   const [isDragging, setIsDragging] = useState(false);
   const [startX, setStartX] = useState(0);
+  const [isLoading, setIsLoading] = useState(true);
+  const [hasError, setHasError] = useState(false);
   
   // Mouse position motion values
   const mouseX = useMotionValue(0);
@@ -85,6 +90,36 @@ const Vehicle3DModel: React.FC<Vehicle3DModelProps> = ({
     z: Math.cos(rotationAngle * Math.PI / 180) * 50
   };
 
+  // Handle image loading
+  useEffect(() => {
+    if (!modelPath) {
+      setHasError(true);
+      setIsLoading(false);
+      return;
+    }
+    
+    const img = new Image();
+    img.src = modelPath;
+    
+    img.onload = () => {
+      setIsLoading(false);
+      setHasError(false);
+      if (onLoad) onLoad();
+    };
+    
+    img.onerror = () => {
+      setIsLoading(false);
+      setHasError(true);
+    };
+    
+    // Simulated minimum loading time for smoother UX
+    const timer = setTimeout(() => {
+      if (isLoading) setIsLoading(false);
+    }, 1000);
+    
+    return () => clearTimeout(timer);
+  }, [modelPath, onLoad]);
+
   return (
     <motion.div 
       ref={containerRef}
@@ -97,70 +132,131 @@ const Vehicle3DModel: React.FC<Vehicle3DModelProps> = ({
       animate={{ opacity: 1 }}
       transition={{ duration: 1 }}
       style={{ 
-        cursor: interactive ? isDragging ? 'grabbing' : 'grab' : 'default'
+        cursor: interactive && !isLoading ? (isDragging ? 'grabbing' : 'grab') : 'default'
       }}
     >
       {/* Scene environment */}
       <div className="relative w-full h-full overflow-hidden">
-        {/* Floor reflection */}
-        <div className="absolute bottom-0 left-0 right-0 h-[30%] bg-gradient-to-t from-[rgba(10,10,10,0.3)] to-transparent"></div>
+        {/* Floor reflection - only show when loaded */}
+        {!isLoading && !hasError && (
+          <div className="absolute bottom-0 left-0 right-0 h-[30%] bg-gradient-to-t from-[rgba(10,10,10,0.3)] to-transparent"></div>
+        )}
         
-        {/* Environment lighting */}
-        <div 
-          className="absolute w-20 h-20 rounded-full bg-tesla-blue/20 blur-xl"
-          style={{
-            left: `calc(50% + ${lightPosition.x}px)`,
-            top: `calc(40% + ${lightPosition.y}px)`,
-            opacity: 0.7
-          }}
-        ></div>
-        
-        <div 
-          className="absolute w-40 h-40 rounded-full bg-tesla-purple/10 blur-xl"
-          style={{
-            right: `calc(30% + ${-lightPosition.x}px)`,
-            bottom: `calc(40% + ${-lightPosition.y}px)`,
-            opacity: 0.5
-          }}
-        ></div>
+        {/* Environment lighting - only show when loaded */}
+        {!isLoading && !hasError && (
+          <>
+            <motion.div 
+              className="absolute w-20 h-20 rounded-full bg-tesla-blue/20 blur-xl"
+              style={{
+                left: `calc(50% + ${lightPosition.x}px)`,
+                top: `calc(40% + ${lightPosition.y}px)`,
+                opacity: 0.7,
+              }}
+              animate={{
+                opacity: [0.5, 0.7, 0.5],
+              }}
+              transition={{
+                duration: 4,
+                repeat: Infinity,
+                repeatType: "reverse"
+              }}
+            />
+            
+            <motion.div 
+              className="absolute w-40 h-40 rounded-full bg-tesla-purple/10 blur-xl"
+              style={{
+                right: `calc(30% + ${-lightPosition.x}px)`,
+                bottom: `calc(40% + ${-lightPosition.y}px)`,
+                opacity: 0.5
+              }}
+              animate={{
+                opacity: [0.3, 0.5, 0.3],
+              }}
+              transition={{
+                duration: 5,
+                repeat: Infinity,
+                repeatType: "reverse",
+                delay: 1
+              }}
+            />
+          </>
+        )}
       </div>
       
-      {/* 3D Model container */}
-      <motion.div
-        className="w-full h-full flex items-center justify-center"
-        style={{
-          rotateX: interactive ? rotateX : 0,
-          rotateY: mouseX.get() !== 0 ? rotateY : rotationAngle,
-          rotateZ: 0,
-          transformPerspective: 1000,
-          transformStyle: "preserve-3d"
-        }}
-      >
-        <motion.img 
-          src={modelPath}
-          alt={label || "3D Vehicle Model"}
-          className="w-full h-full object-contain transform-gpu"
+      {/* Loading state */}
+      {isLoading && (
+        <div className="absolute inset-0 flex items-center justify-center">
+          <motion.div 
+            className="p-3 rounded-full bg-black/30 backdrop-blur-sm"
+            animate={{ 
+              scale: [1, 1.1, 1],
+              opacity: [0.7, 1, 0.7]
+            }}
+            transition={{ 
+              duration: 2, 
+              repeat: Infinity,
+              repeatType: "reverse"
+            }}
+          >
+            <Loader2 className="h-8 w-8 text-tesla-blue animate-spin" />
+          </motion.div>
+        </div>
+      )}
+      
+      {/* Error state */}
+      {hasError && !isLoading && (
+        <div className="absolute inset-0 flex items-center justify-center">
+          <div className="text-center p-4">
+            <motion.div 
+              className="w-16 h-16 rounded-full bg-red-500/20 mb-4 mx-auto flex items-center justify-center"
+              animate={{ scale: [1, 1.1, 1] }}
+              transition={{ duration: 2, repeat: Infinity }}
+            >
+              <span className="text-3xl">🚫</span>
+            </motion.div>
+            <p className="text-white/70">Unable to load model</p>
+          </div>
+        </div>
+      )}
+      
+      {/* 3D Model container - only show when loaded */}
+      {!isLoading && !hasError && (
+        <motion.div
+          className="w-full h-full flex items-center justify-center"
           style={{
-            filter: "drop-shadow(0 20px 15px rgba(0,0,0,0.4))"
+            rotateX: interactive ? rotateX : 0,
+            rotateY: mouseX.get() !== 0 ? rotateY : rotationAngle,
+            rotateZ: 0,
+            transformPerspective: 1000,
+            transformStyle: "preserve-3d"
           }}
-          drag={interactive}
-          dragConstraints={containerRef}
-          dragElastic={0.1}
-          whileDrag={{ scale: 1.05 }}
-          animate={{ 
-            y: [0, -5, 0],
-            scale: [1, 1.02, 1]
-          }}
-          transition={{ 
-            duration: 6,
-            repeat: Infinity,
-            ease: "easeInOut"
-          }}
-        />
-      </motion.div>
+        >
+          <motion.img 
+            src={modelPath}
+            alt={label || "3D Vehicle Model"}
+            className="w-full h-full object-contain transform-gpu"
+            style={{
+              filter: "drop-shadow(0 20px 15px rgba(0,0,0,0.4))"
+            }}
+            drag={interactive}
+            dragConstraints={containerRef}
+            dragElastic={0.1}
+            whileDrag={{ scale: 1.05 }}
+            animate={{ 
+              y: [0, -5, 0],
+              scale: [1, 1.02, 1]
+            }}
+            transition={{ 
+              duration: 6,
+              repeat: Infinity,
+              ease: "easeInOut"
+            }}
+          />
+        </motion.div>
+      )}
       
       {/* Optional label */}
-      {label && (
+      {label && !isLoading && !hasError && (
         <motion.div 
           className="absolute bottom-5 left-1/2 transform -translate-x-1/2 text-center"
           initial={{ opacity: 0, y: 20 }}
@@ -173,7 +269,7 @@ const Vehicle3DModel: React.FC<Vehicle3DModelProps> = ({
       )}
       
       {/* Rotation indicator */}
-      {interactive && (
+      {interactive && !isLoading && !hasError && (
         <div className="absolute bottom-2 right-2 flex items-center gap-2">
           <button 
             className={`p-2 rounded-full ${isAutoRotating ? 'bg-tesla-blue/20' : 'bg-white/10'}`}
