@@ -1,9 +1,9 @@
 
 import React, { useState } from "react";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import { Card } from "@/components/ui/card";
 import { useNavigate } from "react-router-dom";
-import { ChevronRight } from "lucide-react";
+import { ChevronRight, Battery, Zap } from "lucide-react";
 
 interface BlitzNeoCardProps {
   title: string;
@@ -19,6 +19,10 @@ export default function BlitzNeoCard({ title, description, image }: BlitzNeoCard
     navigate(`/vehicles/${title.toLowerCase().replace(/\s+/g, '-')}`);
   };
   
+  // Generate random specs for demonstration
+  const range = Math.floor(Math.random() * 100) + 300; // 300-400 miles
+  const acceleration = (Math.random() * 2 + 2).toFixed(1); // 2.0-4.0 seconds
+  
   return (
     <motion.div
       whileHover={{ scale: 1.03 }}
@@ -29,6 +33,23 @@ export default function BlitzNeoCard({ title, description, image }: BlitzNeoCard
       onMouseLeave={() => setIsHovered(false)}
     >
       <Card className="glass-card overflow-hidden border-none p-1 h-full relative group">
+        {/* Animated glow effect */}
+        <AnimatePresence>
+          {isHovered && (
+            <motion.div 
+              className="absolute inset-0 -z-10 rounded-xl"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.3 }}
+              style={{ 
+                background: 'radial-gradient(circle at 50% 50%, rgba(10,132,255,0.15) 0%, transparent 70%)',
+                boxShadow: '0 8px 32px rgba(10,132,255,0.2)'
+              }}
+            />
+          )}
+        </AnimatePresence>
+        
         <div 
           className="absolute inset-0 bg-gradient-to-t from-transparent to-white/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
           style={{ 
@@ -60,6 +81,23 @@ export default function BlitzNeoCard({ title, description, image }: BlitzNeoCard
               />
               <h3 className="text-white text-xl font-bold mb-1">{title}</h3>
               <p className="text-white/80 text-sm">{description}</p>
+              
+              {/* Vehicle specs that appear on hover */}
+              <motion.div 
+                className="mt-2 grid grid-cols-2 gap-2"
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: isHovered ? 1 : 0, y: isHovered ? 0 : 10 }}
+                transition={{ duration: 0.3, delay: 0.1 }}
+              >
+                <div className="flex items-center gap-1.5">
+                  <Battery className="h-3 w-3 text-tesla-blue" />
+                  <span className="text-xs text-white/80">{range} mi range</span>
+                </div>
+                <div className="flex items-center gap-1.5">
+                  <Zap className="h-3 w-3 text-tesla-blue" />
+                  <span className="text-xs text-white/80">{acceleration}s 0-60 mph</span>
+                </div>
+              </motion.div>
             </div>
           </motion.div>
           
@@ -112,11 +150,15 @@ export default function BlitzNeoCard({ title, description, image }: BlitzNeoCard
             transition={{ duration: 0.3 }}
           >
             <motion.button 
-              className="bg-tesla-blue/90 hover:bg-tesla-blue text-white px-4 py-2 rounded-full text-sm flex items-center"
+              className="bg-tesla-blue/90 hover:bg-tesla-blue text-white px-4 py-2 rounded-full text-sm flex items-center group"
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
             >
-              View Details <ChevronRight className="h-4 w-4 ml-1" />
+              View Details 
+              <ChevronRight className="h-4 w-4 ml-1 transition-transform duration-300 group-hover:translate-x-1" />
+              
+              {/* Reflection on button */}
+              <span className="absolute inset-x-0 top-0 h-[1px] bg-white/20"></span>
             </motion.button>
           </motion.div>
         </div>

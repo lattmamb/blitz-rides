@@ -10,17 +10,18 @@ const buttonVariants = cva(
   {
     variants: {
       variant: {
-        default: "bg-primary text-primary-foreground hover:bg-primary/90 after:content-[''] after:absolute after:inset-0 after:bg-gradient-to-t after:from-transparent after:to-white/10 after:opacity-0 hover:after:opacity-100 after:transition-opacity",
+        default: "bg-primary text-primary-foreground hover:bg-primary/90 after:content-[''] after:absolute after:inset-0 after:bg-gradient-to-t after:from-transparent after:to-white/10 after:opacity-0 hover:after:opacity-100 after:transition-opacity before:content-[''] before:absolute before:inset-0 before:bg-gradient-to-r before:from-transparent before:via-white/5 before:to-transparent before:opacity-0 hover:before:opacity-100 before:transition-opacity",
         destructive:
           "bg-destructive text-destructive-foreground hover:bg-destructive/90 after:content-[''] after:absolute after:inset-0 after:bg-gradient-to-t after:from-transparent after:to-white/10 after:opacity-0 hover:after:opacity-100 after:transition-opacity",
         outline:
-          "border border-input bg-background hover:bg-accent hover:text-accent-foreground hover:border-accent-foreground/20 backdrop-blur-sm",
+          "border border-input bg-background hover:bg-accent hover:text-accent-foreground hover:border-accent-foreground/20 backdrop-blur-sm after:content-[''] after:absolute after:inset-x-0 after:top-0 after:h-[1px] after:bg-white/10 after:opacity-0 hover:after:opacity-100 after:transition-opacity",
         secondary:
           "bg-secondary text-secondary-foreground hover:bg-secondary/80 after:content-[''] after:absolute after:inset-0 after:bg-gradient-to-t after:from-transparent after:to-white/10 after:opacity-0 hover:after:opacity-100 after:transition-opacity",
         ghost: "hover:bg-accent hover:text-accent-foreground",
         link: "text-primary underline-offset-4 hover:underline",
-        tesla: "relative overflow-hidden bg-tesla-blue text-white hover:bg-tesla-blue/90 before:content-[''] before:absolute before:inset-0 before:bg-white/20 before:opacity-0 hover:before:opacity-100 before:transition-opacity",
-        glass: "bg-glass relative backdrop-blur-md border-glass-border hover:border-glass-highlight hover:bg-glass-highlight transition-colors before:content-[''] before:absolute before:inset-0 before:rounded-md before:bg-gradient-to-b before:from-white/10 before:to-transparent before:opacity-30",
+        tesla: "relative overflow-hidden bg-tesla-blue text-white hover:bg-tesla-blue/90 before:content-[''] before:absolute before:inset-0 before:bg-white/10 before:opacity-0 hover:before:opacity-100 before:transition-opacity after:content-[''] after:absolute after:inset-0 after:bg-gradient-to-r after:from-transparent after:via-white/20 after:to-transparent after:opacity-0 hover:after:opacity-100 after:transition-opacity after:animate-shine",
+        glass: "bg-glass relative backdrop-blur-md border-glass-border hover:border-glass-highlight hover:bg-glass-highlight transition-colors before:content-[''] before:absolute before:inset-0 before:rounded-md before:bg-gradient-to-b before:from-white/10 before:to-transparent before:opacity-30 after:content-[''] after:absolute after:inset-x-0 after:top-0 after:h-[1px] after:bg-white/10 after:opacity-0 hover:after:opacity-100 after:transition-opacity",
+        blitz: "relative overflow-hidden bg-gradient-to-r from-tesla-blue to-tesla-purple text-white hover:scale-[1.03] active:scale-[0.97] before:content-[''] before:absolute before:inset-0 before:bg-gradient-to-t before:from-transparent before:to-white/20 before:opacity-0 hover:before:opacity-100 before:transition-opacity after:content-[''] after:absolute after:inset-x-0 after:top-0 after:h-[1px] after:bg-white/30",
       },
       size: {
         default: "h-10 px-4 py-2",

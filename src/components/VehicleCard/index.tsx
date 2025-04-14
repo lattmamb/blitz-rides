@@ -6,12 +6,14 @@ import VehiclePerformance from "./VehiclePerformance";
 import VehicleImage from "./VehicleImage";
 import VehicleCardButtons from "./VehicleCardButtons";
 import AvailabilityBadge from "./AvailabilityBadge";
+import { useNavigate } from "react-router-dom";
 
 interface VehicleCardProps {
   vehicle: Vehicle;
 }
 
 const VehicleCard: React.FC<VehicleCardProps> = ({ vehicle }) => {
+  const navigate = useNavigate();
   const [isHovered, setIsHovered] = useState(false);
   const cardRef = useRef<HTMLDivElement>(null);
   
@@ -26,6 +28,19 @@ const VehicleCard: React.FC<VehicleCardProps> = ({ vehicle }) => {
   
   // For spotlight effect
   const [spotlightPosition, setSpotlightPosition] = useState({ x: 50, y: 50 });
+  
+  // For glow pulsing
+  const [glowOpacity, setGlowOpacity] = useState(0);
+  
+  useEffect(() => {
+    if (isHovered) {
+      const interval = setInterval(() => {
+        setGlowOpacity((prev) => prev === 0.7 ? 0.4 : 0.7);
+      }, 2000);
+      
+      return () => clearInterval(interval);
+    }
+  }, [isHovered]);
   
   // Handle mouse move for 3D effect
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
@@ -55,13 +70,21 @@ const VehicleCard: React.FC<VehicleCardProps> = ({ vehicle }) => {
     setSpotlightPosition({ x: 50, y: 50 }); // Center spotlight
   };
 
+  // Handle card click
+  const handleCardClick = () => {
+    if (!isHovered) {
+      navigate(`/vehicles/${vehicle.id}`);
+    }
+  };
+
   return (
     <motion.div 
       ref={cardRef}
-      className="glass-card group overflow-hidden transition-all duration-300 tesla-card-hover relative"
+      className="glass-card group overflow-hidden transition-all duration-300 tesla-card-hover relative cursor-pointer"
       onMouseEnter={() => setIsHovered(true)}
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
+      onClick={handleCardClick}
       style={{
         rotateX: isHovered ? rotateX : 0,
         rotateY: isHovered ? rotateY : 0,
@@ -74,6 +97,16 @@ const VehicleCard: React.FC<VehicleCardProps> = ({ vehicle }) => {
       viewport={{ once: true }}
       transition={{ duration: 0.5 }}
     >
+      {/* Blue edge glow effect */}
+      <motion.div 
+        className="absolute -inset-[1px] rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+        style={{ 
+          background: 'linear-gradient(120deg, rgba(10,132,255,0.2) 0%, rgba(94,92,230,0.2) 100%)',
+          zIndex: -1,
+          opacity: isHovered ? glowOpacity : 0
+        }}
+      />
+      
       {/* Spotlight effect */}
       {isHovered && (
         <div 
@@ -119,11 +152,19 @@ const VehicleCard: React.FC<VehicleCardProps> = ({ vehicle }) => {
               transform: isHovered ? "translateZ(25px)" : "translateZ(0)"
             }}
           >
-            <div>
+            <div className="relative overflow-hidden">
               <span className="text-2xl font-bold text-white">${vehicle.price}</span>
               <span className="text-white/70 text-sm">{vehicle.priceUnit}</span>
+              
+              {/* Price underline animation on hover */}
+              <motion.div 
+                className="absolute bottom-0 left-0 h-[2px] bg-tesla-blue/50 rounded-full"
+                initial={{ width: 0 }}
+                animate={{ width: isHovered ? '100%' : 0 }}
+                transition={{ duration: 0.3, delay: 0.1 }}
+              />
             </div>
-            <div className="glass-effect px-2 py-1 rounded-full text-xs font-medium text-white/90">
+            <div className="glass-effect px-2 py-1 rounded-full text-xs font-medium text-white/90 backdrop-blur-md">
               {vehicle.type.toUpperCase()}
             </div>
           </motion.div>

@@ -1,14 +1,16 @@
 
-import React from "react";
-import { motion } from "framer-motion";
+import React, { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import BlitzNeoCard from "./BlitzNeoCard";
 import BlitzNav from "./BlitzNav";
 import { SparklesCore } from "@/components/ui/sparkles";
 import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
+import { Shield, Zap, Globe } from "lucide-react";
 
 export default function BlitzHero() {
   const navigate = useNavigate();
+  const [hoveredFeature, setHoveredFeature] = useState<string | null>(null);
   
   const cards = [
     { 
@@ -26,6 +28,27 @@ export default function BlitzHero() {
       description: "Electric Compact", 
       image: "https://assets.aceternity.com/demos/tesla-model-3.webp" 
     },
+  ];
+
+  const features = [
+    { 
+      id: "zero-emissions", 
+      icon: Shield, 
+      title: "Zero Emissions",
+      description: "100% electric fleet with no carbon footprint"
+    },
+    { 
+      id: "supercharge", 
+      icon: Zap, 
+      title: "Supercharging",
+      description: "Access to Tesla's Supercharger network"
+    },
+    { 
+      id: "global", 
+      icon: Globe, 
+      title: "Global Access",
+      description: "Service available in major cities worldwide"
+    }
   ];
 
   const handleExploreFleet = () => {
@@ -107,7 +130,7 @@ export default function BlitzHero() {
               <Button 
                 onClick={handleSubscribe}
                 className="relative overflow-hidden group px-8 py-6 text-lg"
-                variant="tesla"
+                variant="blitz"
                 size="xl"
               >
                 <span className="relative z-10 flex items-center">
@@ -115,8 +138,9 @@ export default function BlitzHero() {
                 </span>
                 <motion.span 
                   className="absolute inset-0 bg-gradient-to-r from-[#9b87f5] to-[#6E59A5]"
-                  whileHover={{ scale: 1.05 }}
-                  transition={{ duration: 0.3 }}
+                  initial={{ x: "100%" }}
+                  whileHover={{ x: "0%" }}
+                  transition={{ duration: 0.5 }}
                 />
                 <span className="absolute inset-x-0 bottom-0 h-[1px] bg-white/20"></span>
               </Button>
@@ -137,6 +161,54 @@ export default function BlitzHero() {
               </Button>
             </motion.div>
           </motion.div>
+        </motion.div>
+        
+        {/* Feature highlights */}
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 1.3 }}
+          className="flex justify-center gap-8 mt-12 mb-16 flex-wrap"
+        >
+          {features.map((feature, index) => (
+            <motion.div
+              key={feature.id}
+              className="glass-card p-4 w-64 relative group cursor-pointer"
+              initial={{ opacity: 0, scale: 0.9 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.3, delay: 1.4 + (index * 0.1) }}
+              whileHover={{ y: -10 }}
+              onMouseEnter={() => setHoveredFeature(feature.id)}
+              onMouseLeave={() => setHoveredFeature(null)}
+            >
+              <motion.div 
+                className="relative z-10 flex flex-col items-center text-center"
+                animate={{ 
+                  y: hoveredFeature === feature.id ? -5 : 0,
+                }}
+                transition={{ duration: 0.3 }}
+              >
+                <feature.icon className="w-8 h-8 mb-2 text-tesla-blue" />
+                <h3 className="text-lg font-bold mb-1">{feature.title}</h3>
+                <p className="text-sm text-white/70">{feature.description}</p>
+              </motion.div>
+              
+              {/* Spotlight effect */}
+              <AnimatePresence>
+                {hoveredFeature === feature.id && (
+                  <motion.div 
+                    className="absolute inset-0 pointer-events-none z-0"
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    style={{
+                      background: "radial-gradient(circle at center, rgba(10,132,255,0.15) 0%, transparent 70%)"
+                    }}
+                  />
+                )}
+              </AnimatePresence>
+            </motion.div>
+          ))}
         </motion.div>
         
         {/* Cards */}
