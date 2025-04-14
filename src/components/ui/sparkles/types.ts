@@ -1,5 +1,5 @@
 
-import type { SingleOrMultiple, CollisionMode, PixelMode } from "@tsparticles/engine";
+import type { SingleOrMultiple, CollisionMode, PixelMode, MoveDirection, MoveDirectionAlt } from "@tsparticles/engine";
 
 export type ParticlesProps = {
   id?: string;

@@ -1,5 +1,6 @@
+
 import { ParticlesProps } from "./types";
-import type { CollisionMode, PixelMode, SingleOrMultiple } from "@tsparticles/engine";
+import type { CollisionMode, PixelMode, SingleOrMultiple, MoveDirection, MoveDirectionAlt } from "@tsparticles/engine";
 
 export const getParticlesConfig = (props: ParticlesProps) => {
   const {
@@ -133,7 +134,7 @@ export const getParticlesConfig = (props: ParticlesProps) => {
         },
         decay: 0,
         distance: {},
-        direction: "none",
+        direction: "none" as "none" | "bottom" | "left" | "right" | "top" | "bottom-left" | "bottom-right" | "top-left" | "top-right" | MoveDirection | MoveDirectionAlt,
         drift: 0,
         enable: true,
         gravity: {
