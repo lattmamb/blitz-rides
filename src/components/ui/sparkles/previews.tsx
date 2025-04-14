@@ -1,5 +1,6 @@
+
 import React from "react";
-import { SparklesCore } from "@/components/ui/sparkles/SparklesCore";
+import { SparklesCore } from "./SparklesCore";
 
 export function SparklesPreview() {
   return (

@@ -41,7 +41,7 @@ const GlxVehicleCard: React.FC<GlxVehicleCardProps> = ({ vehicle, className }) =
           />
           
           {/* Availability badge */}
-          {vehicle.availability && (
+          {vehicle.available && (
             <div className="absolute top-3 right-3 bg-tesla-blue/90 text-white text-xs px-2 py-1 rounded-full">
               Available Now
             </div>
@@ -60,21 +60,21 @@ const GlxVehicleCard: React.FC<GlxVehicleCardProps> = ({ vehicle, className }) =
             <span className="text-xl font-semibold text-white">${vehicle.price}<span className="text-sm text-white/70">/day</span></span>
           </div>
           
-          <p className="text-white/70 text-sm mb-3">{vehicle.description.substring(0, 100)}...</p>
+          <p className="text-white/70 text-sm mb-3">{vehicle.tagline?.substring(0, 100)}...</p>
           
           {/* Vehicle Specs */}
           <div className="grid grid-cols-2 gap-2 text-xs text-white/60 mt-3">
             <div className="flex items-center gap-1.5">
               <div className="w-1.5 h-1.5 rounded-full bg-tesla-blue"></div>
-              <span>{vehicle.range}mi range</span>
+              <span>{vehicle.performance?.range}mi range</span>
             </div>
             <div className="flex items-center gap-1.5">
               <div className="w-1.5 h-1.5 rounded-full bg-tesla-purple"></div>
-              <span>{vehicle.seats} seats</span>
+              <span>{vehicle.features ? vehicle.features.length : 0} features</span>
             </div>
             <div className="flex items-center gap-1.5">
               <div className="w-1.5 h-1.5 rounded-full bg-tesla-red"></div>
-              <span>{vehicle.topSpeed}mph</span>
+              <span>{vehicle.performance?.topSpeed}mph</span>
             </div>
             <div className="flex items-center gap-1.5">
               <div className="w-1.5 h-1.5 rounded-full bg-tesla-green"></div>
