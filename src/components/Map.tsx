@@ -1,61 +1,121 @@
 
-import React, { useEffect, useRef } from 'react';
-import { ChargingStation } from '../types';
+import React, { useEffect, useState, useRef } from 'react';
+import { motion } from 'framer-motion';
+import { ChargingStation } from '@/types';
+import { MapPin, Zap } from 'lucide-react';
 
 interface MapProps {
-  stations?: ChargingStation[];
-  vehicleLocation?: { lat: number; lng: number };
-  center?: { lat: number; lng: number };
-  zoom?: number;
-  style?: React.CSSProperties;
-  className?: string;
+  center: {
+    lat: number;
+    lng: number;
+  };
+  zoom: number;
+  stations: ChargingStation[];
 }
 
-const Map: React.FC<MapProps> = ({ 
-  stations = [],
-  vehicleLocation,
-  center = { lat: 37.7749, lng: -122.4194 },
-  zoom = 12,
-  style,
-  className = ''
-}) => {
+const Map: React.FC<MapProps> = ({ center, zoom, stations }) => {
   const mapRef = useRef<HTMLDivElement>(null);
-
+  const [hoveredStation, setHoveredStation] = useState<string | null>(null);
+  const [mapLoaded, setMapLoaded] = useState(false);
+  
+  // Simulate map loading
   useEffect(() => {
-    // In a real app, we would initialize a map library like Mapbox or Google Maps here
-    console.log('Map would initialize here with:', { center, zoom, stations, vehicleLocation });
-  }, [center, zoom, stations, vehicleLocation]);
-
+    const timer = setTimeout(() => {
+      setMapLoaded(true);
+    }, 1000);
+    
+    return () => clearTimeout(timer);
+  }, []);
+  
   return (
-    <div 
-      ref={mapRef} 
-      className={`glass-card relative overflow-hidden ${className}`} 
-      style={{ minHeight: '400px', ...style }}
-    >
-      {/* This is a placeholder for the actual map implementation */}
-      <div className="absolute inset-0 bg-tesla-dark-50 flex items-center justify-center">
-        <div className="text-center max-w-md px-4">
-          <h3 className="text-xl font-bold mb-2">Interactive Map</h3>
-          <p className="text-white/70 mb-4">
-            This would be an interactive map showing vehicle locations, charging stations, and routes. 
-            For a production app, we would integrate with Mapbox or Google Maps API.
-          </p>
-          
-          <div className="border border-glass-border rounded-lg p-4 text-left mb-4">
-            <div className="text-sm font-medium mb-2">Map Data Preview:</div>
-            <div className="text-xs text-white/70 space-y-1">
-              <div><span className="text-tesla-blue">Center:</span> {center.lat.toFixed(4)}, {center.lng.toFixed(4)}</div>
-              <div><span className="text-tesla-blue">Zoom:</span> {zoom}</div>
-              <div><span className="text-tesla-blue">Charging Stations:</span> {stations.length}</div>
-              {vehicleLocation && (
-                <div><span className="text-tesla-blue">Vehicle Position:</span> {vehicleLocation.lat.toFixed(4)}, {vehicleLocation.lng.toFixed(4)}</div>
-              )}
-            </div>
-          </div>
-          
-          <div className="glass-effect p-2 rounded text-sm">
-            In a production environment, a real map would be displayed here.
-          </div>
+    <div className="w-full h-full relative overflow-hidden rounded-xl">
+      {/* Loading overlay with subtle animation */}
+      <motion.div 
+        className="absolute inset-0 bg-black/80 z-10 flex items-center justify-center"
+        initial={{ opacity: 1 }}
+        animate={{ opacity: mapLoaded ? 0 : 1 }}
+        exit={{ opacity: 0 }}
+        transition={{ duration: 0.5 }}
+        style={{ pointerEvents: mapLoaded ? 'none' : 'auto' }}
+      >
+        <motion.div 
+          className="w-16 h-16 relative"
+          animate={{ rotate: 360 }}
+          transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
+        >
+          <div className="absolute inset-0 rounded-full border-2 border-transparent border-t-tesla-blue opacity-75"></div>
+        </motion.div>
+      </motion.div>
+      
+      {/* Map background with simulated map styling */}
+      <div ref={mapRef} className="w-full h-full bg-tesla-dark-80 overflow-hidden" style={{ opacity: mapLoaded ? 1 : 0.5, transition: 'opacity 0.5s ease' }}>
+        {/* Grid lines for map effect */}
+        <div className="absolute inset-0 grid-background opacity-30"></div>
+        
+        {/* Stations markers */}
+        {stations.map((station) => (
+          <motion.div
+            key={station.id}
+            className="absolute cursor-pointer z-20"
+            style={{
+              left: `${30 + Math.random() * 60}%`,
+              top: `${20 + Math.random() * 60}%`,
+            }}
+            whileHover={{ scale: 1.1 }}
+            onMouseEnter={() => setHoveredStation(station.id)}
+            onMouseLeave={() => setHoveredStation(null)}
+          >
+            {/* Station marker */}
+            <motion.div 
+              className={`w-8 h-8 rounded-full flex items-center justify-center ${
+                station.available > 0 ? 'bg-tesla-blue' : 'bg-tesla-red'
+              }`}
+              animate={{
+                boxShadow: [
+                  `0 0 0 rgba(${station.available > 0 ? '10,132,255' : '255,59,48'}, 0.4)`,
+                  `0 0 20px rgba(${station.available > 0 ? '10,132,255' : '255,59,48'}, 0.6)`,
+                  `0 0 0 rgba(${station.available > 0 ? '10,132,255' : '255,59,48'}, 0.4)`
+                ]
+              }}
+              transition={{ duration: 1.5, repeat: Infinity }}
+            >
+              {station.available > 0 ? 
+                <Zap className="h-4 w-4 text-white" /> : 
+                <MapPin className="h-4 w-4 text-white" />
+              }
+            </motion.div>
+            
+            {/* Info tooltip */}
+            <motion.div 
+              className="absolute left-1/2 -translate-x-1/2 bottom-full mb-2 w-40 z-30 pointer-events-none"
+              initial={{ opacity: 0, y: 10, scale: 0.95 }}
+              animate={{ 
+                opacity: hoveredStation === station.id ? 1 : 0,
+                y: hoveredStation === station.id ? 0 : 10,
+                scale: hoveredStation === station.id ? 1 : 0.95,
+              }}
+              transition={{ duration: 0.2 }}
+            >
+              <div className="glass-premium p-2 rounded-lg backdrop-blur-md">
+                <div className="text-sm font-medium mb-1">{station.name}</div>
+                <div className="text-xs text-white/70 mb-1">{station.address}</div>
+                <div className="flex justify-between items-center">
+                  <span className="text-xs">
+                    {station.available}/{station.total} Available
+                  </span>
+                  <span className="text-xs flex items-center">
+                    <Zap className="h-3 w-3 mr-1 text-tesla-blue" />
+                    {station.chargingSpeed} kW
+                  </span>
+                </div>
+              </div>
+            </motion.div>
+          </motion.div>
+        ))}
+        
+        {/* Map Attribution */}
+        <div className="absolute bottom-2 right-2 text-xs text-white/40">
+          © BLITZ Maps 2025
         </div>
       </div>
     </div>

@@ -1,139 +1,141 @@
 
-import React from "react";
-import { motion } from "framer-motion";
-import { World } from "@/components/ui/globe";
-import { ChargingStation } from "@/types";
+import React, { useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { GlassEarth } from '@/components/ui/glass-earth';
+import { ChargingStation } from '@/types';
+import { MapPin, Zap, Info } from 'lucide-react';
 
 interface GlobeDemoProps {
-  stations?: ChargingStation[];
-  className?: string;
+  stations: ChargingStation[];
 }
 
-export default function GlobeDemo({ stations = [], className = "" }: GlobeDemoProps) {
-  const colors = ["#0A84FF", "#5E5CE6", "#FF3B30", "#34C759"];
-
-  // Generate arcs based on charging stations
-  const generateArcs = () => {
-    if (!stations || stations.length === 0) return sampleArcs;
-    
-    const arcs = [];
-    // Create connections between charging stations
-    for (let i = 0; i < stations.length; i++) {
-      for (let j = i + 1; j < stations.length; j++) {
-        if (Math.random() > 0.7) continue; // Only create some connections
-        
-        arcs.push({
-          order: Math.floor(Math.random() * 5) + 1,
-          startLat: stations[i].location.lat,
-          startLng: stations[i].location.lng,
-          endLat: stations[j].location.lat,
-          endLng: stations[j].location.lng,
-          arcAlt: Math.random() * 0.3 + 0.1,
-          color: colors[Math.floor(Math.random() * colors.length)],
-        });
-      }
-    }
-    
-    // If no arcs were created (not enough stations), return sample arcs
-    return arcs.length > 0 ? arcs : sampleArcs;
-  };
-
-  const globeConfig = {
-    pointSize: 4,
-    globeColor: "#062056",
-    showAtmosphere: true,
-    atmosphereColor: "#FFFFFF",
-    atmosphereAltitude: 0.1,
-    emissive: "#062056",
-    emissiveIntensity: 0.1,
-    shininess: 0.9,
-    polygonColor: "rgba(255,255,255,0.7)",
-    ambientLight: "#38bdf8",
-    directionalLeftLight: "#ffffff",
-    directionalTopLight: "#ffffff",
-    pointLight: "#ffffff",
-    arcTime: 1000,
-    arcLength: 0.9,
-    rings: 1,
-    maxRings: 3,
-    initialPosition: { lat: 37.7749, lng: -122.4194 }, // San Francisco
-    autoRotate: true,
-    autoRotateSpeed: 0.5,
-  };
-
-  const arcs = generateArcs();
-
+const GlobeDemo: React.FC<GlobeDemoProps> = ({ stations }) => {
+  const [selectedStation, setSelectedStation] = useState<ChargingStation | null>(null);
+  
   return (
-    <div className={`relative w-full h-[500px] ${className}`}>
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 1 }}
-        className="absolute w-full inset-0 bg-black/20 glass-card rounded-xl overflow-hidden"
-      >
-        <div className="absolute w-full bottom-0 inset-x-0 h-20 bg-gradient-to-b pointer-events-none from-transparent to-tesla-dark z-10" />
-        <div className="absolute w-full h-full">
-          <World data={arcs} globeConfig={globeConfig} />
-        </div>
-      </motion.div>
+    <div className="relative w-full h-[500px] overflow-hidden rounded-xl glass-card">
+      {/* Background elements */}
+      <div className="absolute inset-0 bg-noise opacity-[0.02] z-0"></div>
+      <div className="absolute -left-40 top-40 w-80 h-80 bg-tesla-blue/5 rounded-full filter blur-[100px] animate-pulse-glow z-0"></div>
+      <div className="absolute -right-40 bottom-20 w-96 h-96 bg-tesla-purple/5 rounded-full filter blur-[120px] animate-pulse-glow z-0" style={{ animationDelay: "1s" }}></div>
+      
+      {/* Globe container with glass earth */}
+      <div className="absolute inset-0 flex items-center justify-center">
+        <motion.div
+          initial={{ opacity: 0, scale: 0.9 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 1 }}
+          className="relative"
+        >
+          <GlassEarth className="w-80 h-80" />
+          
+          {/* Station markers */}
+          {stations.map((station, index) => (
+            <motion.div
+              key={station.id}
+              className="absolute cursor-pointer z-10"
+              initial={{ opacity: 0, scale: 0 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ delay: index * 0.1, duration: 0.5 }}
+              style={{
+                // Position randomly around the globe
+                left: `calc(50% + ${Math.cos(index * (Math.PI * 2 / stations.length)) * 120}px)`,
+                top: `calc(50% + ${Math.sin(index * (Math.PI * 2 / stations.length)) * 120}px)`,
+                transform: 'translate(-50%, -50%)'
+              }}
+              onClick={() => setSelectedStation(station === selectedStation ? null : station)}
+            >
+              <motion.div 
+                className={`w-6 h-6 rounded-full flex items-center justify-center ${
+                  station.available > 0 ? 'bg-tesla-blue' : 'bg-tesla-red'
+                }`}
+                animate={{
+                  boxShadow: [
+                    `0 0 0 rgba(${station.available > 0 ? '10,132,255' : '255,59,48'}, 0.4)`,
+                    `0 0 10px rgba(${station.available > 0 ? '10,132,255' : '255,59,48'}, 0.6)`,
+                    `0 0 0 rgba(${station.available > 0 ? '10,132,255' : '255,59,48'}, 0.4)`
+                  ]
+                }}
+                transition={{ duration: 1.5, repeat: Infinity }}
+                whileHover={{ scale: 1.2 }}
+              >
+                {station.available > 0 ? 
+                  <Zap className="h-3 w-3 text-white" /> : 
+                  <MapPin className="h-3 w-3 text-white" />
+                }
+              </motion.div>
+            </motion.div>
+          ))}
+        </motion.div>
+      </div>
+      
+      {/* Station info panel */}
+      <AnimatePresence>
+        {selectedStation && (
+          <motion.div
+            initial={{ opacity: 0, x: 30 }}
+            animate={{ opacity: 1, x: 0 }}
+            exit={{ opacity: 0, x: 30 }}
+            transition={{ duration: 0.3 }}
+            className="absolute top-6 right-6 w-64 z-20"
+          >
+            <div className="glass-premium overflow-hidden p-4 rounded-xl backdrop-blur-xl">
+              <div className="flex justify-between items-start mb-2">
+                <h3 className="text-lg font-bold">{selectedStation.name}</h3>
+                <motion.button 
+                  className="w-6 h-6 rounded-full flex items-center justify-center bg-white/10 hover:bg-white/20 transition-colors"
+                  onClick={() => setSelectedStation(null)}
+                  whileTap={{ scale: 0.9 }}
+                >
+                  <span className="text-sm">×</span>
+                </motion.button>
+              </div>
+              
+              <div className="flex items-center gap-2 mb-3 text-sm text-white/70">
+                <MapPin className="h-3 w-3 flex-shrink-0" />
+                <span>{selectedStation.address}</span>
+              </div>
+              
+              <div className="bg-glass-highlight rounded overflow-hidden p-2 mb-3">
+                <div className="grid grid-cols-3 gap-2 text-center">
+                  <div>
+                    <div className="text-xs text-white/70">Available</div>
+                    <div className="font-medium text-sm">
+                      {selectedStation.available}/{selectedStation.total}
+                    </div>
+                  </div>
+                  
+                  <div>
+                    <div className="text-xs text-white/70">Speed</div>
+                    <div className="flex items-center justify-center gap-1 font-medium text-sm">
+                      <Zap className="h-2 w-2 text-tesla-blue" />
+                      {selectedStation.chargingSpeed}
+                    </div>
+                  </div>
+                  
+                  <div>
+                    <div className="text-xs text-white/70">Status</div>
+                    <div className="font-medium text-sm">
+                      {selectedStation.available > 0 ? 'Open' : 'Full'}
+                    </div>
+                  </div>
+                </div>
+              </div>
+              
+              <div className="flex items-center gap-1 text-xs text-white/50">
+                <Info className="h-3 w-3" />
+                <span>Click on the globe to explore more stations</span>
+              </div>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+      
+      {/* Ambient reflections */}
+      <div className="absolute inset-x-0 top-0 h-[1px] bg-gradient-to-r from-transparent via-white/10 to-transparent"></div>
+      <div className="absolute inset-x-0 bottom-0 h-px bg-gradient-to-r from-transparent via-white/5 to-transparent"></div>
     </div>
   );
-}
+};
 
-// Sample arcs for when no stations are provided
-const sampleArcs = [
-  {
-    order: 1,
-    startLat: 37.7749,
-    startLng: -122.4194,
-    endLat: 34.0522,
-    endLng: -118.2437,
-    arcAlt: 0.2,
-    color: "#0A84FF",
-  },
-  {
-    order: 2,
-    startLat: 37.7749,
-    startLng: -122.4194,
-    endLat: 47.6062,
-    endLng: -122.3321,
-    arcAlt: 0.2,
-    color: "#5E5CE6",
-  },
-  {
-    order: 3,
-    startLat: 34.0522,
-    startLng: -118.2437,
-    endLat: 32.7157,
-    endLng: -117.1611,
-    arcAlt: 0.1,
-    color: "#34C759",
-  },
-  {
-    order: 1,
-    startLat: 40.7128,
-    startLng: -74.006,
-    endLat: 37.7749,
-    endLng: -122.4194,
-    arcAlt: 0.3,
-    color: "#0A84FF",
-  },
-  {
-    order: 2,
-    startLat: 40.7128,
-    startLng: -74.006,
-    endLat: 41.8781,
-    endLng: -87.6298,
-    arcAlt: 0.2,
-    color: "#5E5CE6",
-  },
-  {
-    order: 3,
-    startLat: 41.8781,
-    startLng: -87.6298,
-    endLat: 39.7392,
-    endLng: -104.9903,
-    arcAlt: 0.2,
-    color: "#0A84FF",
-  },
-];
+export default GlobeDemo;

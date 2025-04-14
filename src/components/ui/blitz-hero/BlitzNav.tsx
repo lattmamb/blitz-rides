@@ -41,8 +41,8 @@ export default function BlitzNav() {
         }`}
       >
         <nav className={cn(
-          "glass-effect backdrop-blur-md rounded-full py-3 px-6 shadow-lg transition-all duration-300",
-          isScrolled ? "py-2 bg-glass border border-glass-border shadow-[0_10px_25px_-5px_rgba(0,0,0,0.2)]" : ""
+          "backdrop-blur-md rounded-full py-3 px-6 transition-all duration-300",
+          isScrolled ? "py-2 bg-white/[0.03] shadow-[0_10px_25px_-5px_rgba(0,0,0,0.2)]" : ""
         )}>
           {/* Logo */}
           <div className="flex items-center justify-between">
@@ -93,11 +93,11 @@ export default function BlitzNav() {
                         </AnimatePresence>
                       </motion.span>
                       
-                      {/* Active indicator */}
+                      {/* Active indicator - reduced border, more glow */}
                       {isActive && (
                         <motion.div
                           layoutId="nav-indicator"
-                          className="h-0.5 bg-tesla-blue mt-1 rounded-full shadow-[0_0_5px_rgba(10,132,255,0.5)]"
+                          className="h-0.5 bg-tesla-blue mt-1 rounded-full shadow-[0_0_8px_rgba(10,132,255,0.8)]"
                           transition={{ type: "spring", stiffness: 300, damping: 30 }}
                         />
                       )}
@@ -120,33 +120,33 @@ export default function BlitzNav() {
               })}
             </ul>
             
-            {/* Mobile menu button */}
+            {/* Mobile menu button - more seamless/borderless */}
             <button 
-              className="md:hidden flex flex-col items-center justify-center w-8 h-8 gap-1.5"
+              className="md:hidden flex flex-col items-center justify-center w-8 h-8 gap-1.5 rounded-full bg-white/5 backdrop-blur-md"
               onClick={toggleMobileMenu}
               aria-label="Toggle menu"
             >
               <motion.span 
-                className="w-5 h-0.5 bg-white rounded-full" 
-                animate={{ rotate: mobileMenuOpen ? 45 : 0, y: mobileMenuOpen ? 6 : 0 }}
+                className="w-4 h-0.5 bg-white rounded-full" 
+                animate={{ rotate: mobileMenuOpen ? 45 : 0, y: mobileMenuOpen ? 5 : 0 }}
                 transition={{ duration: 0.2 }}
               />
               <motion.span 
-                className="w-5 h-0.5 bg-white rounded-full"
+                className="w-4 h-0.5 bg-white rounded-full"
                 animate={{ opacity: mobileMenuOpen ? 0 : 1 }}
                 transition={{ duration: 0.2 }}
               />
               <motion.span 
-                className="w-5 h-0.5 bg-white rounded-full"
-                animate={{ rotate: mobileMenuOpen ? -45 : 0, y: mobileMenuOpen ? -6 : 0 }}
+                className="w-4 h-0.5 bg-white rounded-full"
+                animate={{ rotate: mobileMenuOpen ? -45 : 0, y: mobileMenuOpen ? -5 : 0 }}
                 transition={{ duration: 0.2 }}
               />
             </button>
           </div>
         </nav>
         
-        {/* Subtle reflection effect */}
-        <div className="absolute inset-x-0 top-0 h-[1px] bg-white/10 rounded-t-full"></div>
+        {/* Glow effect instead of border */}
+        <div className="absolute inset-x-0 top-0 h-[2px] w-1/2 mx-auto bg-gradient-to-r from-transparent via-white/10 to-transparent rounded-t-full"></div>
         
         {/* Responsive mobile menu indicator (shown only on small screens) */}
         <motion.div 
@@ -162,7 +162,7 @@ export default function BlitzNav() {
         />
       </motion.div>
       
-      {/* Mobile menu */}
+      {/* Mobile menu - more seamless with blur effect */}
       <AnimatePresence>
         {mobileMenuOpen && (
           <motion.div 
@@ -181,7 +181,7 @@ export default function BlitzNav() {
             />
             
             <motion.div
-              className="absolute top-20 left-4 right-4 bg-glass border border-glass-border rounded-xl shadow-2xl p-4"
+              className="absolute top-20 left-4 right-4 backdrop-blur-xl bg-white/5 rounded-xl shadow-2xl p-4 border-none"
               initial={{ opacity: 0, y: -20, scale: 0.95 }}
               animate={{ opacity: 1, y: 0, scale: 1 }}
               exit={{ opacity: 0, y: -20, scale: 0.95 }}
@@ -212,7 +212,7 @@ export default function BlitzNav() {
                         
                         {isActive && (
                           <motion.div 
-                            className="ml-2 w-1.5 h-1.5 rounded-full bg-tesla-blue"
+                            className="ml-2 w-1.5 h-1.5 rounded-full bg-tesla-blue shadow-[0_0_5px_rgba(10,132,255,0.5)]"
                             layoutId="mobile-active-indicator"
                           />
                         )}

@@ -1,4 +1,3 @@
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -68,7 +67,7 @@
 }
 
 @layer utilities {
-  /* Enhanced glass cards with better reflections */
+  /* Enhanced glass cards with better reflections and NO visible borders */
   .glass-card {
     @apply backdrop-blur-xl bg-white/5 border-none rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.15),0_2px_8px_rgba(10,132,255,0.05)];
     position: relative;
@@ -90,9 +89,9 @@
     animation: shine 4s ease-in-out infinite;
   }
   
-  /* Enhanced premium glass effect with stronger reflections */
+  /* Enhanced premium glass effect with reduced borders */
   .glass-premium {
-    @apply backdrop-blur-xl bg-white/[0.07] border border-white/10 rounded-2xl;
+    @apply backdrop-blur-xl bg-white/[0.07] border-none rounded-2xl;
     position: relative;
     overflow: hidden;
     box-shadow: 
@@ -116,9 +115,9 @@
     animation: shine 3s infinite;
   }
   
-  /* Enhanced glass with blue accents */
+  /* Enhanced glass with blue accents - borderless */
   .glass-blue {
-    @apply backdrop-blur-xl bg-tesla-blue/[0.05] border border-tesla-blue/20 rounded-2xl;
+    @apply backdrop-blur-xl bg-tesla-blue/[0.05] border-none rounded-2xl;
     position: relative;
     overflow: hidden;
     box-shadow: 
@@ -167,9 +166,9 @@
     z-index: 1;
   }
 
-  /* Enhanced neo card with improved shadows */
+  /* Enhanced neo card with reduced borders */
   .neo-card {
-    @apply rounded-2xl bg-[#0e0e0e] shadow-[0_-5px_25px_rgba(255,255,255,0.03),0_10px_25px_rgba(0,0,0,0.5)];
+    @apply rounded-2xl bg-[#0e0e0e] border-none shadow-[0_-5px_25px_rgba(255,255,255,0.03),0_10px_25px_rgba(0,0,0,0.5)];
     position: relative;
     overflow: hidden;
   }
@@ -492,12 +491,11 @@
     animation-delay: 2s;
   }
   
-  /* Enhanced glx-card with stronger border effect */
+  /* Enhanced glx-card with reduced borders */
   .glx-card {
-    @apply backdrop-blur-xl bg-white/[0.03] rounded-2xl;
+    @apply backdrop-blur-xl bg-white/[0.03] rounded-2xl border-none;
     position: relative;
     overflow: hidden;
-    border: 1px solid rgba(255, 255, 255, 0.05);
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
   }
   
@@ -507,19 +505,20 @@
     z-index: 1;
   }
   
-  /* Enhanced border glow */
+  /* Enhanced glow effect instead of borders */
   .glx-card::after {
     content: "";
     position: absolute;
-    inset: 0;
+    inset: -1px;
     border-radius: inherit;
     padding: 1px;
-    background: linear-gradient(120deg, rgba(94, 92, 230, 0.5) 0%, rgba(10, 132, 255, 0.5) 50%, transparent 100%);
+    background: linear-gradient(120deg, rgba(94, 92, 230, 0.2) 0%, rgba(10, 132, 255, 0.2) 50%, transparent 100%);
     mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
     -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
     -webkit-mask-composite: xor;
     mask-composite: exclude;
     pointer-events: none;
+    z-index: 0;
   }
   
   /* Enhanced orbital animation */

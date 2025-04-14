@@ -1,4 +1,3 @@
-
 import React, { useRef, useEffect, useState } from 'react';
 import { motion, useAnimation, useMotionValue, useTransform } from 'framer-motion';
 
@@ -11,16 +10,13 @@ const GlassEarth: React.FC<GlassEarthProps> = ({ className }) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [isHovered, setIsHovered] = useState(false);
   
-  // Mouse tracking for 3D effect
   const mouseX = useMotionValue(0);
   const mouseY = useMotionValue(0);
   const rotateX = useTransform(mouseY, [-0.5, 0.5], [10, -10]);
   const rotateY = useTransform(mouseX, [-0.5, 0.5], [-10, 10]);
   
-  // Animation controls
   const controls = useAnimation();
   
-  // Handle mouse movement for interactive globe
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
     if (!containerRef.current) return;
     const { left, top, width, height } = containerRef.current.getBoundingClientRect();
@@ -37,7 +33,6 @@ const GlassEarth: React.FC<GlassEarthProps> = ({ className }) => {
     const ctx = canvas.getContext('2d');
     if (!ctx) return;
     
-    // Set canvas size
     const setCanvasSize = () => {
       if (!containerRef.current || !canvas) return;
       const { width, height } = containerRef.current.getBoundingClientRect();
@@ -52,11 +47,9 @@ const GlassEarth: React.FC<GlassEarthProps> = ({ className }) => {
     setCanvasSize();
     window.addEventListener('resize', setCanvasSize);
     
-    // Draw globe
     let rotation = 0;
     const stars: { x: number; y: number; size: number; brightness: number }[] = [];
     
-    // Create stars
     const createStars = () => {
       if (!canvas) return;
       const width = canvas.width;
@@ -74,14 +67,11 @@ const GlassEarth: React.FC<GlassEarthProps> = ({ className }) => {
     
     createStars();
     
-    // Animation loop
     const animate = () => {
       if (!ctx || !canvas) return;
       
-      // Clear canvas
       ctx.clearRect(0, 0, canvas.width, canvas.height);
       
-      // Draw background stars
       stars.forEach(star => {
         ctx.fillStyle = `rgba(255, 255, 255, ${star.brightness})`;
         ctx.beginPath();
@@ -89,12 +79,10 @@ const GlassEarth: React.FC<GlassEarthProps> = ({ className }) => {
         ctx.fill();
       });
       
-      // Draw Earth
       const centerX = canvas.width / (2 * window.devicePixelRatio);
       const centerY = canvas.height / (2 * window.devicePixelRatio);
       const radius = Math.min(centerX, centerY) * 0.7;
       
-      // Earth base
       const gradient = ctx.createRadialGradient(
         centerX, centerY, 0,
         centerX, centerY, radius
@@ -108,11 +96,9 @@ const GlassEarth: React.FC<GlassEarthProps> = ({ className }) => {
       ctx.fillStyle = gradient;
       ctx.fill();
       
-      // Draw meridians and parallels
       ctx.strokeStyle = 'rgba(255, 255, 255, 0.2)';
       ctx.lineWidth = 1;
       
-      // Meridians (longitude lines)
       for (let i = 0; i < 8; i++) {
         const angle = (i / 8) * Math.PI * 2 + rotation;
         ctx.beginPath();
@@ -133,7 +119,6 @@ const GlassEarth: React.FC<GlassEarthProps> = ({ className }) => {
         ctx.stroke();
       }
       
-      // Parallels (latitude lines)
       for (let i = 1; i < 4; i++) {
         const latRadius = radius * (i / 4);
         ctx.beginPath();
@@ -141,7 +126,6 @@ const GlassEarth: React.FC<GlassEarthProps> = ({ className }) => {
         ctx.stroke();
       }
       
-      // Glass highlight effect
       const highlightGradient = ctx.createRadialGradient(
         centerX - radius * 0.4, 
         centerY - radius * 0.4, 
@@ -158,7 +142,6 @@ const GlassEarth: React.FC<GlassEarthProps> = ({ className }) => {
       ctx.fillStyle = highlightGradient;
       ctx.fill();
       
-      // Rotate for animation
       rotation += 0.002;
       
       requestAnimationFrame(animate);
@@ -192,9 +175,8 @@ const GlassEarth: React.FC<GlassEarthProps> = ({ className }) => {
       }}
       whileHover={{ scale: 1.05 }}
     >
-      {/* Glass container */}
       <motion.div 
-        className="absolute inset-0 rounded-full bg-black/20 backdrop-blur-sm overflow-hidden"
+        className="absolute inset-0 rounded-full bg-black/20 backdrop-blur-sm overflow-hidden border-none"
         animate={{
           boxShadow: isHovered 
             ? [
@@ -210,29 +192,30 @@ const GlassEarth: React.FC<GlassEarthProps> = ({ className }) => {
           repeatType: "reverse"
         }}
       >
-        {/* Top reflection */}
         <div className="absolute inset-x-0 top-0 h-[1px] bg-gradient-to-r from-transparent via-white/30 to-transparent"></div>
         
-        {/* Globe canvas */}
         <canvas 
           ref={canvasRef} 
           className="w-full h-full absolute inset-0"
         />
         
-        {/* Subtle grid overlay */}
         <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,.05)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,.05)_1px,transparent_1px)] bg-[length:20px_20px] opacity-30"></div>
       </motion.div>
       
-      {/* Ambient glow */}
       <motion.div 
-        className="absolute -inset-4 rounded-full opacity-30 z-[-1]"
+        className="absolute -inset-8 rounded-full opacity-30 z-[-1]"
         style={{
           background: "radial-gradient(circle at 50% 50%, rgba(10,132,255,0.3) 0%, transparent 70%)"
         }}
         animate={{
-          opacity: isHovered ? 0.5 : 0.3
+          opacity: isHovered ? [0.3, 0.5, 0.3] : 0.3,
+          scale: isHovered ? [1, 1.05, 1] : 1,
         }}
-        transition={{ duration: 0.5 }}
+        transition={{ 
+          duration: 3, 
+          repeat: Infinity,
+          repeatType: "reverse" 
+        }}
       />
     </motion.div>
   );
