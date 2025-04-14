@@ -1,6 +1,8 @@
 
 import React from 'react';
+import { motion } from 'framer-motion';
 import { Vehicle } from '@/types';
+import { itemVariants } from './utils';
 
 interface SpecificationsTabProps {
   vehicle: Vehicle;
@@ -8,59 +10,53 @@ interface SpecificationsTabProps {
 
 const SpecificationsTab: React.FC<SpecificationsTabProps> = ({ vehicle }) => {
   return (
-    <div className="glass-card p-6">
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-        <div>
-          <h3 className="text-lg font-bold mb-4">Performance & Specs</h3>
-          <ul className="space-y-4">
-            <li className="flex justify-between items-center border-b border-white/10 pb-2">
-              <span className="text-white/70">Model</span>
-              <span className="font-medium">Tesla {vehicle.model}</span>
-            </li>
-            <li className="flex justify-between items-center border-b border-white/10 pb-2">
-              <span className="text-white/70">Range</span>
-              <span className="font-medium">{vehicle.performance.range} miles</span>
-            </li>
-            <li className="flex justify-between items-center border-b border-white/10 pb-2">
-              <span className="text-white/70">Top Speed</span>
-              <span className="font-medium">{vehicle.performance.topSpeed} mph</span>
-            </li>
-            <li className="flex justify-between items-center border-b border-white/10 pb-2">
-              <span className="text-white/70">0-60 mph</span>
-              <span className="font-medium">{vehicle.performance.acceleration} seconds</span>
-            </li>
-            <li className="flex justify-between items-center border-b border-white/10 pb-2">
-              <span className="text-white/70">Charging</span>
-              <span className="font-medium">250 kW Supercharger</span>
-            </li>
-          </ul>
-        </div>
-        
-        <div>
-          <h3 className="text-lg font-bold mb-4">Interior & Comfort</h3>
-          <ul className="space-y-4">
-            <li className="flex justify-between items-center border-b border-white/10 pb-2">
-              <span className="text-white/70">Seating</span>
-              <span className="font-medium">{vehicle.model === "Model X" ? "Up to 7" : "5 Adults"}</span>
-            </li>
-            <li className="flex justify-between items-center border-b border-white/10 pb-2">
-              <span className="text-white/70">Display</span>
-              <span className="font-medium">15" Touchscreen</span>
-            </li>
-            <li className="flex justify-between items-center border-b border-white/10 pb-2">
-              <span className="text-white/70">Sound System</span>
-              <span className="font-medium">Premium Audio</span>
-            </li>
-            <li className="flex justify-between items-center border-b border-white/10 pb-2">
-              <span className="text-white/70">Autopilot</span>
-              <span className="font-medium">Included</span>
-            </li>
-            <li className="flex justify-between items-center border-b border-white/10 pb-2">
-              <span className="text-white/70">Over-the-air Updates</span>
-              <span className="font-medium">Yes</span>
-            </li>
-          </ul>
-        </div>
+    <div className="grid md:grid-cols-2 gap-10">
+      <div>
+        <motion.div variants={itemVariants} className="mb-6">
+          <h3 className="text-xl font-bold mb-3">Dimensions</h3>
+          <div className="space-y-3">
+            <div className="flex justify-between py-2 border-b border-white/10">
+              <span className="text-white/70">Length</span>
+              <span>196 inches</span>
+            </div>
+            <div className="flex justify-between py-2 border-b border-white/10">
+              <span className="text-white/70">Width</span>
+              <span>86 inches</span>
+            </div>
+            <div className="flex justify-between py-2 border-b border-white/10">
+              <span className="text-white/70">Height</span>
+              <span>57 inches</span>
+            </div>
+            <div className="flex justify-between py-2 border-b border-white/10">
+              <span className="text-white/70">Ground Clearance</span>
+              <span>5.5 inches</span>
+            </div>
+          </div>
+        </motion.div>
+      </div>
+      
+      <div>
+        <motion.div variants={itemVariants} className="mb-6">
+          <h3 className="text-xl font-bold mb-3">Weight</h3>
+          <div className="space-y-3">
+            <div className="flex justify-between py-2 border-b border-white/10">
+              <span className="text-white/70">Curb Weight</span>
+              <span>4,561 lbs</span>
+            </div>
+            <div className="flex justify-between py-2 border-b border-white/10">
+              <span className="text-white/70">Gross Vehicle Weight</span>
+              <span>5,798 lbs</span>
+            </div>
+            <div className="flex justify-between py-2 border-b border-white/10">
+              <span className="text-white/70">Cargo Capacity</span>
+              <span>28 cu ft</span>
+            </div>
+            <div className="flex justify-between py-2 border-b border-white/10">
+              <span className="text-white/70">Towing Capacity</span>
+              <span>3,500 lbs</span>
+            </div>
+          </div>
+        </motion.div>
       </div>
     </div>
   );
