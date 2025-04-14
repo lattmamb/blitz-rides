@@ -2,9 +2,9 @@
 import React, { Suspense, useEffect, useState } from 'react';
 import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
 import Index from '@/pages/Index';
-import { Toaster } from '@/components/ui/toaster';
+import { Toaster } from '@/components/ui/sonner';
 import PageTransition from '@/components/ui/PageTransition';
-import IntelligentLoading from '@/components/ui/IntelligentLoading';
+import LoadingOverlay from '@/components/ui/LoadingOverlay';
 import { AnimatePresence } from 'framer-motion';
 
 // Import animation styles
@@ -39,13 +39,13 @@ function App() {
     // Brief timeout to ensure CSS animations are loaded
     const timer = setTimeout(() => {
       setInitialLoading(false);
-    }, 800);
+    }, 1800);
     
     return () => clearTimeout(timer);
   }, []);
 
   if (initialLoading) {
-    return <IntelligentLoading customMessage="Launching BLITZ" />;
+    return <LoadingOverlay customMessage="Initializing Crystal BLITZ" />;
   }
 
   return (
@@ -53,9 +53,9 @@ function App() {
       <RouteChangeListener setIsChangingRoute={setIsChangingRoute} />
       <AnimatePresence mode="wait">
         <PageTransition>
-          <Suspense fallback={<IntelligentLoading customMessage="Loading Experience" />}>
+          <Suspense fallback={<LoadingOverlay customMessage="Loading Experience" />}>
             {isChangingRoute ? (
-              <IntelligentLoading minimalist customMessage="Changing route..." />
+              <LoadingOverlay minimalist customMessage="Changing route..." />
             ) : (
               <Routes>
                 <Route path="/" element={<Index />} />

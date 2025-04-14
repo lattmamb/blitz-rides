@@ -1,4 +1,3 @@
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -98,6 +97,275 @@
 }
 
 @layer utilities {
+  /* Enhanced crystal dealership style */
+  .crystal-dealership {
+    background-color: #080810;
+    position: relative;
+  }
+  
+  .crystal-bg-effects {
+    z-index: 0;
+  }
+  
+  .crystal-gradient {
+    background: radial-gradient(circle at 50% 0%, rgba(10, 132, 255, 0.15) 0%, rgba(0, 0, 0, 0) 70%);
+  }
+  
+  .crystal-edge-top {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+  }
+  
+  .crystal-edge-bottom {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+  }
+  
+  .crystal-grid {
+    position: absolute;
+    inset: 0;
+    background-image: 
+      linear-gradient(rgba(10, 132, 255, 0.05) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(10, 132, 255, 0.05) 1px, transparent 1px);
+    background-size: 40px 40px;
+    z-index: -1;
+  }
+  
+  .crystal-dots {
+    position: absolute;
+    inset: 0;
+    background-image: radial-gradient(rgba(255, 255, 255, 0.1) 1px, transparent 1px);
+    background-size: 20px 20px;
+    z-index: -1;
+  }
+  
+  .crystal-cursor {
+    position: fixed;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    border: 2px solid rgba(10, 132, 255, 0.5);
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+    mix-blend-mode: difference;
+    transition: width 0.2s, height 0.2s, background 0.2s;
+    z-index: 9999;
+    backdrop-filter: invert(1);
+  }
+  
+  /* Button styles will use the crystal cursor */
+  button:hover ~ .crystal-cursor,
+  a:hover ~ .crystal-cursor {
+    width: 40px;
+    height: 40px;
+    background: rgba(10, 132, 255, 0.2);
+    border: 2px solid rgba(10, 132, 255, 0.8);
+  }
+  
+  /* Enhanced glass cards with better reflections */
+  .glass-card {
+    @apply backdrop-blur-xl bg-black/30 border-none rounded-2xl;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 
+      0 10px 30px rgba(0, 0, 0, 0.3),
+      0 2px 8px rgba(10, 132, 255, 0.1),
+      inset 0 1px 0 rgba(255, 255, 255, 0.05);
+  }
+  
+  .glass-card::before {
+    content: "";
+    @apply absolute inset-0 bg-gradient-to-b from-white/[0.08] to-transparent rounded-2xl pointer-events-none;
+    z-index: 1;
+  }
+  
+  .glass-card::after {
+    content: "";
+    @apply absolute inset-0 rounded-2xl opacity-50 pointer-events-none;
+    background: linear-gradient(120deg, rgba(255,255,255,0) 30%, rgba(255,255,255,0.1) 38%, rgba(255,255,255,0) 48%);
+    background-size: 200% 100%;
+    background-position-x: 180%;
+    animation: shine 4s ease-in-out infinite;
+  }
+  
+  /* Enhanced premium glass effect */
+  .glass-premium {
+    @apply backdrop-blur-xl bg-black/40 border-none rounded-2xl;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 
+      0 10px 30px rgba(0,0,0,0.3),
+      0 2px 8px rgba(10,132,255,0.15),
+      inset 0 1px 0 rgba(255,255,255,0.05);
+  }
+  
+  .glass-premium::before {
+    content: "";
+    @apply absolute inset-0 bg-gradient-to-b from-white/[0.1] to-transparent rounded-2xl pointer-events-none;
+    z-index: 1;
+  }
+  
+  .glass-premium::after {
+    content: "";
+    @apply absolute inset-0 rounded-2xl opacity-60 pointer-events-none;
+    background: linear-gradient(120deg, rgba(255,255,255,0) 30%, rgba(255,255,255,0.2) 38%, rgba(255,255,255,0) 48%);
+    background-size: 200% 100%;
+    background-position-x: 180%;
+    animation: shine 3s infinite;
+  }
+  
+  /* Enhanced glass with blue accents */
+  .glass-blue {
+    @apply backdrop-blur-xl bg-tesla-blue/[0.05] border-none rounded-2xl;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 
+      0 10px 30px rgba(0,0,0,0.25),
+      0 2px 8px rgba(10,132,255,0.2),
+      inset 0 1px 0 rgba(255,255,255,0.05);
+  }
+  
+  .glass-blue::before {
+    content: "";
+    @apply absolute inset-0 bg-gradient-to-b from-tesla-blue/[0.1] to-transparent rounded-2xl pointer-events-none;
+    z-index: 1;
+  }
+  
+  /* Enhanced neo card */
+  .neo-card {
+    @apply rounded-2xl bg-[#0a0a0f] border-none shadow-[0_-5px_25px_rgba(255,255,255,0.03),0_10px_25px_rgba(0,0,0,0.5)];
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .neo-card::before {
+    content: "";
+    @apply absolute inset-0 bg-gradient-to-b from-white/[0.05] to-transparent pointer-events-none;
+    z-index: 0;
+  }
+  
+  /* Crystal card - new premium card style */
+  .crystal-card {
+    @apply backdrop-blur-xl bg-black/40 border-none rounded-2xl;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 
+      0 20px 40px rgba(0,0,0,0.4),
+      0 5px 15px rgba(10,132,255,0.1),
+      inset 0 1px 0 rgba(255,255,255,0.05);
+    transform-style: preserve-3d;
+    perspective: 1000px;
+  }
+  
+  .crystal-card::before {
+    content: "";
+    @apply absolute inset-0 bg-gradient-to-b from-white/[0.1] to-transparent rounded-2xl pointer-events-none;
+    z-index: 1;
+    transform: translateZ(1px);
+  }
+  
+  .crystal-card::after {
+    content: "";
+    @apply absolute inset-0 rounded-2xl opacity-70 pointer-events-none;
+    background: linear-gradient(120deg, rgba(255,255,255,0) 30%, rgba(255,255,255,0.15) 38%, rgba(255,255,255,0) 48%);
+    background-size: 200% 100%;
+    background-position-x: 180%;
+    animation: shine 4s infinite;
+    transform: translateZ(2px);
+  }
+  
+  /* Crystal button - new premium button style */
+  .crystal-button {
+    @apply relative overflow-hidden bg-black/50 text-white rounded-full px-6 py-3 font-medium transition-all duration-300;
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 
+      0 4px 10px rgba(0,0,0,0.3),
+      0 1px 3px rgba(10,132,255,0.2),
+      inset 0 1px 0 rgba(255,255,255,0.05);
+  }
+  
+  .crystal-button::before {
+    content: "";
+    @apply absolute inset-0 bg-gradient-to-b from-white/10 to-transparent opacity-0 transition-opacity duration-300;
+    z-index: 1;
+  }
+  
+  .crystal-button::after {
+    content: "";
+    @apply absolute inset-0 opacity-0 transition-opacity duration-300;
+    background: linear-gradient(120deg, rgba(255,255,255,0) 30%, rgba(255,255,255,0.2) 38%, rgba(255,255,255,0) 48%);
+    background-size: 200% 100%;
+    background-position-x: 180%;
+    z-index: 2;
+  }
+  
+  .crystal-button:hover::before {
+    @apply opacity-100;
+  }
+  
+  .crystal-button:hover::after {
+    @apply opacity-100;
+    animation: shine 1.5s infinite;
+  }
+  
+  /* Crystal button with glow */
+  .crystal-button-glow {
+    @apply crystal-button;
+    box-shadow: 
+      0 4px 10px rgba(0,0,0,0.3),
+      0 1px 3px rgba(10,132,255,0.3),
+      0 0 20px rgba(10,132,255,0.2),
+      inset 0 1px 0 rgba(255,255,255,0.1);
+  }
+  
+  .crystal-button-glow:hover {
+    box-shadow: 
+      0 4px 15px rgba(0,0,0,0.4),
+      0 1px 3px rgba(10,132,255,0.4),
+      0 0 30px rgba(10,132,255,0.3),
+      inset 0 1px 0 rgba(255,255,255,0.15);
+  }
+  
+  /* Enhanced surface reflection effect */
+  .surface-reflection {
+    position: relative;
+  }
+  
+  .surface-reflection::after {
+    content: "";
+    @apply absolute left-0 right-0 bottom-0 bg-gradient-to-t from-white/5 to-transparent;
+    height: 40%;
+    transform: scaleY(-1);
+    filter: blur(10px);
+    opacity: 0.4;
+    mask-image: linear-gradient(to top, white, transparent);
+  }
+  
+  /* Enhanced 3D elements */
+  .crystal-3d {
+    transform-style: preserve-3d;
+    perspective: 1000px;
+  }
+  
+  .crystal-3d-element {
+    transform: translateZ(20px);
+    transition: transform 0.3s ease;
+  }
+  
+  .crystal-3d-container:hover .crystal-3d-element {
+    transform: translateZ(40px);
+  }
+  
+  /* Rest of the existing styles */
   /* Enhanced glass cards with better reflections and NO visible borders */
   .glass-card {
     @apply backdrop-blur-xl bg-white/5 border-none rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.15),0_2px_8px_rgba(10,132,255,0.05)];
@@ -420,8 +688,4 @@
     left: 0;
     width: 100%;
     height: 100%;
-    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
-    opacity: 0.03;
-    pointer-events: none;
-  }
-}
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='
