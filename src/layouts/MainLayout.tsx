@@ -20,10 +20,18 @@ const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
   const mouseX = useMotionValue(0);
   const mouseY = useMotionValue(0);
   
+  // Create a motion value for scroll
+  const scrollYMotion = useMotionValue(0);
+  
   // Spring physics for smoother lighting effects
   const springConfig = { damping: 20, stiffness: 90 };
   const lightX = useSpring(useTransform(mouseX, [-0.5, 0.5], [40, 60]), springConfig);
   const lightY = useSpring(useTransform(mouseY, [-0.5, 0.5], [40, 60]), springConfig);
+  
+  // Update the scroll motion value whenever scrollY changes
+  useEffect(() => {
+    scrollYMotion.set(scrollY);
+  }, [scrollY, scrollYMotion]);
   
   // Track mouse position for ambient lighting
   useEffect(() => {
@@ -66,17 +74,17 @@ const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
         <motion.div 
           className="absolute top-0 left-1/4 w-[800px] h-[800px] rounded-full bg-tesla-blue/10 filter blur-[150px] opacity-30"
           style={{ 
-            x: useTransform(scrollY, [0, 1000], [0, -150]),
-            y: useTransform(scrollY, [0, 1000], [0, 100]),
-            scale: useTransform(scrollY, [0, 500], [1, 1.2])
+            x: useTransform(scrollYMotion, [0, 1000], [0, -150]),
+            y: useTransform(scrollYMotion, [0, 1000], [0, 100]),
+            scale: useTransform(scrollYMotion, [0, 500], [1, 1.2])
           }}
         />
         <motion.div 
           className="absolute top-1/3 right-1/4 w-[700px] h-[700px] rounded-full bg-tesla-purple/10 filter blur-[170px] opacity-20"
           style={{ 
-            x: useTransform(scrollY, [0, 1000], [0, 150]),
-            y: useTransform(scrollY, [0, 1000], [0, -50]),
-            scale: useTransform(scrollY, [0, 500], [1, 0.8])
+            x: useTransform(scrollYMotion, [0, 1000], [0, 150]),
+            y: useTransform(scrollYMotion, [0, 1000], [0, -50]),
+            scale: useTransform(scrollYMotion, [0, 500], [1, 0.8])
           }}
         />
         
