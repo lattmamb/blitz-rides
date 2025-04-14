@@ -28,7 +28,9 @@ export const vehicles: Vehicle[] = [
       '#FFFFFF': 'https://assets.aceternity.com/demos/tesla-model-s.webp',
       '#000000': 'https://assets.aceternity.com/demos/tesla-model-s-black.webp',
       '#C0C0C0': 'https://assets.aceternity.com/demos/tesla-model-s-silver.webp',
-    }
+    },
+    rating: 4.9,
+    reviewCount: 128
   },
   {
     id: 'model-3',
@@ -55,7 +57,9 @@ export const vehicles: Vehicle[] = [
     colorImages: {
       '#FFFFFF': 'https://assets.aceternity.com/demos/tesla-model-3.webp',
       '#FF0000': 'https://assets.aceternity.com/demos/tesla-model-3-red.webp',
-    }
+    },
+    rating: 4.7,
+    reviewCount: 215
   },
   {
     id: 'model-x',
@@ -82,7 +86,9 @@ export const vehicles: Vehicle[] = [
     colorImages: {
       '#FFFFFF': 'https://assets.aceternity.com/demos/tesla-model-x.webp',
       '#000000': 'https://assets.aceternity.com/demos/tesla-model-x-black.webp',
-    }
+    },
+    rating: 4.8,
+    reviewCount: 92
   },
   {
     id: 'model-y',
@@ -109,7 +115,9 @@ export const vehicles: Vehicle[] = [
     colorImages: {
       '#FFFFFF': 'https://assets.aceternity.com/demos/tesla-model-y.webp',
       '#FF0000': 'https://assets.aceternity.com/demos/tesla-model-y-red.webp',
-    }
+    },
+    rating: 4.6,
+    reviewCount: 187
   },
   {
     id: 'cybertruck',
@@ -135,7 +143,9 @@ export const vehicles: Vehicle[] = [
     colors: ['#C0C0C0'],
     colorImages: {
       '#C0C0C0': 'https://assets.aceternity.com/demos/tesla-cybertruck.webp',
-    }
+    },
+    rating: 4.9,
+    reviewCount: 76
   },
   {
     id: 'roadster',
@@ -162,6 +172,8 @@ export const vehicles: Vehicle[] = [
     colorImages: {
       '#FF0000': 'https://assets.aceternity.com/demos/tesla-roadster.webp',
       '#FFFFFF': 'https://assets.aceternity.com/demos/tesla-roadster-white.webp',
-    }
+    },
+    rating: 5.0,
+    reviewCount: 42
   }
 ];

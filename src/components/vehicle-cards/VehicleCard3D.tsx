@@ -1,4 +1,3 @@
-
 import React, { useState, useRef, useEffect } from 'react';
 import { motion, useSpring, useMotionValue, useTransform } from 'framer-motion';
 import { Vehicle } from '@/types';
@@ -30,22 +29,18 @@ const VehicleCard3D: React.FC<VehicleCard3DProps> = ({
   const [localMouse, setLocalMouse] = useState({ x: 0, y: 0 });
   const { theme } = useTheme();
   
-  // Card 3D rotation values
   const x = useMotionValue(0);
   const y = useMotionValue(0);
   
-  // Springs for smoother animations
   const springConfig = { damping: 15, stiffness: 150 };
   const rotateX = useSpring(useTransform(y, [-0.5, 0.5], [10, -10]), springConfig);
   const rotateY = useSpring(useTransform(x, [-0.5, 0.5], [-10, 10]), springConfig);
   
-  // Parallax effect for image and content
   const imageY = useTransform(y, [-0.5, 0.5], [10, -10]);
   const imageX = useTransform(x, [-0.5, 0.5], [10, -10]);
   const contentY = useTransform(y, [-0.5, 0.5], [5, -5]);
   const contentX = useTransform(x, [-0.5, 0.5], [5, -5]);
   
-  // Handle mouse interactions for 3D effect
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
     if (!cardRef.current || !isActive || carouselView) return;
     
@@ -53,7 +48,6 @@ const VehicleCard3D: React.FC<VehicleCard3DProps> = ({
     const centerX = rect.left + rect.width / 2;
     const centerY = rect.top + rect.height / 2;
     
-    // Calculate normalized position (-0.5 to 0.5)
     const normalizedX = (e.clientX - centerX) / rect.width;
     const normalizedY = (e.clientY - centerY) / rect.height;
     
@@ -63,7 +57,6 @@ const VehicleCard3D: React.FC<VehicleCard3DProps> = ({
     setLocalMouse({ x: normalizedX, y: normalizedY });
   };
   
-  // Global dynamic lighting
   useEffect(() => {
     if (carouselView && isActive) {
       x.set((mousePosition.x - 0.5) * 0.3);
@@ -71,7 +64,6 @@ const VehicleCard3D: React.FC<VehicleCard3DProps> = ({
     }
   }, [carouselView, isActive, mousePosition, x, y]);
   
-  // Reset rotation when mouse leaves
   const handleMouseLeave = () => {
     setIsHovered(false);
     if (!carouselView) {
@@ -111,7 +103,6 @@ const VehicleCard3D: React.FC<VehicleCard3DProps> = ({
           transformStyle: "preserve-3d",
         }}
       >
-        {/* Card shine effect */}
         <div 
           className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none z-10"
           style={{
@@ -119,10 +110,8 @@ const VehicleCard3D: React.FC<VehicleCard3DProps> = ({
           }}
         />
         
-        {/* Top card highlight */}
         <div className="absolute top-0 inset-x-0 h-[1px] bg-gradient-to-r from-transparent via-white/30 to-transparent z-20" />
         
-        {/* Image container with 3D parallax effect */}
         <motion.div 
           className="relative aspect-video overflow-hidden bg-black"
           style={{ 
@@ -142,10 +131,8 @@ const VehicleCard3D: React.FC<VehicleCard3DProps> = ({
             }}
           />
           
-          {/* Gradient overlay */}
           <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-black/60" />
           
-          {/* Badge */}
           <div className="absolute top-3 right-3 z-10">
             {vehicle.available ? (
               <div className="bg-tesla-green/90 text-white text-xs font-medium px-3 py-1 rounded-full backdrop-blur-sm">
@@ -158,7 +145,6 @@ const VehicleCard3D: React.FC<VehicleCard3DProps> = ({
             )}
           </div>
           
-          {/* Vehicle name (appearing on hover) */}
           <motion.div 
             className="absolute bottom-4 left-4 right-4 z-10"
             initial={{ opacity: 0, y: 10 }}
@@ -171,7 +157,6 @@ const VehicleCard3D: React.FC<VehicleCard3DProps> = ({
             <p className="text-white/80 text-sm">Tesla {vehicle.type}</p>
           </motion.div>
           
-          {/* Quick view button (appears on hover) */}
           <motion.div 
             className="absolute top-4 left-4 z-10"
             initial={{ opacity: 0, scale: 0.8 }}
@@ -189,7 +174,6 @@ const VehicleCard3D: React.FC<VehicleCard3DProps> = ({
           </motion.div>
         </motion.div>
         
-        {/* Card content with 3D parallax effect */}
         <motion.div 
           className="p-4 z-10 relative"
           style={{
@@ -198,7 +182,6 @@ const VehicleCard3D: React.FC<VehicleCard3DProps> = ({
             y: contentY
           }}
         >
-          {/* Regular content (shows when not hovered) */}
           <motion.div
             className="space-y-2"
             animate={{ opacity: isHovered ? 0 : 1 }}
@@ -210,8 +193,8 @@ const VehicleCard3D: React.FC<VehicleCard3DProps> = ({
             <div className="flex items-baseline justify-between mt-2">
               <div className="flex items-center space-x-1">
                 <Star className="h-4 w-4 text-yellow-500" fill="currentColor" />
-                <span className="font-medium">{vehicle.rating}</span>
-                <span className="text-white/60 text-xs">({vehicle.reviewCount})</span>
+                <span className="font-medium">{vehicle.rating || 5}</span>
+                <span className="text-white/60 text-xs">({vehicle.reviewCount || 100})</span>
               </div>
               <div className="text-xl font-bold">
                 ${vehicle.price}<span className="text-white/70 text-sm font-normal">{vehicle.priceUnit}</span>
@@ -219,7 +202,6 @@ const VehicleCard3D: React.FC<VehicleCard3DProps> = ({
             </div>
           </motion.div>
           
-          {/* Hover content (shows on hover) */}
           <motion.div
             className="absolute inset-0 p-4 space-y-3"
             initial={{ opacity: 0 }}
@@ -265,11 +247,9 @@ const VehicleCard3D: React.FC<VehicleCard3DProps> = ({
           </motion.div>
         </motion.div>
         
-        {/* Bottom edge highlight */}
         <div className="absolute bottom-0 inset-x-0 h-[1px] bg-gradient-to-r from-transparent via-white/10 to-transparent" />
       </motion.div>
       
-      {/* 3D Shadow effect */}
       <motion.div
         className="absolute -inset-1 rounded-2xl z-[-1] opacity-0"
         style={{

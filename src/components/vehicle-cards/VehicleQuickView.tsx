@@ -46,7 +46,7 @@ const VehicleQuickView: React.FC<VehicleQuickViewProps> = ({
             {/* Use 3D model when available, otherwise use image */}
             {vehicle.model3D ? (
               <Vehicle3DModel 
-                modelPath={displayImage} 
+                modelPath={vehicle.model3D} 
                 label={`Tesla ${vehicle.model}`}
                 interactive={true}
               />

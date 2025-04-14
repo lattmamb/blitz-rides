@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useSwipeable } from 'react-swipeable';
@@ -27,7 +26,6 @@ const Vehicles = () => {
   const { theme } = useTheme();
   const navigate = useNavigate();
 
-  // Simulate loading time for the enhanced experience
   useEffect(() => {
     const timer = setTimeout(() => {
       setIsLoading(false);
@@ -36,7 +34,6 @@ const Vehicles = () => {
     return () => clearTimeout(timer);
   }, []);
 
-  // Track mouse for dynamic lighting
   useEffect(() => {
     const handleMouseMove = (e: MouseEvent) => {
       setMousePosition({
@@ -49,7 +46,6 @@ const Vehicles = () => {
     return () => window.removeEventListener('mousemove', handleMouseMove);
   }, []);
 
-  // Handle filtering and search
   const handleFilter = (filters: any) => {
     let results = [...vehicles];
     
@@ -81,7 +77,6 @@ const Vehicles = () => {
     }
   };
 
-  // Handle card click to navigate to details
   const handleCardClick = (vehicleId: string) => {
     setExiting(true);
     setTimeout(() => {
@@ -89,7 +84,6 @@ const Vehicles = () => {
     }, 500);
   };
 
-  // Handle quick view
   const handleQuickView = (vehicle: Vehicle, e: React.MouseEvent) => {
     e.stopPropagation();
     setQuickViewVehicle(vehicle);
@@ -99,7 +93,6 @@ const Vehicles = () => {
     setQuickViewVehicle(null);
   };
 
-  // Swipe handlers for carousel navigation
   const swipeHandlers = useSwipeable({
     onSwipedLeft: () => {
       if (activeIndex < filteredVehicles.length - 1) {
@@ -111,11 +104,9 @@ const Vehicles = () => {
         setActiveIndex(prev => prev - 1);
       }
     },
-    preventDefaultTouchmoveEvent: true,
     trackMouse: true
   });
 
-  // Keyboard navigation
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === 'ArrowRight' && activeIndex < filteredVehicles.length - 1) {
@@ -143,7 +134,6 @@ const Vehicles = () => {
             transition={{ duration: 0.5 }}
             className="min-h-screen pt-24 pb-16 relative"
           >
-            {/* Dynamic background lighting based on mouse position */}
             <div 
               className="absolute inset-0 pointer-events-none z-0 overflow-hidden"
               style={{
@@ -163,15 +153,12 @@ const Vehicles = () => {
               />
             </div>
             
-            {/* Header with search and filters */}
             <VehiclesHeader onFilter={handleFilter} />
             
-            {/* View toggle: Grid vs Carousel */}
             <div className="container mx-auto px-4 mb-8">
               <ViewToggle activeView={activeView} onChange={setActiveView} />
             </div>
             
-            {/* Grid View */}
             {activeView === 'grid' && (
               <motion.div 
                 className="container mx-auto px-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
@@ -204,7 +191,6 @@ const Vehicles = () => {
               </motion.div>
             )}
             
-            {/* Carousel View */}
             {activeView === 'carousel' && (
               <div className="h-[70vh] relative" {...swipeHandlers}>
                 <motion.div 
@@ -240,7 +226,6 @@ const Vehicles = () => {
                 <div className="container mx-auto px-4 h-full flex items-center justify-center perspective">
                   <div className="carousel-container relative w-full h-full flex items-center justify-center">
                     {filteredVehicles.map((vehicle, index) => {
-                      // Calculate position relative to activeIndex
                       const position = index - activeIndex;
                       const isActive = position === 0;
                       const isVisible = Math.abs(position) <= 1;
@@ -292,7 +277,6 @@ const Vehicles = () => {
                   </div>
                 </div>
                 
-                {/* Pagination indicators */}
                 <div className="absolute bottom-8 left-0 right-0 flex justify-center gap-2">
                   {filteredVehicles.map((_, index) => (
                     <button
@@ -310,7 +294,6 @@ const Vehicles = () => {
               </div>
             )}
             
-            {/* Quick View Modal */}
             <AnimatePresence>
               {quickViewVehicle && (
                 <motion.div

@@ -1,4 +1,3 @@
-
 export interface Vehicle {
   id: string;
   model: string;
@@ -18,6 +17,9 @@ export interface Vehicle {
   colorImages?: {
     [key: string]: string;
   };
+  rating?: number;
+  reviewCount?: number;
+  model3D?: string;
 }
 
 export interface SubscriptionPlan {
