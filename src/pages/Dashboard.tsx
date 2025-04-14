@@ -27,6 +27,9 @@ const Dashboard = () => {
     pickupLocation: 'San Francisco Downtown',
   };
 
+  // Initial vehicle location (San Francisco for demo)
+  const initialLocation = { lat: 37.7749, lng: -122.4194 };
+
   return (
     <MainLayout>
       <div className="container mx-auto px-4 py-16 mt-14 md:mt-20">
@@ -46,7 +49,7 @@ const Dashboard = () => {
               totalMiles={totalMiles}
             />
             
-            <VehicleLocation />
+            <VehicleLocation initialLocation={initialLocation} />
             
             <Reservations upcomingReservation={upcomingReservation} />
           </div>
