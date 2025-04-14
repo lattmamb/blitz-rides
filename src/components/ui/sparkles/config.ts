@@ -1,6 +1,5 @@
-
 import { ParticlesProps } from "./types";
-import type { SingleOrMultiple } from "@tsparticles/engine";
+import type { CollisionMode, SingleOrMultiple } from "@tsparticles/engine";
 
 export const getParticlesConfig = (props: ParticlesProps) => {
   const {
@@ -68,7 +67,7 @@ export const getParticlesConfig = (props: ParticlesProps) => {
         },
         enable: false,
         maxSpeed: 50,
-        mode: "bounce",
+        mode: "bounce" as CollisionMode,
         overlap: {
           enable: true,
           retries: 0,

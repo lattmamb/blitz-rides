@@ -1,5 +1,5 @@
 
-import type { SingleOrMultiple } from "@tsparticles/engine";
+import type { SingleOrMultiple, CollisionMode } from "@tsparticles/engine";
 
 export type ParticlesProps = {
   id?: string;
