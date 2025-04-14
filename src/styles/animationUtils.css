@@ -38,7 +38,7 @@
   100% { stroke-dashoffset: 0; }
 }
 
-/* Static Shine Effect */
+/* Static Shine Effect - User triggered */
 .static-shine {
   position: relative;
   overflow: hidden;
@@ -55,11 +55,10 @@
     transparent 50%
   );
   transform: translateX(-100%);
-  animation: shine 5s ease-in-out infinite;
-  animation-delay: 2s;
-  animation-fill-mode: both;
-  /* Don't always animate, only on significant triggers */
+  animation: shine 5s ease-in-out;
   animation-play-state: paused;
+  animation-fill-mode: both;
+  pointer-events: none;
 }
 
 .static-shine:hover::after,
@@ -68,7 +67,7 @@
   animation-play-state: running;
 }
 
-/* Dynamic Shine - trigger on hover only */
+/* Dynamic Shine - Triggered by state changes */
 .dynamic-shine {
   position: relative;
   overflow: hidden;
@@ -86,12 +85,33 @@
   );
   transform: translateX(-100%);
   animation: shine 2s ease-out;
-  animation-play-state: paused;
-  animation-fill-mode: both;
+  animation-fill-mode: forwards;
+  pointer-events: none;
 }
 
-.dynamic-shine:hover::after {
-  animation-play-state: running;
+/* Smart shine - Intelligent shine that happens only on significant interactions */
+.smart-shine {
+  position: relative;
+  overflow: hidden;
+}
+
+.smart-shine::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    120deg,
+    transparent 10%,
+    rgba(255, 255, 255, 0.15) 30%,
+    transparent 50%
+  );
+  transform: translateX(-100%);
+  animation: none;
+  pointer-events: none;
+}
+
+.smart-shine.shine-now::after {
+  animation: shine 2s ease-out;
 }
 
 /* Card hover effects */
@@ -156,4 +176,89 @@
 
 .loading-dots span:nth-child(3) {
   animation-delay: 0.4s;
+}
+
+/* Page transition effects */
+.page-enter {
+  opacity: 0;
+  transform: translateY(10px);
+}
+
+.page-enter-active {
+  opacity: 1;
+  transform: translateY(0);
+  transition: opacity 300ms, transform 300ms;
+}
+
+.page-exit {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.page-exit-active {
+  opacity: 0;
+  transform: translateY(-10px);
+  transition: opacity 300ms, transform 300ms;
+}
+
+/* Surface reflection effect */
+.surface-reflection {
+  position: relative;
+}
+
+.surface-reflection::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 40%;
+  transform: scaleY(-1);
+  background: inherit;
+  filter: blur(10px);
+  opacity: 0.4;
+  mask-image: linear-gradient(to top, white, transparent);
+  pointer-events: none;
+}
+
+/* Intelligent Shine - occurs only on meaningful moments */
+.intelligent-shine {
+  position: relative;
+  overflow: hidden;
+}
+
+.intelligent-shine::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    120deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.2) 25%,
+    transparent 50%
+  );
+  transform: translateX(-100%);
+  transition: transform 0.5s ease-out;
+  pointer-events: none;
+}
+
+/* Success / Feedback animations */
+.success-shine::after {
+  background: linear-gradient(
+    120deg,
+    transparent 0%,
+    rgba(72, 187, 120, 0.3) 25%,
+    transparent 50%
+  );
+  animation: shine 1.5s ease-out;
+}
+
+.error-shine::after {
+  background: linear-gradient(
+    120deg,
+    transparent 0%,
+    rgba(245, 101, 101, 0.3) 25%,
+    transparent 50%
+  );
+  animation: shine 1.5s ease-out;
 }

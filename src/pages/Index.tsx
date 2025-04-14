@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react';
 import MainLayout from '@/layouts/MainLayout';
 import { vehicles } from '@/data/vehicles';
 import FeaturesSection from '@/components/FeaturesSection';
+import IntelligentLoading from '@/components/ui/IntelligentLoading';
 
 // Import our new section components
 import HeroSection from '@/components/sections/HeroSection';
@@ -16,13 +17,21 @@ import TeslaModelsSection from '@/components/sections/TeslaModelsSection';
 const Index = () => {
   const [filteredVehicles, setFilteredVehicles] = useState(vehicles);
   const [isLoading, setIsLoading] = useState(true);
+  const [vehiclesLoading, setVehiclesLoading] = useState(true);
   
   useEffect(() => {
-    const timer = setTimeout(() => {
+    const initialTimer = setTimeout(() => {
       setIsLoading(false);
+    }, 1000);
+    
+    const vehiclesTimer = setTimeout(() => {
+      setVehiclesLoading(false);
     }, 2000);
     
-    return () => clearTimeout(timer);
+    return () => {
+      clearTimeout(initialTimer);
+      clearTimeout(vehiclesTimer);
+    };
   }, []);
   
   const handleSearch = (filters: {
@@ -31,26 +40,32 @@ const Index = () => {
     location: string;
     dateRange: string;
   }) => {
-    let results = [...vehicles];
+    setVehiclesLoading(true);
+    
+    // Simulate API request delay
+    setTimeout(() => {
+      let results = [...vehicles];
 
-    if (filters.query) {
-      const query = filters.query.toLowerCase();
-      results = results.filter(
-        (vehicle) => vehicle.model.toLowerCase().includes(query)
-      );
-    }
+      if (filters.query) {
+        const query = filters.query.toLowerCase();
+        results = results.filter(
+          (vehicle) => vehicle.model.toLowerCase().includes(query)
+        );
+      }
 
-    if (filters.vehicleType !== 'all') {
-      results = results.filter(
-        (vehicle) => vehicle.type === filters.vehicleType
-      );
-    }
+      if (filters.vehicleType !== 'all') {
+        results = results.filter(
+          (vehicle) => vehicle.type === filters.vehicleType
+        );
+      }
 
-    setFilteredVehicles(results);
+      setFilteredVehicles(results);
+      setVehiclesLoading(false);
+    }, 800);
   };
   
   if (isLoading) {
-    return null;
+    return <IntelligentLoading customMessage="Preparing your BLITZ experience" />;
   }
 
   return (
@@ -58,7 +73,7 @@ const Index = () => {
       <HeroSection />
       <SearchSection onSearch={handleSearch} />
       <CarouselSection />
-      <VehiclesSection vehicles={filteredVehicles} />
+      <VehiclesSection vehicles={filteredVehicles} loading={vehiclesLoading} />
       <FeaturedVehicleSection />
       <FeaturesSection />
       <MapSection />
