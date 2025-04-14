@@ -2,6 +2,7 @@
 import React from 'react';
 import { motion } from "framer-motion";
 import Map from '@/components/Map';
+import { chargingStations } from '@/data/chargingStationData';
 
 const MapSection = () => {
   return (
@@ -39,7 +40,14 @@ const MapSection = () => {
         </div>
         
         <div className="glass-card p-1 rounded-2xl overflow-hidden">
-          <Map className="w-full h-[500px] rounded-2xl" />
+          <div className="w-full h-[500px] rounded-2xl">
+            <Map 
+              center={{ lat: 37.7749, lng: -122.4194 }} 
+              zoom={9} 
+              stations={chargingStations}
+              className="w-full h-full"
+            />
+          </div>
         </div>
       </div>
     </motion.section>

@@ -2,18 +2,29 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { motion } from 'framer-motion';
 import { ChargingStation } from '@/types';
-import { MapPin, Zap } from 'lucide-react';
+import { MapPin, Zap, Car } from 'lucide-react';
 
 interface MapProps {
-  center: {
+  center?: {
     lat: number;
     lng: number;
   };
-  zoom: number;
-  stations: ChargingStation[];
+  zoom?: number;
+  stations?: ChargingStation[];
+  className?: string;
+  vehicleLocation?: {
+    lat: number;
+    lng: number;
+  };
 }
 
-const Map: React.FC<MapProps> = ({ center, zoom, stations }) => {
+const Map: React.FC<MapProps> = ({ 
+  center = { lat: 37.7749, lng: -122.4194 }, 
+  zoom = 9, 
+  stations = [], 
+  className = '', 
+  vehicleLocation 
+}) => {
   const mapRef = useRef<HTMLDivElement>(null);
   const [hoveredStation, setHoveredStation] = useState<string | null>(null);
   const [mapLoaded, setMapLoaded] = useState(false);
@@ -28,7 +39,7 @@ const Map: React.FC<MapProps> = ({ center, zoom, stations }) => {
   }, []);
   
   return (
-    <div className="w-full h-full relative overflow-hidden rounded-xl">
+    <div className={`w-full h-full relative overflow-hidden rounded-xl ${className}`}>
       {/* Loading overlay with subtle animation */}
       <motion.div 
         className="absolute inset-0 bg-black/80 z-10 flex items-center justify-center"
@@ -51,6 +62,30 @@ const Map: React.FC<MapProps> = ({ center, zoom, stations }) => {
       <div ref={mapRef} className="w-full h-full bg-tesla-dark-80 overflow-hidden" style={{ opacity: mapLoaded ? 1 : 0.5, transition: 'opacity 0.5s ease' }}>
         {/* Grid lines for map effect */}
         <div className="absolute inset-0 grid-background opacity-30"></div>
+        
+        {/* Vehicle location if provided */}
+        {vehicleLocation && (
+          <motion.div
+            className="absolute z-30"
+            style={{
+              left: '50%',
+              top: '50%',
+              transform: 'translate(-50%, -50%)'
+            }}
+            initial={{ scale: 0 }}
+            animate={{ scale: 1 }}
+            transition={{ duration: 0.5 }}
+          >
+            <div className="w-10 h-10 rounded-full bg-tesla-green flex items-center justify-center">
+              <motion.div
+                className="w-14 h-14 rounded-full border-2 border-tesla-green absolute"
+                animate={{ scale: [1, 1.2, 1], opacity: [1, 0, 1] }}
+                transition={{ duration: 3, repeat: Infinity }}
+              />
+              <Car className="h-5 w-5 text-white" />
+            </div>
+          </motion.div>
+        )}
         
         {/* Stations markers */}
         {stations.map((station) => (
