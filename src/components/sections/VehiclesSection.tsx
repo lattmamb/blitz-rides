@@ -1,7 +1,7 @@
 
 import React from 'react';
 import { motion } from "framer-motion";
-import GlxVehicleCard from '@/components/GlxVehicleCard';
+import VehicleCard from '@/components/VehicleCard';
 import { Vehicle } from '@/types';
 
 interface VehiclesSectionProps {
@@ -51,7 +51,7 @@ const VehiclesSection = ({ vehicles }: VehiclesSectionProps) => {
               transition={{ duration: 0.5, delay: index * 0.1 }}
               viewport={{ once: true }}
             >
-              <GlxVehicleCard vehicle={vehicle} />
+              <VehicleCard vehicle={vehicle} />
             </motion.div>
           ))}
         </div>

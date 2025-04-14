@@ -1,24 +1,22 @@
 
-import type { 
-  OutMode, 
-  SingleOrMultiple,
-  LimitMode
-} from "@tsparticles/engine";
+import { ParticlesProps } from "../types";
 
-export const getParticlesConfig = (
-  size?: number,
-  minSize?: number,
-  maxSize?: number,
-  particleColor?: string,
-  speed?: number,
-  density?: number,
-) => {
-  const defaultParticleSize = size || 1.2;
+export const getParticlesConfig = (props: ParticlesProps) => {
+  const { 
+    particleSize, 
+    minSize, 
+    maxSize, 
+    particleColor, 
+    speed, 
+    particleDensity 
+  } = props;
+  
+  const defaultParticleSize = particleSize || 1.2;
   const actualMinSize = minSize || 0.2;
   const actualMaxSize = maxSize || 2.5;
   const actualParticleColor = particleColor || "#FFFFFF";
   const actualSpeed = speed || 0.5;
-  const actualDensity = density || 15;
+  const actualDensity = particleDensity || 15;
 
   return {
     number: {
@@ -28,7 +26,7 @@ export const getParticlesConfig = (
       },
       value: 0,
       limit: {
-        mode: "delete" as LimitMode,
+        mode: "delete" as const,
       },
     },
     color: {
@@ -79,9 +77,9 @@ export const getParticlesConfig = (
         decay: 0,
         delay: 0,
         sync: false,
-        mode: "auto" as "auto" | "random" | "increase" | "decrease", // Fixed type here
-        startValue: "random",
-        destroy: "none",
+        mode: "auto" as const,
+        startValue: "random" as const,
+        destroy: "none" as const,
       },
     },
     life: {
@@ -103,16 +101,16 @@ export const getParticlesConfig = (
       center: {
         x: 50,
         y: 50,
-        mode: "percent",
+        mode: "percent" as const,
         radius: 0,
       },
       decay: 0,
       distance: {},
-      direction: "none",
+      direction: "none" as const,
       drift: 0,
       enable: true,
       outModes: {
-        default: "out" as SingleOrMultiple<OutMode>,
+        default: "out" as const,
       },
       random: true,
       size: false,
@@ -128,12 +126,12 @@ export const getParticlesConfig = (
         decay: 0,
         sync: false,
       },
-      direction: "clockwise",
+      direction: "clockwise" as const,
       value: 0,
     },
     destroy: {
       bounds: {},
-      mode: "none",
+      mode: "none" as const,
       split: {
         count: 1,
         factor: {
@@ -163,7 +161,7 @@ export const getParticlesConfig = (
         decay: 0,
         sync: false,
       },
-      direction: "clockwise",
+      direction: "clockwise" as const,
       enable: false,
     },
     wobble: {

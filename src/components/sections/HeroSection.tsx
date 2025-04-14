@@ -9,9 +9,12 @@ const HeroSection = () => {
   const scale = useTransform(scrollYProgress, [0, 0.1], [1, 0.9]);
 
   return (
-    <>
+    <motion.div
+      style={{ opacity, scale }}
+      className="relative"
+    >
       <BlitzHero />
-    </>
+    </motion.div>
   );
 };
 
