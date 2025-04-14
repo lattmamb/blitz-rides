@@ -52,14 +52,17 @@ export default function BlitzHero() {
         />
         
         {/* Nebula Effects */}
-        <div className="absolute top-1/4 left-1/4 w-1/2 h-1/2 bg-tesla-blue/5 rounded-full filter blur-[80px] opacity-40"></div>
-        <div className="absolute bottom-1/4 right-1/4 w-1/2 h-1/2 bg-tesla-purple/5 rounded-full filter blur-[100px] opacity-30"></div>
+        <div className="absolute top-1/4 left-1/4 w-1/2 h-1/2 bg-tesla-blue/5 rounded-full filter blur-[80px] opacity-40 animate-pulse-glow"></div>
+        <div className="absolute bottom-1/4 right-1/4 w-1/2 h-1/2 bg-tesla-purple/5 rounded-full filter blur-[100px] opacity-30 animate-pulse-glow" style={{ animationDelay: "1s" }}></div>
         
         {/* Orbital rings */}
         <div className="absolute inset-0 overflow-hidden pointer-events-none">
           <div className="absolute top-1/4 -left-[20%] w-[140%] h-[140%] glx-orbital border-white/5" style={{ animationDuration: '120s' }}></div>
           <div className="absolute top-1/2 -left-[10%] w-[120%] h-[120%] glx-orbital border-white/3" style={{ animationDuration: '80s' }}></div>
         </div>
+        
+        {/* Glass surface reflection effect */}
+        <div className="absolute bottom-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-white/10 to-transparent"></div>
       </div>
       
       {/* Navigation */}
@@ -74,16 +77,16 @@ export default function BlitzHero() {
           className="text-center max-w-4xl mx-auto"
         >
           <motion.h1 
-            className="text-5xl md:text-7xl font-bold mb-4"
+            className="text-5xl md:text-7xl font-bold mb-4 drop-shadow-lg"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.7 }}
           >
-            <span className="glx-text">UNITY FLEET GLX</span>
+            <span className="glx-text bg-clip-text text-transparent bg-gradient-to-r from-white via-tesla-blue to-white">UNITY FLEET GLX</span>
           </motion.h1>
           
           <motion.p 
-            className="text-xl text-white/80 mb-8"
+            className="text-xl text-white/80 mb-8 drop-shadow-md"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.9 }}
@@ -97,23 +100,42 @@ export default function BlitzHero() {
             transition={{ duration: 0.8, delay: 1.1 }}
             className="flex justify-center gap-4 flex-wrap"
           >
-            <Button 
-              onClick={handleSubscribe}
-              className="bg-[#9b87f5] hover:bg-[#8b77e5] text-white relative overflow-hidden group px-8 py-6 text-lg"
+            <motion.div
+              whileHover={{ scale: 1.05, y: -5 }}
+              whileTap={{ scale: 0.95 }}
             >
-              <span className="relative z-10 flex items-center">
-                Subscribe Now
-              </span>
-              <span className="absolute inset-0 bg-gradient-to-r from-[#9b87f5] to-[#6E59A5] transition-transform duration-300 group-hover:scale-105"></span>
-            </Button>
+              <Button 
+                onClick={handleSubscribe}
+                className="relative overflow-hidden group px-8 py-6 text-lg"
+                variant="tesla"
+                size="xl"
+              >
+                <span className="relative z-10 flex items-center">
+                  Subscribe Now
+                </span>
+                <motion.span 
+                  className="absolute inset-0 bg-gradient-to-r from-[#9b87f5] to-[#6E59A5]"
+                  whileHover={{ scale: 1.05 }}
+                  transition={{ duration: 0.3 }}
+                />
+                <span className="absolute inset-x-0 bottom-0 h-[1px] bg-white/20"></span>
+              </Button>
+            </motion.div>
             
-            <Button 
-              onClick={handleExploreFleet}
-              variant="outline"
-              className="border-white/20 hover:bg-white/5 hover:border-white/40 px-8 py-6 text-lg"
+            <motion.div
+              whileHover={{ scale: 1.05, y: -5 }}
+              whileTap={{ scale: 0.95 }}
             >
-              Explore Fleet
-            </Button>
+              <Button 
+                onClick={handleExploreFleet}
+                variant="glass"
+                size="xl"
+                className="px-8 py-6 text-lg"
+              >
+                Explore Fleet
+                <span className="absolute inset-x-0 bottom-0 h-[1px] bg-white/10 group-hover:bg-white/20 transition-colors"></span>
+              </Button>
+            </motion.div>
           </motion.div>
         </motion.div>
         
@@ -130,6 +152,7 @@ export default function BlitzHero() {
               initial={{ opacity: 0, scale: 0.9 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ duration: 0.5, delay: 0.3 + (index * 0.2) }}
+              whileHover={{ y: -10, boxShadow: "0 20px 40px rgba(10, 132, 255, 0.1)" }}
             >
               <BlitzNeoCard {...card} />
             </motion.div>

@@ -1,3 +1,4 @@
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -88,6 +89,44 @@
     animation: shine 3s infinite;
   }
   
+  /* Enhanced glass effect with additional reflection */
+  .glass-premium {
+    @apply glass-card;
+    box-shadow: 
+      0 8px 32px rgba(0,10,30,0.15),
+      0 2px 8px rgba(10,132,255,0.1);
+  }
+  
+  .glass-premium::before {
+    content: "";
+    @apply absolute inset-0 bg-gradient-to-b from-white/[0.2] to-transparent rounded-2xl pointer-events-none;
+    z-index: 0;
+  }
+  
+  .glass-premium::after {
+    content: "";
+    @apply absolute inset-0 rounded-2xl opacity-60 pointer-events-none;
+    background: linear-gradient(120deg, rgba(255,255,255,0) 30%, rgba(255,255,255,0.3) 38%, rgba(255,255,255,0) 48%);
+    background-size: 200% 100%;
+    background-position-x: 180%;
+    animation: shine 3s infinite;
+  }
+  
+  /* Surface reflection effect */
+  .surface-reflection {
+    position: relative;
+  }
+  
+  .surface-reflection::after {
+    content: "";
+    @apply absolute left-0 right-0 bottom-0 bg-gradient-to-t from-white/5 to-transparent;
+    height: 30%;
+    transform: scaleY(-1);
+    filter: blur(4px);
+    opacity: 0.3;
+    mask-image: linear-gradient(to top, white, transparent);
+  }
+  
   @keyframes shine {
     to {
       background-position-x: -20%;
@@ -140,8 +179,15 @@
     @apply animate-shine;
   }
   
+  /* Enhanced button styles */
   .tesla-button {
     @apply relative overflow-hidden bg-tesla-blue text-white rounded-full px-6 py-3 font-medium transition-all duration-300;
+  }
+  
+  .tesla-button::before {
+    content: "";
+    @apply absolute inset-0 bg-gradient-to-b from-white/10 to-transparent opacity-0 transition-opacity duration-300;
+    z-index: 1;
   }
   
   .tesla-button::after {
@@ -150,6 +196,11 @@
     background: linear-gradient(120deg, rgba(255,255,255,0) 30%, rgba(255,255,255,0.2) 38%, rgba(255,255,255,0) 48%);
     background-size: 200% 100%;
     background-position-x: 180%;
+    z-index: 2;
+  }
+  
+  .tesla-button:hover::before {
+    @apply opacity-100;
   }
   
   .tesla-button:hover::after {
@@ -175,6 +226,76 @@
   
   .tesla-input {
     @apply bg-glass/20 border-none rounded-lg px-4 py-2 text-white placeholder:text-white/40 focus:ring-2 focus:ring-tesla-blue/30 transition-all;
+  }
+
+  /* Glass reflection and spotlight effects */
+  .glass-reflection {
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .glass-reflection::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 50%;
+    height: 100%;
+    background: linear-gradient(
+      to right,
+      transparent 0%,
+      rgba(255, 255, 255, 0.05) 50%,
+      transparent 100%
+    );
+    transform: skewX(-25deg);
+    animation: reflection-shimmer 3s ease-in-out infinite;
+  }
+  
+  .spotlight-glow {
+    position: relative;
+  }
+  
+  .spotlight-glow::before {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 120%;
+    height: 120%;
+    background: radial-gradient(
+      circle,
+      rgba(10, 132, 255, 0.3) 0%,
+      transparent 70%
+    );
+    transform: translate(-50%, -50%);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    pointer-events: none;
+    z-index: -1;
+  }
+  
+  .spotlight-glow:hover::before {
+    opacity: 0.7;
+  }
+  
+  /* Surface reflection for dark glass countertop effect */
+  .countertop-reflection {
+    position: relative;
+  }
+  
+  .countertop-reflection::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: -20px;
+    height: 40px;
+    background: inherit;
+    filter: blur(10px);
+    opacity: 0.4;
+    transform: scaleY(-1) translateY(-50%);
+    border-radius: 50%;
+    pointer-events: none;
   }
 
   /* 3D Card Classes */

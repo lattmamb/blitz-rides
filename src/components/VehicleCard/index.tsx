@@ -1,5 +1,5 @@
 
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { Vehicle } from "@/types";
 import { motion, useMotionValue, useSpring, useTransform } from "framer-motion";
 import VehiclePerformance from "./VehiclePerformance";
@@ -24,6 +24,9 @@ const VehicleCard: React.FC<VehicleCardProps> = ({ vehicle }) => {
   const rotateX = useSpring(useTransform(mouseY, [-0.5, 0.5], [8, -8]), springConfig);
   const rotateY = useSpring(useTransform(mouseX, [-0.5, 0.5], [-8, 8]), springConfig);
   
+  // For spotlight effect
+  const [spotlightPosition, setSpotlightPosition] = useState({ x: 50, y: 50 });
+  
   // Handle mouse move for 3D effect
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
     if (!cardRef.current) return;
@@ -36,6 +39,12 @@ const VehicleCard: React.FC<VehicleCardProps> = ({ vehicle }) => {
     
     mouseX.set(x);
     mouseY.set(y);
+    
+    // Calculate spotlight position (as percentage)
+    setSpotlightPosition({
+      x: ((e.clientX - rect.left) / rect.width) * 100,
+      y: ((e.clientY - rect.top) / rect.height) * 100
+    });
   };
   
   // Reset card position on mouse leave
@@ -43,12 +52,13 @@ const VehicleCard: React.FC<VehicleCardProps> = ({ vehicle }) => {
     mouseX.set(0);
     mouseY.set(0);
     setIsHovered(false);
+    setSpotlightPosition({ x: 50, y: 50 }); // Center spotlight
   };
 
   return (
     <motion.div 
       ref={cardRef}
-      className="glass-card group overflow-hidden transition-all duration-300 tesla-card-hover"
+      className="glass-card group overflow-hidden transition-all duration-300 tesla-card-hover relative"
       onMouseEnter={() => setIsHovered(true)}
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
@@ -64,6 +74,25 @@ const VehicleCard: React.FC<VehicleCardProps> = ({ vehicle }) => {
       viewport={{ once: true }}
       transition={{ duration: 0.5 }}
     >
+      {/* Spotlight effect */}
+      {isHovered && (
+        <div 
+          className="absolute inset-0 pointer-events-none z-10"
+          style={{
+            background: `radial-gradient(circle at ${spotlightPosition.x}% ${spotlightPosition.y}%, rgba(255,255,255,0.1) 0%, transparent 50%)`,
+            opacity: 0.7
+          }}
+        />
+      )}
+      
+      {/* Glass reflections */}
+      <div className="absolute inset-0 overflow-hidden rounded-lg">
+        <div className="absolute inset-x-0 top-0 h-[1px] bg-white/10"></div>
+        <div className="absolute inset-x-0 bottom-0 h-[1px] bg-black/20"></div>
+        <div className="absolute inset-y-0 left-0 w-[1px] bg-white/10"></div>
+        <div className="absolute inset-y-0 right-0 w-[1px] bg-black/20"></div>
+      </div>
+      
       <div className="p-6 relative overflow-hidden">
         <AvailabilityBadge available={vehicle.available} />
         <VehicleImage 

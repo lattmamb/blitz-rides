@@ -107,10 +107,12 @@ export default {
           '0%, 100%': {
             opacity: '0.8',
             transform: 'scale(1)',
+            filter: 'blur(80px)'
           },
           '50%': {
             opacity: '1',
             transform: 'scale(1.03)',
+            filter: 'blur(65px)'
           },
         },
         'shine': {
@@ -141,6 +143,39 @@ export default {
           '100%': {
             borderRadius: '60% 40% 30% 70% / 60% 30% 70% 40%'
           }
+        },
+        'spotlight': {
+          '0%': {
+            opacity: 0.5,
+            transform: 'translate(-50%, -50%) scale(1)'
+          },
+          '50%': {
+            opacity: 0.8,
+            transform: 'translate(-50%, -50%) scale(1.2)'
+          },
+          '100%': {
+            opacity: 0.5,
+            transform: 'translate(-50%, -50%) scale(1)'
+          }
+        },
+        'spotlight-move': {
+          '0%': {
+            transform: 'translate(-20%, -20%)'
+          },
+          '50%': {
+            transform: 'translate(20%, 20%)'
+          },
+          '100%': {
+            transform: 'translate(-20%, -20%)'
+          }
+        },
+        'reflection-shimmer': {
+          '0%': {
+            transform: 'translateX(-100%)'
+          },
+          '100%': {
+            transform: 'translateX(100%)'
+          }
         }
 			},
 			animation: {
@@ -150,13 +185,18 @@ export default {
         'pulse-glow': 'pulse-glow 3s ease-in-out infinite',
         'shine': 'shine 8s linear infinite',
         'rotate-3d': 'rotate-3d 12s ease-in-out infinite',
-        'morph-blob': 'morph-blob 8s ease-in-out infinite'
+        'morph-blob': 'morph-blob 8s ease-in-out infinite',
+        'spotlight': 'spotlight 5s ease-in-out infinite',
+        'spotlight-move': 'spotlight-move 20s ease-in-out infinite',
+        'reflection-shimmer': 'reflection-shimmer 2s ease-in-out infinite'
 			},
       backgroundImage: {
         'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
         'noise': "url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzMDAiIGhlaWdodD0iMzAwIj48ZmlsdGVyIGlkPSJhIiB4PSIwIiB5PSIwIj48ZmVUdXJidWxlbmNlIGJhc2VGcmVxdWVuY3k9Ii43NSIgc3RpdGNoVGlsZXM9InN0aXRjaCIgdHlwZT0iZnJhY3RhbE5vaXNlIi8+PGZlQ29sb3JNYXRyaXggdHlwZT0ic2F0dXJhdGUiIHZhbHVlcz0iMCIvPjwvZmlsdGVyPjxwYXRoIGQ9Ik0wIDBoMzAwdjMwMEgweiIgZmlsdGVyPSJ1cmwoI2EpIiBvcGFjaXR5PSIuMDUiLz48L3N2Zz4=')",
+        'spotlight': 'radial-gradient(circle at center, rgba(255,255,255,0.1) 0%, transparent 70%)',
       }
 		}
 	},
 	plugins: [require("tailwindcss-animate")],
 } satisfies Config;
+
