@@ -18,7 +18,7 @@ import {
 import { Input } from '@/components/ui/input';
 import { Separator } from '@/components/ui/separator';
 import { useToast } from '@/hooks/use-toast';
-import { CalendarIcon, CreditCard, Check, Loader2 } from 'lucide-react';
+import { CalendarIcon, CreditCard, Check, Loader2, ArrowLeft, ChevronRight, Car } from 'lucide-react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import * as z from 'zod';
@@ -28,6 +28,9 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from '@/components/ui/popover';
+import { useTheme } from '@/context/ThemeContext';
+import { motion } from 'framer-motion';
+import { cn } from '@/lib/utils';
 
 const bookingSchema = z.object({
   firstName: z.string().min(2, { message: "First name must be at least 2 characters." }),
@@ -52,6 +55,7 @@ const BookVehicle = () => {
   const { toast } = useToast();
   const [isLoading, setIsLoading] = useState(false);
   const [selectedPlan, setSelectedPlan] = useState(subscriptionPlans[1]?.id || '');
+  const { theme } = useTheme();
   
   // Find the vehicle based on the model or ID
   const vehicle = vehicles.find(v => v.id === id || v.model.toLowerCase() === id?.toLowerCase());
@@ -116,48 +120,73 @@ const BookVehicle = () => {
 
   return (
     <MainLayout>
-      <div className="container mx-auto px-4 py-16 mt-14 md:mt-20">
+      <motion.div 
+        className="container mx-auto px-4 py-16 mt-14 md:mt-20"
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6 }}
+      >
         {/* Breadcrumbs */}
         <div className="mb-8">
-          <div className="text-sm text-white/60">
+          <div className="text-sm text-white/60 flex items-center">
             <Button 
               variant="link" 
               className="p-0 text-white/60 hover:text-white"
-              onClick={() => navigate('/')}
+              onClick={() => navigate(-1)}
             >
-              Home
+              <ArrowLeft className="h-4 w-4 mr-2" /> Back
             </Button>
-            <span className="mx-2">/</span>
-            <Button 
-              variant="link" 
-              className="p-0 text-white/60 hover:text-white"
-              onClick={() => navigate('/vehicles')}
-            >
-              Vehicles
-            </Button>
-            <span className="mx-2">/</span>
-            <Button 
-              variant="link" 
-              className="p-0 text-white/60 hover:text-white"
-              onClick={() => navigate(`/vehicles/${vehicle.id}`)}
-            >
-              {vehicle.model}
-            </Button>
-            <span className="mx-2">/</span>
-            <span className="text-white">Book</span>
+            <div className="ml-4 flex items-center">
+              <Link to="/" className="hover:text-white">Home</Link>
+              <ChevronRight className="h-3 w-3 mx-2 text-white/40" />
+              <Link to="/vehicles" className="hover:text-white">Vehicles</Link>
+              <ChevronRight className="h-3 w-3 mx-2 text-white/40" />
+              <Link to={`/vehicles/${vehicle.id}`} className="hover:text-white">{vehicle.model}</Link>
+              <ChevronRight className="h-3 w-3 mx-2 text-white/40" />
+              <span className="text-white">Book</span>
+            </div>
           </div>
         </div>
         
-        <h1 className="text-4xl font-bold mb-6 gradient-text">Book Your {vehicle.model}</h1>
+        <motion.h1 
+          className={cn(
+            "text-4xl font-bold mb-6",
+            theme === 'neoPulse' && "neo-pulse-text",
+            theme === 'quantumGlass' && "quantum-glass-text",
+            theme === 'orbitalDark' && "orbital-dark-text"
+          )}
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.1 }}
+        >
+          Book Your {vehicle.model}
+        </motion.h1>
         
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           {/* Booking Form */}
-          <div className="lg:col-span-2">
-            <Card className="glass-card p-6">
+          <motion.div 
+            className="lg:col-span-2"
+            initial={{ opacity: 0, x: -20 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.6, delay: 0.2 }}
+          >
+            <Card className={cn(
+              "p-6 border-none",
+              theme === 'neoPulse' && "neo-card",
+              theme === 'quantumGlass' && "glass-card",
+              theme === 'orbitalDark' && "glass-blue"
+            )}>
               <Form {...form}>
                 <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
                   <div className="space-y-4">
-                    <h2 className="text-xl font-semibold">Personal Information</h2>
+                    <h2 className={cn(
+                      "text-xl font-semibold",
+                      theme === 'neoPulse' && "neo-pulse-text",
+                      theme === 'quantumGlass' && "quantum-glass-text",
+                      theme === 'orbitalDark' && "orbital-dark-text"
+                    )}>
+                      Personal Information
+                    </h2>
                     
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                       <FormField
@@ -167,7 +196,7 @@ const BookVehicle = () => {
                           <FormItem>
                             <FormLabel>First Name</FormLabel>
                             <FormControl>
-                              <Input placeholder="John" {...field} />
+                              <Input placeholder="John" {...field} className="tesla-input" />
                             </FormControl>
                             <FormMessage />
                           </FormItem>
@@ -181,7 +210,7 @@ const BookVehicle = () => {
                           <FormItem>
                             <FormLabel>Last Name</FormLabel>
                             <FormControl>
-                              <Input placeholder="Doe" {...field} />
+                              <Input placeholder="Doe" {...field} className="tesla-input" />
                             </FormControl>
                             <FormMessage />
                           </FormItem>
@@ -197,7 +226,7 @@ const BookVehicle = () => {
                           <FormItem>
                             <FormLabel>Email</FormLabel>
                             <FormControl>
-                              <Input placeholder="john.doe@example.com" {...field} />
+                              <Input placeholder="john.doe@example.com" {...field} className="tesla-input" />
                             </FormControl>
                             <FormMessage />
                           </FormItem>
@@ -211,7 +240,7 @@ const BookVehicle = () => {
                           <FormItem>
                             <FormLabel>Phone Number</FormLabel>
                             <FormControl>
-                              <Input placeholder="(555) 123-4567" {...field} />
+                              <Input placeholder="(555) 123-4567" {...field} className="tesla-input" />
                             </FormControl>
                             <FormMessage />
                           </FormItem>
@@ -223,7 +252,14 @@ const BookVehicle = () => {
                   <Separator className="border-white/10" />
                   
                   <div className="space-y-4">
-                    <h2 className="text-xl font-semibold">Booking Details</h2>
+                    <h2 className={cn(
+                      "text-xl font-semibold",
+                      theme === 'neoPulse' && "neo-pulse-text",
+                      theme === 'quantumGlass' && "quantum-glass-text",
+                      theme === 'orbitalDark' && "orbital-dark-text"
+                    )}>
+                      Booking Details
+                    </h2>
                     
                     <FormField
                       control={form.control}
@@ -235,10 +271,8 @@ const BookVehicle = () => {
                             <PopoverTrigger asChild>
                               <FormControl>
                                 <Button
-                                  variant={"outline"}
-                                  className={
-                                    "w-full pl-3 text-left font-normal border-glass-border bg-glass hover:bg-glass-highlight"
-                                  }
+                                  variant="outline"
+                                  className="w-full pl-3 text-left font-normal border-glass-border bg-glass hover:bg-glass-highlight"
                                 >
                                   {field.value ? (
                                     format(field.value, "PPP")
@@ -249,7 +283,7 @@ const BookVehicle = () => {
                                 </Button>
                               </FormControl>
                             </PopoverTrigger>
-                            <PopoverContent className="w-auto p-0 glass-effect" align="start">
+                            <PopoverContent className="w-auto p-0 glass-effect border-none" align="start">
                               <Calendar
                                 mode="single"
                                 selected={field.value}
@@ -273,7 +307,14 @@ const BookVehicle = () => {
                   <Separator className="border-white/10" />
                   
                   <div className="space-y-4">
-                    <h2 className="text-xl font-semibold">Delivery Address</h2>
+                    <h2 className={cn(
+                      "text-xl font-semibold",
+                      theme === 'neoPulse' && "neo-pulse-text",
+                      theme === 'quantumGlass' && "quantum-glass-text",
+                      theme === 'orbitalDark' && "orbital-dark-text"
+                    )}>
+                      Delivery Address
+                    </h2>
                     
                     <FormField
                       control={form.control}
@@ -282,7 +323,7 @@ const BookVehicle = () => {
                         <FormItem>
                           <FormLabel>Street Address</FormLabel>
                           <FormControl>
-                            <Input placeholder="123 Main St" {...field} />
+                            <Input placeholder="123 Main St" {...field} className="tesla-input" />
                           </FormControl>
                           <FormMessage />
                         </FormItem>
@@ -297,7 +338,7 @@ const BookVehicle = () => {
                           <FormItem>
                             <FormLabel>City</FormLabel>
                             <FormControl>
-                              <Input placeholder="San Francisco" {...field} />
+                              <Input placeholder="San Francisco" {...field} className="tesla-input" />
                             </FormControl>
                             <FormMessage />
                           </FormItem>
@@ -311,7 +352,7 @@ const BookVehicle = () => {
                           <FormItem>
                             <FormLabel>State</FormLabel>
                             <FormControl>
-                              <Input placeholder="CA" {...field} />
+                              <Input placeholder="CA" {...field} className="tesla-input" />
                             </FormControl>
                             <FormMessage />
                           </FormItem>
@@ -325,7 +366,7 @@ const BookVehicle = () => {
                           <FormItem>
                             <FormLabel>Zip Code</FormLabel>
                             <FormControl>
-                              <Input placeholder="94105" {...field} />
+                              <Input placeholder="94105" {...field} className="tesla-input" />
                             </FormControl>
                             <FormMessage />
                           </FormItem>
@@ -336,7 +377,12 @@ const BookVehicle = () => {
                   
                   <Button 
                     type="submit" 
-                    className="w-full bg-tesla-blue hover:bg-tesla-blue/90 text-white"
+                    className={cn(
+                      "w-full text-white",
+                      theme === 'neoPulse' && "bg-gradient-to-r from-tesla-blue to-tesla-purple hover:bg-tesla-blue/90",
+                      theme === 'quantumGlass' && "glx-glass border-tesla-blue/30 hover:border-tesla-blue/60",
+                      theme === 'orbitalDark' && "bg-gradient-to-r from-tesla-purple to-tesla-blue hover:bg-tesla-purple/90"
+                    )}
                     disabled={isLoading}
                   >
                     {isLoading ? (
@@ -351,36 +397,58 @@ const BookVehicle = () => {
                 </form>
               </Form>
             </Card>
-          </div>
+          </motion.div>
           
           {/* Booking Summary */}
-          <div className="lg:col-span-1">
-            <div className="glass-card p-6 sticky top-24">
-              <h2 className="text-xl font-semibold mb-4">Booking Summary</h2>
+          <motion.div 
+            className="lg:col-span-1"
+            initial={{ opacity: 0, x: 20 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.6, delay: 0.3 }}
+          >
+            <div className={cn(
+              "p-6 sticky top-24 border-none",
+              theme === 'neoPulse' && "neo-card",
+              theme === 'quantumGlass' && "glass-card",
+              theme === 'orbitalDark' && "glass-blue"
+            )}>
+              <h2 className={cn(
+                "text-xl font-semibold mb-4",
+                theme === 'neoPulse' && "neo-pulse-text",
+                theme === 'quantumGlass' && "quantum-glass-text",
+                theme === 'orbitalDark' && "orbital-dark-text"
+              )}>
+                Booking Summary
+              </h2>
               
               <div className="flex items-center mb-6">
-                <div className="flex-shrink-0 w-24">
+                <div className="flex-shrink-0 w-24 relative">
+                  <div className="absolute inset-0 bg-gradient-to-r from-tesla-blue/20 to-tesla-purple/20 rounded-full filter blur-xl opacity-80"></div>
                   <img 
                     src={vehicle.image} 
                     alt={vehicle.model} 
-                    className="w-full"
+                    className="w-full relative z-10"
                   />
                 </div>
                 <div className="ml-4">
-                  <h3 className="font-medium">Tesla {vehicle.model}</h3>
+                  <h3 className="font-medium text-gradient-blue-text">Tesla {vehicle.model}</h3>
                   <p className="text-sm text-white/70">{vehicle.tagline}</p>
                 </div>
               </div>
               
               <div className="space-y-4 mb-6">
                 {subscriptionPlans.map(plan => (
-                  <div 
-                    key={plan.id} 
-                    className={`glass-effect p-4 rounded-md border cursor-pointer transition-all ${
-                      selectedPlan === plan.id 
-                        ? 'border-tesla-blue bg-glass-highlight' 
-                        : 'border-glass-border hover:border-white/20'
-                    }`}
+                  <motion.div
+                    key={plan.id}
+                    whileHover={{ scale: 1.02 }}
+                    whileTap={{ scale: 0.98 }}
+                    className={cn(
+                      "p-4 rounded-md cursor-pointer transition-all",
+                      selectedPlan === plan.id ? 'border-tesla-blue/50 bg-tesla-blue/10' : 'border-glass-border hover:border-white/20',
+                      theme === 'neoPulse' && "glass-effect",
+                      theme === 'quantumGlass' && "glass-premium",
+                      theme === 'orbitalDark' && "glass-effect"
+                    )}
                     onClick={() => setSelectedPlan(plan.id)}
                   >
                     <div className="flex justify-between items-center">
@@ -392,11 +460,13 @@ const BookVehicle = () => {
                         <span className="font-bold text-lg mr-1">${plan.price}</span>
                         <span className="text-xs text-white/70">{plan.priceUnit}</span>
                         {selectedPlan === plan.id && (
-                          <Check className="ml-2 text-tesla-blue h-5 w-5" />
+                          <div className="ml-2 text-tesla-blue/90 h-5 w-5 rounded-full bg-tesla-blue/20 flex items-center justify-center">
+                            <Check className="h-3 w-3" />
+                          </div>
                         )}
                       </div>
                     </div>
-                  </div>
+                  </motion.div>
                 ))}
               </div>
               
@@ -420,13 +490,22 @@ const BookVehicle = () => {
                 <Separator className="border-white/10 my-2" />
                 <div className="flex justify-between font-bold">
                   <span>Total</span>
-                  <span>
+                  <span className={cn(
+                    theme === 'neoPulse' && "neo-pulse-text",
+                    theme === 'quantumGlass' && "quantum-glass-text",
+                    theme === 'orbitalDark' && "orbital-dark-text"
+                  )}>
                     ${((selectedPlanDetails?.price || 0) + (selectedPlanDetails?.price || 0) * 0.085).toFixed(2)}{selectedPlanDetails?.priceUnit}
                   </span>
                 </div>
               </div>
               
-              <div className="glass-effect rounded-md p-4 text-white/70 text-sm">
+              <div className={cn(
+                "rounded-md p-4 text-white/70 text-sm",
+                theme === 'neoPulse' && "glass-effect",
+                theme === 'quantumGlass' && "glass-premium",
+                theme === 'orbitalDark' && "glass-blue"
+              )}>
                 <div className="flex items-start">
                   <CreditCard className="h-5 w-5 mr-2 text-tesla-blue mt-0.5" />
                   <span>
@@ -436,9 +515,9 @@ const BookVehicle = () => {
                 </div>
               </div>
             </div>
-          </div>
+          </motion.div>
         </div>
-      </div>
+      </motion.div>
     </MainLayout>
   );
 };
