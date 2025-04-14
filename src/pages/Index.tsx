@@ -4,15 +4,11 @@ import SearchFilter from '@/components/SearchFilter';
 import FeaturesSection from '@/components/FeaturesSection';
 import Map from '@/components/Map';
 import { vehicles } from '@/data/vehicles';
-import TeslaVehiclesParallax from '@/components/TeslaVehiclesParallax';
 import ThreeDCardDemo from '@/components/ui/3d-card-demo';
 import ExpandableCardDemoStandard from '@/components/ui/expandable-card-demo-standard';
-import { SparklesPreviewTesla } from '@/components/ui/sparkles-demo';
 import TeslaCardCarousel from '@/components/TeslaCardCarousel';
 import { motion, useScroll, useTransform } from "framer-motion";
-import Vehicle3DModel from '@/components/Vehicle3DModel';
-import GlxVehicleCard from '@/components/GlxVehicleCard';
-import GalaxyBackground from '@/components/ui/galaxy-background';
+import BlitzHero from '@/components/ui/blitz-hero';
 
 const Index = () => {
   const [filteredVehicles, setFilteredVehicles] = useState(vehicles);
@@ -60,70 +56,17 @@ const Index = () => {
 
   return (
     <MainLayout>
-      <motion.div 
-        className="relative min-h-screen flex items-center justify-center overflow-hidden"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 1 }}
-      >
-        <div className="absolute inset-0 z-0">
-          <GalaxyBackground starDensity={150} speed={0.4} />
-        </div>
-        
-        <div className="container mx-auto px-4 relative z-10 pt-32">
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.5 }}
-            className="text-center max-w-4xl mx-auto"
-          >
-            <motion.h1 
-              className="text-5xl md:text-7xl font-bold mb-4"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.7 }}
-            >
-              <span className="glx-text">Unity Fleet GLX</span>
-            </motion.h1>
-            
-            <motion.p 
-              className="text-xl text-white/80 mb-8"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.9 }}
-            >
-              Experience the future of mobility with our exclusive GLX lineup
-            </motion.p>
-            
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 1.1 }}
-            >
-              <SearchFilter onSearch={handleSearch} />
-            </motion.div>
-          </motion.div>
-        </div>
-        
-        <div className="absolute inset-0 overflow-hidden pointer-events-none">
-          <div className="absolute top-1/4 -left-[20%] w-[140%] h-[140%] glx-orbital border-white/5" style={{ animationDuration: '120s' }}></div>
-          <div className="absolute top-1/2 -left-[10%] w-[120%] h-[120%] glx-orbital border-white/3" style={{ animationDuration: '80s' }}></div>
-        </div>
-      </motion.div>
+      <BlitzHero />
       
       <div className="container mx-auto px-4 mt-16">
         <SearchFilter onSearch={handleSearch} />
       </div>
 
-      <TeslaVehiclesParallax />
-      
       <div className="py-10 relative overflow-hidden">
         <div className="absolute inset-0 bg-gradient-radial from-tesla-dark-80 to-black"></div>
         <div className="absolute inset-0 bg-noise opacity-[0.02]"></div>
         <TeslaCardCarousel />
       </div>
-      
-      <SparklesPreviewTesla />
       
       <motion.section 
         className="py-16 relative overflow-hidden"

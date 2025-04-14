@@ -231,7 +231,7 @@ const getOpacityConfig = (speed?: number) => {
       sync: false,
       mode: "auto",
       startValue: "random",
-      destroy: "none",
+      destroy: "none" as const,
     },
   };
 };
@@ -251,7 +251,7 @@ const getSizeConfig = (minSize?: number, maxSize?: number) => {
       sync: false,
       mode: "auto",
       startValue: "random",
-      destroy: "none",
+      destroy: "none" as const,
     },
   };
 };

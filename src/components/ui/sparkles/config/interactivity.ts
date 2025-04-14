@@ -1,16 +1,14 @@
 
-import type { HoverMode, ClickMode } from "@tsparticles/engine";
-
 export const getInteractivityConfig = () => {
   return {
     events: {
       onClick: {
         enable: true,
-        mode: "push" as ClickMode,
+        mode: "push" as const,
       },
       onHover: {
         enable: false,
-        mode: "repulse" as HoverMode,
+        mode: "repulse" as const,
       },
       resize: true as any,
     },

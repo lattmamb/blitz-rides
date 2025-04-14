@@ -1,14 +1,8 @@
 
 import type { 
   SingleOrMultiple, 
-  CollisionMode, 
-  PixelMode, 
-  MoveDirection, 
-  MoveDirectionAlt, 
   OutMode,
-  LimitMode,
-  ClickMode,
-  HoverMode
+  LimitMode
 } from "@tsparticles/engine";
 
 export type ParticlesProps = {
