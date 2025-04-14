@@ -1,7 +1,6 @@
-
 import { ParticlesProps } from "../types";
 
-export const getParticlesConfig = (props: ParticlesProps) => {
+export const createParticlesSettings = (props: ParticlesProps) => {
   const { 
     particleSize, 
     minSize, 
@@ -198,3 +197,6 @@ export const getParticlesConfig = (props: ParticlesProps) => {
     },
   };
 };
+
+// Keep backward compatibility
+export const getParticlesConfig = createParticlesSettings;
