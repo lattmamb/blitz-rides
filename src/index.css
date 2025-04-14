@@ -68,8 +68,9 @@
 }
 
 @layer utilities {
+  /* Enhanced glass cards with better reflections */
   .glass-card {
-    @apply backdrop-blur-lg bg-glass border-none rounded-2xl shadow-[0_8px_32px_rgba(0,10,30,0.12)];
+    @apply backdrop-blur-xl bg-white/5 border-none rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.15),0_2px_8px_rgba(10,132,255,0.05)];
     position: relative;
     overflow: hidden;
   }
@@ -82,19 +83,22 @@
   
   .glass-card::after {
     content: "";
-    @apply absolute inset-0 rounded-2xl opacity-40 pointer-events-none;
+    @apply absolute inset-0 rounded-2xl opacity-50 pointer-events-none;
     background: linear-gradient(120deg, rgba(255,255,255,0) 30%, rgba(255,255,255,0.2) 38%, rgba(255,255,255,0) 48%);
     background-size: 200% 100%;
     background-position-x: 180%;
-    animation: shine 3s infinite;
+    animation: shine 4s ease-in-out infinite;
   }
   
-  /* Enhanced glass effect with additional reflection */
+  /* Enhanced premium glass effect with stronger reflections */
   .glass-premium {
-    @apply glass-card;
+    @apply backdrop-blur-xl bg-white/[0.07] border border-white/10 rounded-2xl;
+    position: relative;
+    overflow: hidden;
     box-shadow: 
-      0 8px 32px rgba(0,10,30,0.15),
-      0 2px 8px rgba(10,132,255,0.1);
+      0 10px 30px rgba(0,0,0,0.2),
+      0 2px 8px rgba(10,132,255,0.1),
+      inset 0 1px 0 rgba(255,255,255,0.1);
   }
   
   .glass-premium::before {
@@ -106,65 +110,87 @@
   .glass-premium::after {
     content: "";
     @apply absolute inset-0 rounded-2xl opacity-60 pointer-events-none;
-    background: linear-gradient(120deg, rgba(255,255,255,0) 30%, rgba(255,255,255,0.3) 38%, rgba(255,255,255,0) 48%);
+    background: linear-gradient(120deg, rgba(255,255,255,0) 30%, rgba(255,255,255,0.4) 38%, rgba(255,255,255,0) 48%);
     background-size: 200% 100%;
     background-position-x: 180%;
     animation: shine 3s infinite;
   }
   
-  /* Surface reflection effect */
+  /* Enhanced glass with blue accents */
+  .glass-blue {
+    @apply backdrop-blur-xl bg-tesla-blue/[0.05] border border-tesla-blue/20 rounded-2xl;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 
+      0 10px 30px rgba(0,0,0,0.15),
+      0 2px 8px rgba(10,132,255,0.15),
+      inset 0 1px 0 rgba(255,255,255,0.05);
+  }
+  
+  .glass-blue::before {
+    content: "";
+    @apply absolute inset-0 bg-gradient-to-b from-tesla-blue/[0.1] to-transparent rounded-2xl pointer-events-none;
+    z-index: 0;
+  }
+  
+  /* Enhanced surface reflection effect */
   .surface-reflection {
     position: relative;
   }
   
   .surface-reflection::after {
     content: "";
-    @apply absolute left-0 right-0 bottom-0 bg-gradient-to-t from-white/5 to-transparent;
-    height: 30%;
+    @apply absolute left-0 right-0 bottom-0 bg-gradient-to-t from-white/8 to-transparent;
+    height: 40%;
     transform: scaleY(-1);
-    filter: blur(4px);
-    opacity: 0.3;
+    filter: blur(10px);
+    opacity: 0.4;
     mask-image: linear-gradient(to top, white, transparent);
   }
   
   @keyframes shine {
     to {
-      background-position-x: -20%;
+      background-position-x: -200%;
     }
   }
   
+  /* Enhanced glass-effect with stronger blur */
   .glass-effect {
-    @apply backdrop-blur-md bg-glass/30 border-none;
+    @apply backdrop-blur-xl bg-glass/30 border-none;
     position: relative;
     overflow: hidden;
   }
   
   .glass-effect::before {
     content: "";
-    @apply absolute inset-0 bg-gradient-to-b from-white/[0.05] to-transparent pointer-events-none;
+    @apply absolute inset-0 bg-gradient-to-b from-white/[0.1] to-transparent pointer-events-none;
     z-index: 1;
   }
 
+  /* Enhanced neo card with improved shadows */
   .neo-card {
-    @apply rounded-2xl bg-[#0e0e0e] shadow-[0_-5px_15px_rgba(255,255,255,0.03),0_10px_15px_rgba(0,0,0,0.5)];
+    @apply rounded-2xl bg-[#0e0e0e] shadow-[0_-5px_25px_rgba(255,255,255,0.03),0_10px_25px_rgba(0,0,0,0.5)];
     position: relative;
     overflow: hidden;
   }
   
   .neo-card::before {
     content: "";
-    @apply absolute inset-0 bg-gradient-to-b from-white/[0.05] to-transparent pointer-events-none;
+    @apply absolute inset-0 bg-gradient-to-b from-white/[0.1] to-transparent pointer-events-none;
     z-index: 0;
   }
 
+  /* Enhanced text glow */
   .text-glow {
-    @apply text-white drop-shadow-[0_0_10px_rgba(255,255,255,0.5)];
+    @apply text-white drop-shadow-[0_0_15px_rgba(255,255,255,0.7)];
   }
   
+  /* Enhanced blue glow */
   .blue-glow {
-    @apply shadow-[0_0_15px_rgba(10,132,255,0.5)];
+    @apply shadow-[0_0_20px_rgba(10,132,255,0.7)];
   }
 
+  /* Enhanced gradient texts */
   .gradient-text {
     @apply bg-gradient-to-r from-white via-white/90 to-white/70 bg-clip-text text-transparent;
   }
@@ -173,6 +199,7 @@
     @apply bg-gradient-to-r from-tesla-blue via-tesla-purple to-tesla-blue bg-clip-text text-transparent;
   }
 
+  /* Enhanced shine effect */
   .shine-effect {
     background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
     background-size: 200% auto;
@@ -186,14 +213,14 @@
   
   .tesla-button::before {
     content: "";
-    @apply absolute inset-0 bg-gradient-to-b from-white/10 to-transparent opacity-0 transition-opacity duration-300;
+    @apply absolute inset-0 bg-gradient-to-b from-white/15 to-transparent opacity-0 transition-opacity duration-300;
     z-index: 1;
   }
   
   .tesla-button::after {
     content: "";
     @apply absolute inset-0 opacity-0 transition-opacity duration-300;
-    background: linear-gradient(120deg, rgba(255,255,255,0) 30%, rgba(255,255,255,0.2) 38%, rgba(255,255,255,0) 48%);
+    background: linear-gradient(120deg, rgba(255,255,255,0) 30%, rgba(255,255,255,0.3) 38%, rgba(255,255,255,0) 48%);
     background-size: 200% 100%;
     background-position-x: 180%;
     z-index: 2;
@@ -208,27 +235,30 @@
     animation: shine 1.5s infinite;
   }
   
+  /* Enhanced tesla-button-outline with better borders */
   .tesla-button-outline {
-    @apply relative overflow-hidden bg-transparent border border-white/20 text-white rounded-full px-6 py-3 font-medium transition-all duration-300;
+    @apply relative overflow-hidden bg-transparent border border-white/30 text-white rounded-full px-6 py-3 font-medium transition-all duration-300;
   }
   
   .tesla-button-outline:hover {
-    @apply border-white/40 bg-white/5;
+    @apply border-white/50 bg-white/5;
   }
   
+  /* Enhanced hover card with stronger shadow */
   .tesla-card-hover {
     @apply transition-all duration-300;
   }
   
   .tesla-card-hover:hover {
-    @apply transform -translate-y-1 shadow-[0_14px_30px_rgba(0,0,0,0.15),0_0_10px_rgba(10,132,255,0.2)];
+    @apply transform -translate-y-1 shadow-[0_14px_40px_rgba(0,0,0,0.2),0_0_15px_rgba(10,132,255,0.3)];
   }
   
+  /* Enhanced tesla input with better focus state */
   .tesla-input {
-    @apply bg-glass/20 border-none rounded-lg px-4 py-2 text-white placeholder:text-white/40 focus:ring-2 focus:ring-tesla-blue/30 transition-all;
+    @apply bg-glass/30 border border-white/10 rounded-lg px-4 py-2 text-white placeholder:text-white/40 focus:border-tesla-blue/50 focus:ring-2 focus:ring-tesla-blue/30 transition-all backdrop-blur-md;
   }
 
-  /* Glass reflection and spotlight effects */
+  /* Enhanced glass reflection and spotlight effects */
   .glass-reflection {
     position: relative;
     overflow: hidden;
@@ -244,13 +274,14 @@
     background: linear-gradient(
       to right,
       transparent 0%,
-      rgba(255, 255, 255, 0.05) 50%,
+      rgba(255, 255, 255, 0.1) 50%,
       transparent 100%
     );
     transform: skewX(-25deg);
     animation: reflection-shimmer 3s ease-in-out infinite;
   }
   
+  /* Enhanced spotlight glow */
   .spotlight-glow {
     position: relative;
   }
@@ -264,7 +295,7 @@
     height: 120%;
     background: radial-gradient(
       circle,
-      rgba(10, 132, 255, 0.3) 0%,
+      rgba(10, 132, 255, 0.5) 0%,
       transparent 70%
     );
     transform: translate(-50%, -50%);
@@ -275,10 +306,10 @@
   }
   
   .spotlight-glow:hover::before {
-    opacity: 0.7;
+    opacity: 0.8;
   }
   
-  /* Surface reflection for dark glass countertop effect */
+  /* Enhanced countertop reflection */
   .countertop-reflection {
     position: relative;
   }
@@ -291,17 +322,17 @@
     bottom: -20px;
     height: 40px;
     background: inherit;
-    filter: blur(10px);
-    opacity: 0.4;
+    filter: blur(15px);
+    opacity: 0.6;
     transform: scaleY(-1) translateY(-50%);
     border-radius: 50%;
     pointer-events: none;
   }
 
-  /* 3D Card Classes */
+  /* Enhanced 3D Card Classes */
   .card-3d-wrapper {
     @apply flex justify-center items-center p-4;
-    perspective: 1200px; /* for 3D perspective */
+    perspective: 1500px; /* Enhanced for stronger 3D perspective */
     transition: 0.5s ease-in-out all;
   }
 
@@ -313,13 +344,13 @@
     overflow: hidden;
     background: linear-gradient(
       120deg,
-      rgba(255, 255, 255, 0.05),
-      rgba(255, 255, 255, 0.02)
+      rgba(255, 255, 255, 0.08),
+      rgba(255, 255, 255, 0.03)
     );
-    backdrop-filter: blur(12px) saturate(180%);
+    backdrop-filter: blur(15px) saturate(180%);
     box-shadow: 
       35px 35px 68px 0px var(--card-shadow-light),
-      inset -8px -8px 16px 0px rgba(157, 177, 255, 0.6), 
+      inset -2px -2px 16px 0px rgba(157, 177, 255, 0.6), 
       inset 0px 11px 28px 0px rgb(255, 255, 255);
     transform-style: preserve-3d;
     transition: 0.5s all;
@@ -329,7 +360,7 @@
   .card-3d:hover {
     transform: scale(1.05);
     box-shadow:
-      35px 35px 68px 0px rgba(157, 177, 255, 0.5);
+      35px 35px 68px 0px rgba(157, 177, 255, 0.6);
   }
 
   .card-3d:active {
@@ -337,33 +368,35 @@
     border: 1px solid #0A84FF;
   }
 
+  /* Enhanced obj with stronger 3D transform */
   .obj {
     position: relative;
     width: 100%;
     height: 100%;
     transform-style: preserve-3d;
     transition: 0.5s all;
-    transform: rotateX(-25deg) rotateY(20deg);
+    transform: rotateX(-30deg) rotateY(25deg);
     border-radius: var(--card-radius);
     overflow: hidden;
   }
 
   .objchild {
-    animation: rotate 10s infinite linear;
+    animation: rotate 15s infinite linear;
     transform-style: preserve-3d;
     position: absolute;
     width: 100%;
     height: 100%;
   }
 
+  /* Enhanced objchild with stronger glow */
   .objchild::after {
     content: "";
     position: absolute;
     width: 100%;
     height: 100%;
-    filter: blur(20px);
-    box-shadow: 0 0 200px 15px white;
-    transform: rotateX(90deg) scale(1.1) translateZ(-120px);
+    filter: blur(30px);
+    box-shadow: 0 0 200px 15px rgba(10, 132, 255, 0.5);
+    transform: rotateX(90deg) scale(1.2) translateZ(-120px);
   }
 
   .inn6 {
@@ -372,7 +405,7 @@
     height: 100%;
     background: #151515;
     transform: rotateX(0deg) translateZ(0px);
-    animation: updown 4s infinite ease-in-out;
+    animation: updown 6s infinite ease-in-out;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -380,21 +413,26 @@
     border-radius: var(--card-radius);
   }
 
+  /* Enhanced rotate animation */
   @keyframes rotate {
     0% {
       transform: rotate3d(0,1,0,0deg);
+    }
+    50% {
+      transform: rotate3d(0,1,0,180deg);
     }
     100% {
       transform: rotate3d(0,1,0,360deg);
     }
   }
 
+  /* Enhanced updown animation */
   @keyframes updown {
     0% {
       transform: translateY(0px) rotateX(0deg) translateZ(0px);
     }
     50% {
-      transform: translateY(10px) rotateX(5deg) translateZ(5px);
+      transform: translateY(15px) rotateX(5deg) translateZ(10px);
     }
     100% {
       transform: translateY(0px) rotateX(0deg) translateZ(0px);
@@ -408,6 +446,7 @@
     border-radius: var(--card-radius);
   }
 
+  /* Enhanced card-3d-content with better glass effect */
   .card-3d-content {
     position: absolute;
     bottom: 15px;
@@ -415,63 +454,67 @@
     right: 15px;
     display: flex;
     flex-direction: column;
-    padding: 10px;
+    padding: 15px;
     background: rgba(0, 0, 0, 0.7);
-    backdrop-filter: blur(5px);
+    backdrop-filter: blur(10px);
     border-radius: 10px;
     z-index: 10;
+    border: 1px solid rgba(255, 255, 255, 0.1);
   }
 
-  /* GLX Theme Extensions */
+  /* Enhanced GLX Theme Extensions */
   .star-cluster {
-    @apply absolute rounded-full opacity-30 animate-pulse-glow;
-    background: radial-gradient(circle, rgba(10, 132, 255, 0.3) 0%, transparent 70%);
+    @apply absolute rounded-full opacity-40 animate-pulse-glow;
+    background: radial-gradient(circle, rgba(10, 132, 255, 0.4) 0%, transparent 70%);
   }
   
   .star-cluster-1 {
     top: 15%;
     left: 10%;
-    width: 200px;
-    height: 200px;
+    width: 300px;
+    height: 300px;
     animation-delay: 0s;
   }
   
   .star-cluster-2 {
     bottom: 20%;
     right: 15%;
-    width: 300px;
-    height: 300px;
+    width: 400px;
+    height: 400px;
     animation-delay: 1s;
   }
   
   .star-cluster-3 {
     top: 40%;
     right: 30%;
-    width: 150px;
-    height: 150px;
+    width: 250px;
+    height: 250px;
     animation-delay: 2s;
   }
   
+  /* Enhanced glx-card with stronger border effect */
   .glx-card {
-    @apply glass-card;
+    @apply backdrop-blur-xl bg-white/[0.03] rounded-2xl;
     position: relative;
     overflow: hidden;
     border: 1px solid rgba(255, 255, 255, 0.05);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
   }
   
   .glx-card::before {
     content: "";
-    @apply absolute inset-0 bg-gradient-to-b from-white/[0.08] to-transparent rounded-2xl pointer-events-none;
+    @apply absolute inset-0 bg-gradient-to-b from-white/[0.1] to-transparent rounded-2xl pointer-events-none;
     z-index: 1;
   }
   
+  /* Enhanced border glow */
   .glx-card::after {
     content: "";
     position: absolute;
     inset: 0;
     border-radius: inherit;
     padding: 1px;
-    background: linear-gradient(120deg, rgba(94, 92, 230, 0.4) 0%, rgba(10, 132, 255, 0.4) 50%, transparent 100%);
+    background: linear-gradient(120deg, rgba(94, 92, 230, 0.5) 0%, rgba(10, 132, 255, 0.5) 50%, transparent 100%);
     mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
     -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
     -webkit-mask-composite: xor;
@@ -479,9 +522,10 @@
     pointer-events: none;
   }
   
+  /* Enhanced orbital animation */
   .glx-orbital {
-    @apply absolute rounded-full border border-white/10;
-    animation: orbit 20s linear infinite;
+    @apply absolute rounded-full border border-white/20;
+    animation: orbit 30s linear infinite;
   }
   
   @keyframes orbit {
@@ -493,7 +537,26 @@
     }
   }
   
+  /* Enhanced glx-text with stronger gradient */
   .glx-text {
-    @apply bg-gradient-to-r from-white via-tesla-blue to-white bg-clip-text text-transparent;
+    @apply bg-gradient-to-r from-white via-tesla-blue to-white bg-clip-text text-transparent drop-shadow-[0_0_10px_rgba(10,132,255,0.5)];
+  }
+  
+  /* New grid background */
+  .grid-background {
+    background-image: 
+      linear-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px),
+      linear-gradient(to right, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+    background-size: 40px 40px;
+  }
+  
+  /* New reflection shimmer animation */
+  @keyframes reflection-shimmer {
+    0% {
+      transform: translateX(-100%) skewX(-25deg);
+    }
+    100% {
+      transform: translateX(200%) skewX(-25deg);
+    }
   }
 }

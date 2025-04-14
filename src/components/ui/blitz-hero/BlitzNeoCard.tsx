@@ -25,15 +25,16 @@ export default function BlitzNeoCard({ title, description, image }: BlitzNeoCard
   
   return (
     <motion.div
-      whileHover={{ scale: 1.03 }}
+      whileHover={{ scale: 1.03, y: -10 }}
       whileTap={{ scale: 0.97 }}
-      className="cursor-pointer"
+      className="cursor-pointer relative"
       onClick={handleCardClick}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
-      <Card className="glass-card overflow-hidden border-none p-1 h-full relative group">
-        {/* Animated glow effect */}
+      {/* Enhanced glass card with better reflections */}
+      <Card className="glass-premium overflow-hidden border-none p-1 h-full relative group">
+        {/* Enhanced animated glow effect */}
         <AnimatePresence>
           {isHovered && (
             <motion.div 
@@ -43,17 +44,27 @@ export default function BlitzNeoCard({ title, description, image }: BlitzNeoCard
               exit={{ opacity: 0 }}
               transition={{ duration: 0.3 }}
               style={{ 
-                background: 'radial-gradient(circle at 50% 50%, rgba(10,132,255,0.15) 0%, transparent 70%)',
-                boxShadow: '0 8px 32px rgba(10,132,255,0.2)'
+                background: 'radial-gradient(circle at 50% 50%, rgba(10,132,255,0.2) 0%, transparent 70%)',
+                boxShadow: '0 8px 32px rgba(10,132,255,0.3)'
               }}
             />
           )}
         </AnimatePresence>
         
-        <div 
-          className="absolute inset-0 bg-gradient-to-t from-transparent to-white/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+        {/* Enhanced top reflection */}
+        <motion.div 
+          className="absolute inset-x-0 top-0 h-[1px] bg-gradient-to-r from-transparent via-white/30 to-transparent"
+          animate={{ opacity: isHovered ? 1 : 0.3 }}
+          transition={{ duration: 0.3 }}
+        />
+        
+        {/* Enhanced gradient overlay */}
+        <motion.div 
+          className="absolute inset-0 bg-gradient-to-t from-transparent to-white/5"
+          animate={{ opacity: isHovered ? 1 : 0.5 }}
+          transition={{ duration: 0.3 }}
           style={{ 
-            background: 'radial-gradient(circle at 50% 0%, rgba(255,255,255,0.1) 0%, transparent 70%)'
+            background: 'radial-gradient(circle at 50% 0%, rgba(255,255,255,0.15) 0%, transparent 70%)'
           }}
         />
         
@@ -61,7 +72,7 @@ export default function BlitzNeoCard({ title, description, image }: BlitzNeoCard
           <motion.img 
             src={image} 
             alt={title} 
-            className="w-full h-full object-cover"
+            className="w-full h-full object-cover transition-transform duration-500"
             animate={{ scale: isHovered ? 1.1 : 1 }}
             transition={{ duration: 0.5 }}
           />
@@ -82,7 +93,7 @@ export default function BlitzNeoCard({ title, description, image }: BlitzNeoCard
               <h3 className="text-white text-xl font-bold mb-1">{title}</h3>
               <p className="text-white/80 text-sm">{description}</p>
               
-              {/* Vehicle specs that appear on hover */}
+              {/* Enhanced vehicle specs that appear on hover */}
               <motion.div 
                 className="mt-2 grid grid-cols-2 gap-2"
                 initial={{ opacity: 0, y: 10 }}
@@ -101,8 +112,8 @@ export default function BlitzNeoCard({ title, description, image }: BlitzNeoCard
             </div>
           </motion.div>
           
-          {/* Reflection effect */}
-          <div className="absolute inset-x-0 bottom-0 h-10 bg-gradient-to-b from-transparent to-white/5 opacity-0 group-hover:opacity-30 transition-opacity duration-300" />
+          {/* Enhanced reflection effect */}
+          <div className="absolute inset-x-0 bottom-0 h-10 bg-gradient-to-b from-transparent to-white/10 opacity-0 group-hover:opacity-30 transition-opacity duration-300" />
         </div>
         
         <div className="p-4 relative">
@@ -142,7 +153,7 @@ export default function BlitzNeoCard({ title, description, image }: BlitzNeoCard
             </motion.div>
           </motion.div>
           
-          {/* Button appears on hover */}
+          {/* Enhanced button appears on hover */}
           <motion.div 
             className="absolute inset-0 flex items-center justify-center"
             initial={{ opacity: 0 }}
@@ -150,22 +161,40 @@ export default function BlitzNeoCard({ title, description, image }: BlitzNeoCard
             transition={{ duration: 0.3 }}
           >
             <motion.button 
-              className="bg-tesla-blue/90 hover:bg-tesla-blue text-white px-4 py-2 rounded-full text-sm flex items-center group"
+              className="bg-gradient-to-r from-tesla-blue to-tesla-purple text-white px-4 py-2 rounded-full text-sm flex items-center group relative overflow-hidden"
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
             >
-              View Details 
-              <ChevronRight className="h-4 w-4 ml-1 transition-transform duration-300 group-hover:translate-x-1" />
+              <span className="relative z-10">View Details</span>
+              <ChevronRight className="h-4 w-4 ml-1 transition-transform duration-300 group-hover:translate-x-1 relative z-10" />
               
-              {/* Reflection on button */}
-              <span className="absolute inset-x-0 top-0 h-[1px] bg-white/20"></span>
+              {/* Enhanced button reflection */}
+              <span className="absolute inset-x-0 top-0 h-[1px] bg-gradient-to-r from-transparent via-white/40 to-transparent"></span>
+              
+              {/* Enhanced animation flow */}
+              <motion.span 
+                className="absolute inset-0 bg-white/10 -z-0"
+                initial={{ x: "-100%" }}
+                whileHover={{ x: "100%" }}
+                transition={{ duration: 1, ease: "easeInOut" }}
+              />
             </motion.button>
           </motion.div>
         </div>
         
-        {/* Bottom reflection */}
-        <div className="absolute inset-x-0 bottom-0 h-[1px] bg-white/10"></div>
+        {/* Enhanced bottom reflection */}
+        <div className="absolute inset-x-0 bottom-0 h-[1px] bg-gradient-to-r from-transparent via-white/10 to-transparent"></div>
       </Card>
+      
+      {/* Enhanced 3D floating shadow */}
+      <motion.div 
+        className="absolute -inset-0.5 bg-tesla-blue/5 -z-10 rounded-xl blur-xl"
+        animate={{ 
+          opacity: isHovered ? 0.7 : 0.1,
+          scale: isHovered ? 1.05 : 1
+        }}
+        transition={{ duration: 0.5 }}
+      />
     </motion.div>
   );
 }
