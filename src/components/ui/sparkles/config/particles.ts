@@ -1,4 +1,3 @@
-
 import { ParticlesProps } from "../types";
 import type { 
   CollisionMode, 
@@ -6,7 +5,8 @@ import type {
   SingleOrMultiple, 
   MoveDirection, 
   MoveDirectionAlt,
-  OutMode
+  OutMode,
+  LimitMode
 } from "@tsparticles/engine";
 
 export const getParticlesConfig = (props: ParticlesProps) => {
@@ -153,7 +153,7 @@ export const getParticlesConfig = (props: ParticlesProps) => {
         height: 400,
       },
       limit: {
-        mode: "delete",
+        mode: "delete" as LimitMode,
         value: 0,
       },
       value: particleDensity || 120,

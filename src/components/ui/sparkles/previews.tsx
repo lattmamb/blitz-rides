@@ -1,6 +1,7 @@
 
 import React from "react";
 import { SparklesCore } from "./SparklesCore";
+import { motion } from "framer-motion";
 
 export function SparklesPreview() {
   return (
