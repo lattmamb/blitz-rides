@@ -3,7 +3,7 @@ import React from 'react';
 import { Outlet } from 'react-router-dom';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
-import { ThemeProvider, useTheme } from '@/context/ThemeContext';
+import { useTheme } from '@/context/ThemeContext';
 import { cn } from '@/lib/utils';
 
 interface MainLayoutProps {
@@ -57,12 +57,10 @@ const MainLayoutContent: React.FC<MainLayoutProps> = ({ children }) => {
   );
 };
 
+// MainLayout no longer needs to provide the ThemeProvider
+// since it's now provided at the root level
 const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
-  return (
-    <ThemeProvider>
-      <MainLayoutContent children={children} />
-    </ThemeProvider>
-  );
+  return <MainLayoutContent children={children} />;
 };
 
 export default MainLayout;
