@@ -58,27 +58,32 @@ const GlowText: React.FC<GlowTextProps> = ({
     }
   };
 
+  // Separate styles to avoid type issues
+  const containerStyle = {
+    perspective: perspective ? '1000px' : 'none',
+  };
+  
+  const textStyle = {
+    textShadow: getTextShadow(),
+    backgroundImage: getGradient(),
+    transform: perspective ? 'perspective(1000px) translateZ(20px)' : 'none',
+    transformStyle: 'preserve-3d' as 'preserve-3d' // Type assertion to fix compatibility
+  };
+
   return (
     <div 
       className={cn(
         perspective && "transform-gpu",
         className
       )}
-      style={{
-        perspective: perspective ? '1000px' : 'none',
-      }}
+      style={containerStyle}
     >
       <Component
         className={cn(
           "bg-clip-text text-transparent",
           className
         )}
-        style={{
-          textShadow: getTextShadow(),
-          backgroundImage: getGradient(),
-          transform: perspective ? 'perspective(1000px) translateZ(20px)' : 'none',
-          transformStyle: 'preserve-3d'
-        }}
+        style={textStyle}
       >
         {children}
       </Component>
