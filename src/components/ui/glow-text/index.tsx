@@ -60,13 +60,13 @@ const GlowText: React.FC<GlowTextProps> = ({
 
   return (
     <div 
-      style={{
-        perspective: perspective ? '1000px' : 'none',
-      }}
       className={cn(
         perspective && "transform-gpu",
         className
       )}
+      style={{
+        perspective: perspective ? '1000px' : 'none',
+      }}
     >
       <Component
         className={cn(
