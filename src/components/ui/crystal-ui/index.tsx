@@ -8,6 +8,7 @@ import GlassDivider from '../glass-divider';
 import ParallaxContainer from '../parallax-container';
 import OrbitalRing from '../orbital-ring';
 import HoveringObject from '../hovering-object';
+import IntelligentShine from '../IntelligentShine';
 
 export {
   CrystalBackground,
@@ -18,5 +19,6 @@ export {
   GlassDivider,
   ParallaxContainer,
   OrbitalRing,
-  HoveringObject
+  HoveringObject,
+  IntelligentShine
 };

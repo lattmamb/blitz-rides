@@ -62,7 +62,7 @@ const CrystalButton: React.FC<CrystalButtonProps> = ({
   };
 
   return (
-    <motion.button
+    <button
       className={cn(
         "relative overflow-hidden rounded-full font-medium transition-all duration-300 backdrop-blur-md",
         "flex items-center justify-center focus:outline-none focus:ring-2 focus:ring-white/20",
@@ -73,11 +73,6 @@ const CrystalButton: React.FC<CrystalButtonProps> = ({
       style={{
         boxShadow: variant === 'glow' ? glowEffect : 'none'
       }}
-      whileHover={{
-        scale: 1.03,
-        boxShadow: variant === 'glow' ? glowEffect.replace('0.5', '0.7') : '0 5px 15px rgba(0, 0, 0, 0.1)'
-      }}
-      whileTap={{ scale: 0.97 }}
       {...props}
     >
       {/* Top edge highlight */}
@@ -86,27 +81,19 @@ const CrystalButton: React.FC<CrystalButtonProps> = ({
       {/* Surface light effect */}
       <div className="absolute inset-0 bg-gradient-to-b from-white/10 via-transparent to-black/10 opacity-80 pointer-events-none" />
       
-      {/* Shine animation layer */}
-      <motion.div
+      {/* Static shine effect instead of animated */}
+      <div
         className="absolute inset-0 pointer-events-none"
-        initial={{ left: '-100%' }}
-        animate={{ left: '200%' }}
-        transition={{ duration: 2, repeat: Infinity, repeatType: 'loop', repeatDelay: 5 }}
         style={{
-          width: '50%',
-          background: 'linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent)',
-          zIndex: 1,
-          transform: 'skewX(-15deg)'
+          background: 'linear-gradient(110deg, transparent 30%, rgba(255, 255, 255, 0.08) 40%, transparent 50%)',
+          zIndex: 1
         }}
       />
       
       {/* Gradient accent border for glow variant */}
       {variant === 'glow' && (
-        <motion.div
+        <div
           className="absolute inset-0 rounded-full pointer-events-none"
-          initial={{ opacity: 0.5 }}
-          animate={{ opacity: 0.8 }}
-          transition={{ duration: 2, repeat: Infinity, repeatType: 'reverse' }}
           style={{
             background: `linear-gradient(to right, transparent, ${accentColor}, transparent)`,
             filter: 'blur(8px)',
@@ -118,7 +105,7 @@ const CrystalButton: React.FC<CrystalButtonProps> = ({
       
       {/* Content */}
       <span className="relative z-10">{children}</span>
-    </motion.button>
+    </button>
   );
 };
 

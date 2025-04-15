@@ -1,6 +1,5 @@
 
 import React from 'react';
-import { motion } from 'framer-motion';
 import { cn } from '@/lib/utils';
 import { useTheme } from '@/context/ThemeContext';
 
@@ -60,7 +59,7 @@ const GlowText: React.FC<GlowTextProps> = ({
   };
 
   return (
-    <motion.div 
+    <div 
       style={{
         perspective: perspective ? '1000px' : 'none',
       }}
@@ -83,7 +82,7 @@ const GlowText: React.FC<GlowTextProps> = ({
       >
         {children}
       </Component>
-    </motion.div>
+    </div>
   );
 };
 

@@ -1,8 +1,7 @@
 
 import React, { useRef, useState } from 'react';
-import { motion, useMotionValue, useSpring, useTransform } from 'framer-motion';
-import { cn } from '@/lib/utils';
 import { useTheme } from '@/context/ThemeContext';
+import { cn } from '@/lib/utils';
 
 export interface CrystalCardProps {
   children: React.ReactNode;
@@ -22,36 +21,16 @@ const CrystalCard: React.FC<CrystalCardProps> = ({
   const cardRef = useRef<HTMLDivElement>(null);
   const [isHovered, setIsHovered] = useState(false);
   const { theme } = useTheme();
-  
-  // Motion values for the 3D perspective effect
-  const mouseX = useMotionValue(0);
-  const mouseY = useMotionValue(0);
-  
-  // Spring physics configuration based on depth
-  const getSpringConfig = () => {
-    switch(depth) {
-      case 'shallow': return { damping: 25, stiffness: 300, mass: 0.5 };
-      case 'deep': return { damping: 15, stiffness: 150, mass: 0.8 };
-      default: return { damping: 20, stiffness: 200, mass: 0.6 };
-    }
-  };
-  
-  const springConfig = getSpringConfig();
-  
-  // Transform mouse position to rotation values
-  const rotateX = useSpring(useTransform(mouseY, [-0.5, 0.5], [8, -8]), springConfig);
-  const rotateY = useSpring(useTransform(mouseX, [-0.5, 0.5], [-8, 8]), springConfig);
-  
-  // Glow effect
-  const glow = useSpring(0, springConfig);
+  const [rotation, setRotation] = useState({ x: 0, y: 0 });
+  const [glowOpacity, setGlowOpacity] = useState(0);
   
   // Get theme-specific colors
   const getThemeGlow = () => {
     switch (theme) {
-      case 'neoPulse': return 'rgba(94, 92, 230, 0.15)';
-      case 'quantumGlass': return 'rgba(255, 255, 255, 0.1)';
-      case 'orbitalDark': return 'rgba(249, 115, 22, 0.12)';
-      default: return 'rgba(10, 132, 255, 0.15)';
+      case 'neoPulse': return 'rgba(94, 92, 230, 0.12)';
+      case 'quantumGlass': return 'rgba(255, 255, 255, 0.08)';
+      case 'orbitalDark': return 'rgba(249, 115, 22, 0.1)';
+      default: return 'rgba(10, 132, 255, 0.12)';
     }
   };
   
@@ -65,16 +44,18 @@ const CrystalCard: React.FC<CrystalCardProps> = ({
     const x = (e.clientX - rect.left) / rect.width - 0.5;
     const y = (e.clientY - rect.top) / rect.height - 0.5;
     
-    mouseX.set(x);
-    mouseY.set(y);
-    glow.set(0.5);
+    // Smoother transitions with easing
+    setRotation({
+      x: y * -5, // Reduced intensity, was -8
+      y: x * 5   // Reduced intensity, was 8
+    });
+    setGlowOpacity(0.3); // Reduced opacity, was 0.5
   };
   
   const handleMouseLeave = () => {
     if (!interactive) return;
-    mouseX.set(0);
-    mouseY.set(0);
-    glow.set(0);
+    setRotation({ x: 0, y: 0 });
+    setGlowOpacity(0);
     setIsHovered(false);
   };
   
@@ -83,8 +64,30 @@ const CrystalCard: React.FC<CrystalCardProps> = ({
     setIsHovered(true);
   };
   
+  // Get shadow based on depth
+  const getShadow = () => {
+    const baseShadow = `0 5px 20px rgba(0, 0, 0, 0.2), 0 0 10px ${glowColor}`;
+    
+    if (!interactive) return baseShadow;
+    
+    switch (depth) {
+      case 'shallow': 
+        return isHovered 
+          ? `0 5px 15px rgba(0, 0, 0, 0.25), 0 0 10px ${glowColor}`
+          : baseShadow;
+      case 'deep': 
+        return isHovered 
+          ? `0 15px 40px rgba(0, 0, 0, 0.35), 0 0 20px ${glowColor}`
+          : baseShadow;
+      default: 
+        return isHovered 
+          ? `0 10px 30px rgba(0, 0, 0, 0.3), 0 0 15px ${glowColor}`
+          : baseShadow;
+    }
+  };
+  
   return (
-    <motion.div
+    <div
       ref={cardRef}
       className={cn(
         "relative overflow-hidden backdrop-blur-xl bg-black/20 rounded-2xl",
@@ -95,15 +98,13 @@ const CrystalCard: React.FC<CrystalCardProps> = ({
       onMouseLeave={handleMouseLeave}
       onMouseEnter={handleMouseEnter}
       style={{
-        rotateX: interactive ? rotateX : 0,
-        rotateY: interactive ? rotateY : 0,
-        transformPerspective: 1000,
+        transform: interactive 
+          ? `perspective(1000px) rotateX(${rotation.x}deg) rotateY(${rotation.y}deg)`
+          : 'none',
         transformStyle: "preserve-3d",
-        boxShadow: interactive 
-          ? `0 10px 30px rgba(0, 0, 0, 0.3), 0 0 20px ${glowColor}`
-          : `0 5px 20px rgba(0, 0, 0, 0.2), 0 0 10px ${glowColor}`
+        transition: "transform 0.3s ease-out, box-shadow 0.3s ease-out",
+        boxShadow: getShadow()
       }}
-      whileHover={interactive ? { scale: 1.02 } : {}}
     >
       {/* Edge highlight */}
       <div className="absolute inset-0 pointer-events-none">
@@ -117,53 +118,53 @@ const CrystalCard: React.FC<CrystalCardProps> = ({
       <div 
         className="absolute inset-0 pointer-events-none"
         style={{
-          background: `linear-gradient(to bottom, rgba(255, 255, 255, ${isHovered ? 0.1 : 0.05}) 0%, transparent 100%)`
+          background: `linear-gradient(to bottom, rgba(255, 255, 255, ${isHovered ? 0.08 : 0.05}) 0%, transparent 100%)`
         }}
       />
       
-      {/* Interactive glow effect */}
-      {interactive && (
-        <motion.div 
-          className="absolute inset-0 pointer-events-none"
-          style={{
-            background: `radial-gradient(circle at ${(mouseX.get() + 0.5) * 100}% ${(mouseY.get() + 0.5) * 100}%, rgba(255, 255, 255, 0.15) 0%, transparent 70%)`,
-            opacity: glow
-          }}
-        />
-      )}
+      {/* Static glow effect */}
+      <div 
+        className="absolute inset-0 pointer-events-none"
+        style={{
+          background: isHovered 
+            ? `radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.08) 0%, transparent 70%)`
+            : 'none',
+          opacity: glowOpacity,
+          transition: "opacity 0.5s ease-out"
+        }}
+      />
       
-      {/* Light glint effect */}
+      {/* Static light glint effect instead of animated */}
       {glint && (
-        <motion.div
+        <div
           className="absolute inset-0 pointer-events-none overflow-hidden"
-          initial={false}
         >
-          <motion.div
-            className="absolute -inset-[100%]"
-            animate={isHovered ? { left: '200%' } : { left: '-100%' }}
-            transition={isHovered ? { duration: 1, ease: 'linear' } : { duration: 0 }}
+          <div
+            className="absolute -inset-full"
             style={{
               width: '50%',
               height: '200%',
-              transform: 'rotate(30deg)',
-              background: 'linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent)',
+              transform: 'rotate(30deg) translateX(-100%)',
+              background: 'linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.05), transparent)',
+              transition: isHovered ? 'transform 0.5s ease-out' : 'none',
+              left: isHovered ? '150%' : '-100%'
             }}
           />
-        </motion.div>
+        </div>
       )}
       
       {/* Content - with subtle parallax effect */}
-      <motion.div 
+      <div 
         className="relative"
         style={{
           transformStyle: "preserve-3d",
-          transform: interactive && isHovered ? "translateZ(20px)" : "translateZ(0px)",
+          transform: interactive && isHovered ? "translateZ(10px)" : "translateZ(0px)",
           transition: "transform 0.3s ease-out"
         }}
       >
         {children}
-      </motion.div>
-    </motion.div>
+      </div>
+    </div>
   );
 };
 
