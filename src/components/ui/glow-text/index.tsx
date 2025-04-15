@@ -13,7 +13,7 @@ export interface GlowTextProps {
 
 const GlowText: React.FC<GlowTextProps> = ({
   children,
-  as: Component = 'div',
+  as = 'div',
   className,
   variant = 'default',
   perspective = false
@@ -58,33 +58,28 @@ const GlowText: React.FC<GlowTextProps> = ({
     }
   };
 
-  // Separate styles to avoid type issues
-  const containerStyle = {
-    perspective: perspective ? '1000px' : 'none',
+  // Create component props to avoid type conflicts
+  const containerProps = {
+    className: cn(perspective && "transform-gpu", className),
+    style: { perspective: perspective ? '1000px' : 'none' } as React.CSSProperties
   };
   
-  const textStyle = {
-    textShadow: getTextShadow(),
-    backgroundImage: getGradient(),
-    transform: perspective ? 'perspective(1000px) translateZ(20px)' : 'none',
-    transformStyle: 'preserve-3d' as 'preserve-3d' // Type assertion to fix compatibility
+  const textProps = {
+    className: cn("bg-clip-text text-transparent", className),
+    style: {
+      textShadow: getTextShadow(),
+      backgroundImage: getGradient(),
+      transform: perspective ? 'perspective(1000px) translateZ(20px)' : 'none',
+      transformStyle: 'preserve-3d' as const
+    } as React.CSSProperties
   };
 
+  // Dynamically render the component
+  const Component = as as React.ElementType;
+
   return (
-    <div 
-      className={cn(
-        perspective && "transform-gpu",
-        className
-      )}
-      style={containerStyle}
-    >
-      <Component
-        className={cn(
-          "bg-clip-text text-transparent",
-          className
-        )}
-        style={textStyle}
-      >
+    <div {...containerProps}>
+      <Component {...textProps}>
         {children}
       </Component>
     </div>
