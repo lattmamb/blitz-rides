@@ -6,6 +6,7 @@ import Footer from '@/components/Footer';
 import { useTheme } from '@/context/ThemeContext';
 import { cn } from '@/lib/utils';
 import { motion } from 'framer-motion';
+import { OrbitalRing } from '@/components/ui/crystal-ui';
 
 interface MainLayoutProps {
   children?: React.ReactNode;
@@ -48,6 +49,23 @@ const MainLayoutContent: React.FC<MainLayoutProps> = ({ children }) => {
       <div className="fixed inset-0 pointer-events-none crystal-bg-effects">
         {/* Common ambient effect for all themes */}
         <div className="crystal-gradient absolute inset-0 opacity-30"></div>
+        
+        {/* Orbital rings */}
+        <OrbitalRing 
+          size="fullscreen" 
+          speed="slow" 
+          tilt={75} 
+          className="top-1/2 left-1/2"
+        />
+        
+        <OrbitalRing 
+          size="lg" 
+          speed="medium" 
+          reverse={true} 
+          thickness="thin"
+          tilt={65}
+          className="top-1/3 left-1/4"
+        />
         
         {theme === 'neoPulse' && (
           <>

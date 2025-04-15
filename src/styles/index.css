@@ -1,0 +1,693 @@
+@import 'tailwindcss/base';
+@import 'tailwindcss/components';
+@import 'tailwindcss/utilities';
+@import './animationUtils.css';
+@import './crystalAnimations.css';
+
+@layer base {
+  :root {
+    --background: 240 10% 3.9%;
+    --foreground: 0 0% 98%;
+    --card: 240 10% 3.9%;
+    --card-foreground: 0 0% 98%;
+    --popover: 240 10% 3.9%;
+    --popover-foreground: 0 0% 98%;
+    --primary: 0 0% 98%;
+    --primary-foreground: 240 5.9% 10%;
+    --secondary: 240 3.7% 15.9%;
+    --secondary-foreground: 0 0% 98%;
+    --muted: 240 3.7% 15.9%;
+    --muted-foreground: 240 5% 64.9%;
+    --accent: 240 3.7% 15.9%;
+    --accent-foreground: 0 0% 98%;
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 240 3.7% 15.9%;
+    --input: 240 3.7% 15.9%;
+    --ring: 240 4.9% 83.9%;
+    --radius: 0.75rem;
+    
+    /* 3D Card Variables */
+    --card-radius: 16px;
+    --card-shadow-light: rgba(157, 177, 255, 0.2);
+    --card-shadow-dark: rgba(0, 0, 0, 0.25);
+    --card-glow: rgba(255, 255, 255, 0.2);
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border selection:bg-tesla-blue/20 selection:text-white;
+    font-family: 'SF Pro Display', -apple-system, BlinkMacSystemFont, sans-serif;
+  }
+  
+  body {
+    @apply bg-black text-foreground antialiased overflow-x-hidden font-sans;
+    background-image: radial-gradient(circle at 50% 0%, #1a1a1a 0%, #0a0a0a 100%);
+  }
+
+  html {
+    @apply scroll-smooth;
+  }
+
+  /* Custom scrollbar */
+  ::-webkit-scrollbar {
+    width: 6px;
+  }
+  
+  ::-webkit-scrollbar-track {
+    @apply bg-tesla-dark;
+  }
+  
+  ::-webkit-scrollbar-thumb {
+    @apply bg-tesla-blue/50 rounded-full;
+  }
+  
+  ::-webkit-scrollbar-thumb:hover {
+    @apply bg-tesla-blue/80;
+  }
+  
+  /* Theme settings for the Neo Pulse theme */
+  [data-theme="neoPulse"] {
+    --theme-bg: radial-gradient(circle at 50% 0%, #1A1F2C 0%, #060818 100%);
+    --theme-card: rgba(26, 31, 44, 0.4);
+    --theme-card-glow: rgba(139, 92, 246, 0.1);
+    --theme-text-primary: linear-gradient(135deg, #FFFFFF 0%, #8B5CF6 100%);
+    --theme-border: rgba(139, 92, 246, 0.2);
+    --theme-accent: #8B5CF6;
+  }
+  
+  /* Theme settings for the Quantum Glass theme */
+  [data-theme="quantumGlass"] {
+    --theme-bg: radial-gradient(circle at 50% 0%, #222 0%, #000000 100%);
+    --theme-card: rgba(255, 255, 255, 0.05);
+    --theme-card-glow: rgba(255, 255, 255, 0.1);
+    --theme-text-primary: linear-gradient(135deg, #FFFFFF 0%, #8E9196 100%);
+    --theme-border: rgba(255, 255, 255, 0.1);
+    --theme-accent: #0EA5E9;
+  }
+  
+  /* Theme settings for the Orbital Dark theme */
+  [data-theme="orbitalDark"] {
+    --theme-bg: linear-gradient(180deg, #121212 0%, #000000 100%);
+    --theme-card: rgba(32, 32, 35, 0.5);
+    --theme-card-glow: rgba(249, 115, 22, 0.1);
+    --theme-text-primary: linear-gradient(135deg, #FFFFFF 0%, #F97316 100%);
+    --theme-border: rgba(249, 115, 22, 0.2);
+    --theme-accent: #F97316;
+  }
+}
+
+@layer utilities {
+  /* Enhanced crystal dealership style */
+  .crystal-dealership {
+    background-color: #080810;
+    position: relative;
+  }
+  
+  .crystal-bg-effects {
+    z-index: 0;
+  }
+  
+  .crystal-gradient {
+    background: radial-gradient(circle at 50% 0%, rgba(10, 132, 255, 0.15) 0%, rgba(0, 0, 0, 0) 70%);
+  }
+  
+  .crystal-edge-top {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+  }
+  
+  .crystal-edge-bottom {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+  }
+  
+  .crystal-grid {
+    position: absolute;
+    inset: 0;
+    background-image: 
+      linear-gradient(rgba(10, 132, 255, 0.05) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(10, 132, 255, 0.05) 1px, transparent 1px);
+    background-size: 40px 40px;
+    z-index: -1;
+  }
+  
+  .crystal-dots {
+    position: absolute;
+    inset: 0;
+    background-image: radial-gradient(rgba(255, 255, 255, 0.1) 1px, transparent 1px);
+    background-size: 20px 20px;
+    z-index: -1;
+  }
+  
+  .crystal-cursor {
+    position: fixed;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    border: 2px solid rgba(10, 132, 255, 0.5);
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+    mix-blend-mode: difference;
+    transition: width 0.2s, height 0.2s, background 0.2s;
+    z-index: 9999;
+    backdrop-filter: invert(1);
+  }
+  
+  /* Button styles will use the crystal cursor */
+  button:hover ~ .crystal-cursor,
+  a:hover ~ .crystal-cursor {
+    width: 40px;
+    height: 40px;
+    background: rgba(10, 132, 255, 0.2);
+    border: 2px solid rgba(10, 132, 255, 0.8);
+  }
+  
+  /* Enhanced glass cards with better reflections */
+  .glass-card {
+    @apply backdrop-blur-xl bg-black/30 border-none rounded-2xl;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 
+      0 10px 30px rgba(0, 0, 0, 0.3),
+      0 2px 8px rgba(10, 132, 255, 0.1),
+      inset 0 1px 0 rgba(255, 255, 255, 0.05);
+  }
+  
+  .glass-card::before {
+    content: "";
+    @apply absolute inset-0 bg-gradient-to-b from-white/[0.08] to-transparent rounded-2xl pointer-events-none;
+    z-index: 1;
+  }
+  
+  .glass-card::after {
+    content: "";
+    @apply absolute inset-0 rounded-2xl opacity-50 pointer-events-none;
+    background: linear-gradient(120deg, rgba(255,255,255,0) 30%, rgba(255,255,255,0.1) 38%, rgba(255,255,255,0) 48%);
+    background-size: 200% 100%;
+    background-position-x: 180%;
+    animation: shine 4s ease-in-out infinite;
+  }
+  
+  /* Enhanced premium glass effect */
+  .glass-premium {
+    @apply backdrop-blur-xl bg-black/40 border-none rounded-2xl;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 
+      0 10px 30px rgba(0,0,0,0.3),
+      0 2px 8px rgba(10,132,255,0.15),
+      inset 0 1px 0 rgba(255,255,255,0.05);
+  }
+  
+  .glass-premium::before {
+    content: "";
+    @apply absolute inset-0 bg-gradient-to-b from-white/[0.1] to-transparent rounded-2xl pointer-events-none;
+    z-index: 1;
+  }
+  
+  .glass-premium::after {
+    content: "";
+    @apply absolute inset-0 rounded-2xl opacity-60 pointer-events-none;
+    background: linear-gradient(120deg, rgba(255,255,255,0) 30%, rgba(255,255,255,0.2) 38%, rgba(255,255,255,0) 48%);
+    background-size: 200% 100%;
+    background-position-x: 180%;
+    animation: shine 3s infinite;
+  }
+  
+  /* Enhanced glass with blue accents */
+  .glass-blue {
+    @apply backdrop-blur-xl bg-tesla-blue/[0.05] border-none rounded-2xl;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 
+      0 10px 30px rgba(0,0,0,0.25),
+      0 2px 8px rgba(10,132,255,0.2),
+      inset 0 1px 0 rgba(255,255,255,0.05);
+  }
+  
+  .glass-blue::before {
+    content: "";
+    @apply absolute inset-0 bg-gradient-to-b from-tesla-blue/[0.1] to-transparent rounded-2xl pointer-events-none;
+    z-index: 1;
+  }
+  
+  /* Enhanced neo card */
+  .neo-card {
+    @apply rounded-2xl bg-[#0a0a0f] border-none shadow-[0_-5px_25px_rgba(255,255,255,0.03),0_10px_25px_rgba(0,0,0,0.5)];
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .neo-card::before {
+    content: "";
+    @apply absolute inset-0 bg-gradient-to-b from-white/[0.05] to-transparent pointer-events-none;
+    z-index: 0;
+  }
+  
+  /* Crystal card - new premium card style */
+  .crystal-card {
+    @apply backdrop-blur-xl bg-black/40 border-none rounded-2xl;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 
+      0 20px 40px rgba(0,0,0,0.4),
+      0 5px 15px rgba(10,132,255,0.1),
+      inset 0 1px 0 rgba(255,255,255,0.05);
+    transform-style: preserve-3d;
+    perspective: 1000px;
+  }
+  
+  .crystal-card::before {
+    content: "";
+    @apply absolute inset-0 bg-gradient-to-b from-white/[0.1] to-transparent rounded-2xl pointer-events-none;
+    z-index: 1;
+    transform: translateZ(1px);
+  }
+  
+  .crystal-card::after {
+    content: "";
+    @apply absolute inset-0 rounded-2xl opacity-70 pointer-events-none;
+    background: linear-gradient(120deg, rgba(255,255,255,0) 30%, rgba(255,255,255,0.15) 38%, rgba(255,255,255,0) 48%);
+    background-size: 200% 100%;
+    background-position-x: 180%;
+    animation: shine 4s infinite;
+    transform: translateZ(2px);
+  }
+  
+  /* Crystal button - new premium button style */
+  .crystal-button {
+    @apply relative overflow-hidden bg-black/50 text-white rounded-full px-6 py-3 font-medium transition-all duration-300;
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 
+      0 4px 10px rgba(0,0,0,0.3),
+      0 1px 3px rgba(10,132,255,0.2),
+      inset 0 1px 0 rgba(255,255,255,0.05);
+  }
+  
+  .crystal-button::before {
+    content: "";
+    @apply absolute inset-0 bg-gradient-to-b from-white/10 to-transparent opacity-0 transition-opacity duration-300;
+    z-index: 1;
+  }
+  
+  .crystal-button::after {
+    content: "";
+    @apply absolute inset-0 opacity-0 transition-opacity duration-300;
+    background: linear-gradient(120deg, rgba(255,255,255,0) 30%, rgba(255,255,255,0.2) 38%, rgba(255,255,255,0) 48%);
+    background-size: 200% 100%;
+    background-position-x: 180%;
+    z-index: 2;
+  }
+  
+  .crystal-button:hover::before {
+    @apply opacity-100;
+  }
+  
+  .crystal-button:hover::after {
+    @apply opacity-100;
+    animation: shine 1.5s infinite;
+  }
+  
+  /* Crystal button with glow */
+  .crystal-button-glow {
+    @apply crystal-button;
+    box-shadow: 
+      0 4px 10px rgba(0,0,0,0.3),
+      0 1px 3px rgba(10,132,255,0.3),
+      0 0 20px rgba(10,132,255,0.2),
+      inset 0 1px 0 rgba(255,255,255,0.1);
+  }
+  
+  .crystal-button-glow:hover {
+    box-shadow: 
+      0 4px 15px rgba(0,0,0,0.4),
+      0 1px 3px rgba(10,132,255,0.4),
+      0 0 30px rgba(10,132,255,0.3),
+      inset 0 1px 0 rgba(255,255,255,0.15);
+  }
+  
+  /* Enhanced surface reflection effect */
+  .surface-reflection {
+    position: relative;
+  }
+  
+  .surface-reflection::after {
+    content: "";
+    @apply absolute left-0 right-0 bottom-0 bg-gradient-to-t from-white/5 to-transparent;
+    height: 40%;
+    transform: scaleY(-1);
+    filter: blur(10px);
+    opacity: 0.4;
+    mask-image: linear-gradient(to top, white, transparent);
+  }
+  
+  /* Enhanced 3D elements */
+  .crystal-3d {
+    transform-style: preserve-3d;
+    perspective: 1000px;
+  }
+  
+  .crystal-3d-element {
+    transform: translateZ(20px);
+    transition: transform 0.3s ease;
+  }
+  
+  .crystal-3d-container:hover .crystal-3d-element {
+    transform: translateZ(40px);
+  }
+  
+  /* Rest of the existing styles */
+  /* Enhanced glass cards with better reflections and NO visible borders */
+  .glass-card {
+    @apply backdrop-blur-xl bg-white/5 border-none rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.15),0_2px_8px_rgba(10,132,255,0.05)];
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .glass-card::before {
+    content: "";
+    @apply absolute inset-0 bg-gradient-to-b from-white/[0.15] to-transparent rounded-2xl pointer-events-none;
+    z-index: 0;
+  }
+  
+  .glass-card::after {
+    content: "";
+    @apply absolute inset-0 rounded-2xl opacity-50 pointer-events-none;
+    background: linear-gradient(120deg, rgba(255,255,255,0) 30%, rgba(255,255,255,0.2) 38%, rgba(255,255,255,0) 48%);
+    background-size: 200% 100%;
+    background-position-x: 180%;
+    animation: shine 4s ease-in-out infinite;
+  }
+  
+  /* Enhanced premium glass effect with reduced borders */
+  .glass-premium {
+    @apply backdrop-blur-xl bg-white/[0.07] border-none rounded-2xl;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 
+      0 10px 30px rgba(0,0,0,0.2),
+      0 2px 8px rgba(10,132,255,0.1),
+      inset 0 1px 0 rgba(255,255,255,0.1);
+  }
+  
+  .glass-premium::before {
+    content: "";
+    @apply absolute inset-0 bg-gradient-to-b from-white/[0.2] to-transparent rounded-2xl pointer-events-none;
+    z-index: 0;
+  }
+  
+  .glass-premium::after {
+    content: "";
+    @apply absolute inset-0 rounded-2xl opacity-60 pointer-events-none;
+    background: linear-gradient(120deg, rgba(255,255,255,0) 30%, rgba(255,255,255,0.4) 38%, rgba(255,255,255,0) 48%);
+    background-size: 200% 100%;
+    background-position-x: 180%;
+    animation: shine 3s infinite;
+  }
+  
+  /* Enhanced glass with blue accents - borderless */
+  .glass-blue {
+    @apply backdrop-blur-xl bg-tesla-blue/[0.05] border-none rounded-2xl;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 
+      0 10px 30px rgba(0,0,0,0.15),
+      0 2px 8px rgba(10,132,255,0.15),
+      inset 0 1px 0 rgba(255,255,255,0.05);
+  }
+  
+  .glass-blue::before {
+    content: "";
+    @apply absolute inset-0 bg-gradient-to-b from-tesla-blue/[0.1] to-transparent rounded-2xl pointer-events-none;
+    z-index: 0;
+  }
+  
+  /* Enhanced surface reflection effect */
+  .surface-reflection {
+    position: relative;
+  }
+  
+  .surface-reflection::after {
+    content: "";
+    @apply absolute left-0 right-0 bottom-0 bg-gradient-to-t from-white/8 to-transparent;
+    height: 40%;
+    transform: scaleY(-1);
+    filter: blur(10px);
+    opacity: 0.4;
+    mask-image: linear-gradient(to top, white, transparent);
+  }
+  
+  @keyframes shine {
+    to {
+      background-position-x: -200%;
+    }
+  }
+  
+  /* Enhanced glass-effect with stronger blur */
+  .glass-effect {
+    @apply backdrop-blur-xl bg-glass/30 border-none;
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .glass-effect::before {
+    content: "";
+    @apply absolute inset-0 bg-gradient-to-b from-white/[0.1] to-transparent pointer-events-none;
+    z-index: 1;
+  }
+
+  /* Enhanced neo card with reduced borders */
+  .neo-card {
+    @apply rounded-2xl bg-[#0e0e0e] border-none shadow-[0_-5px_25px_rgba(255,255,255,0.03),0_10px_25px_rgba(0,0,0,0.5)];
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .neo-card::before {
+    content: "";
+    @apply absolute inset-0 bg-gradient-to-b from-white/[0.1] to-transparent pointer-events-none;
+    z-index: 0;
+  }
+
+  /* Enhanced text glow */
+  .text-glow {
+    @apply text-white drop-shadow-[0_0_15px_rgba(255,255,255,0.7)];
+  }
+  
+  /* Enhanced blue glow */
+  .blue-glow {
+    @apply shadow-[0_0_20px_rgba(10,132,255,0.7)];
+  }
+
+  /* Enhanced gradient texts */
+  .gradient-text {
+    @apply bg-gradient-to-r from-white via-white/90 to-white/70 bg-clip-text text-transparent;
+  }
+  
+  .gradient-blue-text {
+    @apply bg-gradient-to-r from-tesla-blue via-tesla-purple to-tesla-blue bg-clip-text text-transparent;
+  }
+
+  /* Enhanced shine effect */
+  .shine-effect {
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+    background-size: 200% auto;
+    @apply animate-shine;
+  }
+  
+  /* Enhanced button styles */
+  .tesla-button {
+    @apply relative overflow-hidden bg-tesla-blue text-white rounded-full px-6 py-3 font-medium transition-all duration-300;
+  }
+  
+  .tesla-button::before {
+    content: "";
+    @apply absolute inset-0 bg-gradient-to-b from-white/15 to-transparent opacity-0 transition-opacity duration-300;
+    z-index: 1;
+  }
+  
+  .tesla-button::after {
+    content: "";
+    @apply absolute inset-0 opacity-0 transition-opacity duration-300;
+    background: linear-gradient(120deg, rgba(255,255,255,0) 30%, rgba(255,255,255,0.3) 38%, rgba(255,255,255,0) 48%);
+    background-size: 200% 100%;
+    background-position-x: 180%;
+    z-index: 2;
+  }
+  
+  .tesla-button:hover::before {
+    @apply opacity-100;
+  }
+  
+  .tesla-button:hover::after {
+    @apply opacity-100;
+    animation: shine 1.5s infinite;
+  }
+  
+  /* Enhanced tesla-button-outline with better borders */
+  .tesla-button-outline {
+    @apply relative overflow-hidden bg-transparent border border-white/30 text-white rounded-full px-6 py-3 font-medium transition-all duration-300;
+  }
+  
+  .tesla-button-outline:hover {
+    @apply border-white/50 bg-white/5;
+  }
+  
+  /* Enhanced hover card with stronger shadow */
+  .tesla-card-hover {
+    @apply transition-all duration-300;
+  }
+  
+  .tesla-card-hover:hover {
+    @apply transform -translate-y-1 shadow-[0_14px_40px_rgba(0,0,0,0.2),0_0_15px_rgba(10,132,255,0.3)];
+  }
+  
+  /* Enhanced tesla input with better focus state */
+  .tesla-input {
+    @apply bg-glass/30 border border-white/10 rounded-lg px-4 py-2 text-white placeholder:text-white/40 focus:border-tesla-blue/50 focus:ring-2 focus:ring-tesla-blue/30 transition-all backdrop-blur-md;
+  }
+
+  /* Enhanced glass reflection and spotlight effects */
+  .glass-reflection {
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .glass-reflection::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 50%;
+    height: 100%;
+    background: linear-gradient(
+      to right,
+      transparent 0%,
+      rgba(255, 255, 255, 0.1) 50%,
+      transparent 100%
+    );
+    transform: skewX(-25deg);
+    animation: reflection-shimmer 3s ease-in-out infinite;
+  }
+  
+  /* Enhanced spotlight glow */
+  .spotlight-glow {
+    position: relative;
+  }
+  
+  .spotlight-glow::before {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 120%;
+    height: 120%;
+    background: radial-gradient(
+      circle,
+      rgba(10, 132, 255, 0.5) 0%,
+      transparent 70%
+    );
+    transform: translate(-50%, -50%);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    pointer-events: none;
+    z-index: -1;
+  }
+  
+  .spotlight-glow:hover::before {
+    opacity: 0.8;
+  }
+  
+  /* Theme-specific utility classes */
+  
+  /* Neo Pulse Theme */
+  .neo-pulse-bg {
+    background: radial-gradient(circle at 50% 0%, #1A1F2C 0%, #060818 100%);
+    background-attachment: fixed;
+  }
+  
+  .neo-pulse-nav {
+    background: rgba(26, 31, 44, 0.7);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(139, 92, 246, 0.2);
+  }
+  
+  .neo-pulse-text {
+    background: linear-gradient(135deg, #FFFFFF 0%, #8B5CF6 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+  
+  /* Quantum Glass Theme */
+  .quantum-glass-bg {
+    background: radial-gradient(circle at 50% 0%, #222 0%, #000000 100%);
+    background-attachment: fixed;
+  }
+  
+  .quantum-glass-nav {
+    background: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  }
+  
+  .quantum-glass-text {
+    background: linear-gradient(135deg, #FFFFFF 0%, #8E9196 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+  
+  /* Orbital Dark Theme */
+  .orbital-dark-bg {
+    background: linear-gradient(180deg, #121212 0%, #000000 100%);
+    background-attachment: fixed;
+  }
+  
+  .orbital-dark-nav {
+    background: rgba(32, 32, 35, 0.8);
+    backdrop-filter: blur(16px);
+    border-bottom: 1px solid rgba(249, 115, 22, 0.15);
+  }
+  
+  .orbital-dark-text {
+    background: linear-gradient(135deg, #FFFFFF 0%, #F97316 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+  
+  /* Enhanced reflection shimmer animation */
+  @keyframes reflection-shimmer {
+    0% {
+      transform: translateX(-100%) skewX(-25deg);
+    }
+    100% {
+      transform: translateX(200%) skewX(-25deg);
+    }
+  }
+  
+  /* Background noise texture */
+  .bg-noise {
+    position: relative;
+  }
+  
+  .bg-noise::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3

@@ -6,9 +6,12 @@ import { Toaster } from '@/components/ui/sonner';
 import PageTransition from '@/components/ui/PageTransition';
 import LoadingOverlay from '@/components/ui/LoadingOverlay';
 import { AnimatePresence } from 'framer-motion';
+import { ThemeProvider } from '@/context/ThemeContext';
+import { CrystalBackground } from '@/components/ui/crystal-ui';
 
 // Import animation styles
 import '@/styles/animationUtils.css';
+import '@/styles/crystalAnimations.css';
 
 // Lazy-loaded routes for better initial loading performance
 const LazyDashboard = React.lazy(() => import('@/pages/Dashboard'));
@@ -49,28 +52,32 @@ function App() {
   }
 
   return (
-    <Router>
-      <RouteChangeListener setIsChangingRoute={setIsChangingRoute} />
-      <AnimatePresence mode="wait">
-        <PageTransition>
-          <Suspense fallback={<LoadingOverlay customMessage="Loading Experience" />}>
-            {isChangingRoute ? (
-              <LoadingOverlay minimalist customMessage="Changing route..." />
-            ) : (
-              <Routes>
-                <Route path="/" element={<Index />} />
-                <Route path="/dashboard" element={<LazyDashboard />} />
-                <Route path="/vehicles" element={<LazyVehicles />} />
-                <Route path="/vehicles/:id" element={<LazyVehicleDetails />} />
-                <Route path="/book/:id" element={<LazyBookVehicle />} />
-                <Route path="/booking-success" element={<LazyBookingSuccess />} />
-              </Routes>
-            )}
-          </Suspense>
-        </PageTransition>
-      </AnimatePresence>
-      <Toaster />
-    </Router>
+    <ThemeProvider>
+      <CrystalBackground variant="default" interactive={true}>
+        <Router>
+          <RouteChangeListener setIsChangingRoute={setIsChangingRoute} />
+          <AnimatePresence mode="wait">
+            <PageTransition>
+              <Suspense fallback={<LoadingOverlay customMessage="Loading Experience" />}>
+                {isChangingRoute ? (
+                  <LoadingOverlay minimalist customMessage="Changing route..." />
+                ) : (
+                  <Routes>
+                    <Route path="/" element={<Index />} />
+                    <Route path="/dashboard" element={<LazyDashboard />} />
+                    <Route path="/vehicles" element={<LazyVehicles />} />
+                    <Route path="/vehicles/:id" element={<LazyVehicleDetails />} />
+                    <Route path="/book/:id" element={<LazyBookVehicle />} />
+                    <Route path="/booking-success" element={<LazyBookingSuccess />} />
+                  </Routes>
+                )}
+              </Suspense>
+            </PageTransition>
+          </AnimatePresence>
+          <Toaster />
+        </Router>
+      </CrystalBackground>
+    </ThemeProvider>
   );
 }
 
