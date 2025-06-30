@@ -16,30 +16,44 @@ const CrystalBackground: React.FC<CrystalBackgroundProps> = ({
   const { theme } = useTheme();
   const [mousePosition, setMousePosition] = useState({ x: 0.5, y: 0.5 });
   const [scrollPosition, setScrollPosition] = useState(0);
+  const [scrollVelocity, setScrollVelocity] = useState(0);
   
   useEffect(() => {
     if (!interactive) return;
     
+    let lastScrollTime = Date.now();
+    let lastScrollY = window.scrollY;
+    
     const handleMouseMove = (e: MouseEvent) => {
-      // Slow down the mouse tracking for more subtle effect
       const currentX = mousePosition.x;
       const currentY = mousePosition.y;
       const targetX = e.clientX / window.innerWidth;
       const targetY = e.clientY / window.innerHeight;
       
-      // Smooth lerp for mouse movement
       setMousePosition({
-        x: currentX + (targetX - currentX) * 0.05,
-        y: currentY + (targetY - currentY) * 0.05
+        x: currentX + (targetX - currentX) * 0.08,
+        y: currentY + (targetY - currentY) * 0.08
       });
     };
     
     const handleScroll = () => {
-      setScrollPosition(window.scrollY * 0.05); // Reduced intensity
+      const currentTime = Date.now();
+      const currentScrollY = window.scrollY;
+      const deltaTime = currentTime - lastScrollTime;
+      const deltaScroll = Math.abs(currentScrollY - lastScrollY);
+      
+      // Calculate scroll velocity for dynamic effects
+      const velocity = deltaTime > 0 ? deltaScroll / deltaTime : 0;
+      setScrollVelocity(Math.min(velocity * 0.5, 1));
+      
+      setScrollPosition(currentScrollY * 0.3);
+      
+      lastScrollTime = currentTime;
+      lastScrollY = currentScrollY;
     };
     
     window.addEventListener('mousemove', handleMouseMove);
-    window.addEventListener('scroll', handleScroll);
+    window.addEventListener('scroll', handleScroll, { passive: true });
     
     return () => {
       window.removeEventListener('mousemove', handleMouseMove);
@@ -47,121 +61,281 @@ const CrystalBackground: React.FC<CrystalBackgroundProps> = ({
     };
   }, [interactive, mousePosition]);
   
-  // Set color based on current theme but with darker values
+  // Theme-aware glass colors with enhanced opacity
   const getThemeColors = () => {
     switch (theme) {
       case 'neoPulse':
         return {
-          primary: 'rgba(10, 132, 255, 0.07)',
-          secondary: 'rgba(94, 92, 230, 0.05)',
-          accent: 'rgba(139, 92, 246, 0.03)'
+          primary: 'rgba(10, 132, 255, 0.12)',
+          secondary: 'rgba(94, 92, 230, 0.08)',
+          accent: 'rgba(139, 92, 246, 0.06)',
+          reflection: 'rgba(10, 132, 255, 0.15)'
         };
       case 'quantumGlass':
         return {
-          primary: 'rgba(255, 255, 255, 0.04)',
-          secondary: 'rgba(255, 255, 255, 0.02)',
-          accent: 'rgba(255, 255, 255, 0.01)'
+          primary: 'rgba(255, 255, 255, 0.08)',
+          secondary: 'rgba(255, 255, 255, 0.05)',
+          accent: 'rgba(255, 255, 255, 0.03)',
+          reflection: 'rgba(255, 255, 255, 0.12)'
         };
       case 'orbitalDark':
         return {
-          primary: 'rgba(249, 115, 22, 0.05)',
-          secondary: 'rgba(234, 88, 12, 0.03)',
-          accent: 'rgba(194, 65, 12, 0.02)'
+          primary: 'rgba(249, 115, 22, 0.1)',
+          secondary: 'rgba(234, 88, 12, 0.06)',
+          accent: 'rgba(194, 65, 12, 0.04)',
+          reflection: 'rgba(249, 115, 22, 0.12)'
         };
       default:
         return {
-          primary: 'rgba(10, 132, 255, 0.07)',
-          secondary: 'rgba(94, 92, 230, 0.05)',
-          accent: 'rgba(139, 92, 246, 0.03)'
+          primary: 'rgba(10, 132, 255, 0.12)',
+          secondary: 'rgba(94, 92, 230, 0.08)',
+          accent: 'rgba(139, 92, 246, 0.06)',
+          reflection: 'rgba(10, 132, 255, 0.15)'
         };
     }
   };
   
-  const { primary, secondary, accent } = getThemeColors();
+  const { primary, secondary, accent, reflection } = getThemeColors();
   
-  // Calculate parallax positions with reduced movement
-  const getNebulaPosition = () => {
-    if (!interactive) return { x: '0%', y: '0%' };
-    return { 
-      x: `${(mousePosition.x - 0.5) * -5}%`,
-      y: `${(mousePosition.y - 0.5) * -5 + scrollPosition * 0.02}%`
+  // Calculate dynamic positions based on scroll and mouse
+  const getGlassPanelTransform = (index: number) => {
+    const scrollFactor = scrollPosition * 0.001;
+    const mouseFactor = (mousePosition.x - 0.5) * 0.02;
+    const velocityFactor = scrollVelocity * 0.1;
+    
+    return {
+      transform: `
+        translateX(${(mouseFactor + scrollFactor * (index % 2 === 0 ? 1 : -1)) * 100}px)
+        translateY(${(scrollPosition * 0.05 * (index + 1)) * -1}px)
+        rotateX(${15 + velocityFactor * 5}deg)
+        rotateY(${(mousePosition.x - 0.5) * 10}deg)
+        rotateZ(${(index * 5) + (scrollPosition * 0.01)}deg)
+      `,
+      opacity: 0.6 + scrollVelocity * 0.3
     };
   };
   
-  const getStarFieldPosition = () => {
-    if (!interactive) return { x: '0%', y: '0%' };
-    return { 
-      x: `${(mousePosition.x - 0.5) * -2}%`,
-      y: `${(mousePosition.y - 0.5) * -2 + scrollPosition * 0.01}%`
+  // Light reflection calculations
+  const getLightReflection = () => {
+    const scrollIntensity = Math.min(scrollPosition * 0.002, 1);
+    const mouseIntensity = Math.sqrt(Math.pow(mousePosition.x - 0.5, 2) + Math.pow(mousePosition.y - 0.5, 2));
+    
+    return {
+      x: `${50 + (mousePosition.x - 0.5) * 30 + scrollPosition * 0.05}%`,
+      y: `${50 + (mousePosition.y - 0.5) * 30 - scrollPosition * 0.03}%`,
+      intensity: 0.3 + scrollIntensity * 0.4 + mouseIntensity * 0.3 + scrollVelocity * 0.2
     };
   };
 
+  const lightReflection = getLightReflection();
+
   return (
     <div className="relative w-full h-full overflow-hidden">
-      {/* Pure black base background */}
+      {/* Deep black base with subtle gradient */}
       <div 
-        className="absolute inset-0 bg-black"
+        className="absolute inset-0"
         style={{
-          backgroundImage: 'radial-gradient(circle at 50% 0%, #050505 0%, #000000 100%)'
+          background: `
+            radial-gradient(ellipse at top, #0a0a0a 0%, #000000 70%),
+            linear-gradient(180deg, #050505 0%, #000000 100%)
+          `
         }}
       />
       
-      {/* Nebula effect - very subtle */}
-      <div 
-        className="absolute inset-0 pointer-events-none"
-        style={{
-          transform: `translate(${getNebulaPosition().x}, ${getNebulaPosition().y})`,
-          transition: 'transform 0.8s cubic-bezier(0.075, 0.82, 0.165, 1)'
-        }}
-      >
+      {/* Glass morphism layers */}
+      <div className="absolute inset-0 pointer-events-none">
+        {/* Primary glass panel */}
         <div 
-          className="absolute top-1/4 -left-[25%] w-[150%] h-[150%] rounded-full opacity-30 mix-blend-screen"
-          style={{ 
-            background: `radial-gradient(ellipse at center, ${primary} 0%, transparent 70%)`,
-            filter: 'blur(120px)'
+          className="absolute inset-0"
+          style={{
+            ...getGlassPanelTransform(0),
+            background: `
+              linear-gradient(135deg, 
+                ${primary} 0%, 
+                transparent 30%, 
+                ${secondary} 70%, 
+                transparent 100%
+              )
+            `,
+            backdropFilter: 'blur(40px)',
+            transition: 'all 0.6s cubic-bezier(0.23, 1, 0.32, 1)'
           }}
         />
         
+        {/* Secondary glass panel */}
         <div 
-          className="absolute bottom-1/4 -right-[25%] w-[150%] h-[150%] rounded-full opacity-20 mix-blend-screen"
-          style={{ 
-            background: `radial-gradient(ellipse at center, ${secondary} 0%, transparent 70%)`,
-            filter: 'blur(150px)',
-            transform: 'rotate(15deg)'
+          className="absolute inset-0"
+          style={{
+            ...getGlassPanelTransform(1),
+            background: `
+              linear-gradient(225deg, 
+                transparent 0%, 
+                ${accent} 40%, 
+                ${primary} 60%, 
+                transparent 100%
+              )
+            `,
+            backdropFilter: 'blur(60px)',
+            transition: 'all 0.8s cubic-bezier(0.23, 1, 0.32, 1)'
+          }}
+        />
+        
+        {/* Tertiary glass panel */}
+        <div 
+          className="absolute inset-0"
+          style={{
+            ...getGlassPanelTransform(2),
+            background: `
+              radial-gradient(ellipse at ${lightReflection.x} ${lightReflection.y}, 
+                ${secondary} 0%, 
+                transparent 50%
+              )
+            `,
+            backdropFilter: 'blur(80px)',
+            transition: 'all 1s cubic-bezier(0.23, 1, 0.32, 1)'
           }}
         />
       </div>
       
-      {/* Star field layer - extremely subtle */}
-      {variant !== 'deep' && (
+      {/* Dynamic light reflections */}
+      <div className="absolute inset-0 pointer-events-none">
+        {/* Primary light source */}
         <div 
-          className="absolute inset-0 pointer-events-none"
+          className="absolute w-full h-full"
           style={{
-            transform: `translate(${getStarFieldPosition().x}, ${getStarFieldPosition().y})`,
-            transition: 'transform 1s cubic-bezier(0.075, 0.82, 0.165, 1)'
+            background: `
+              radial-gradient(circle at ${lightReflection.x} ${lightReflection.y}, 
+                ${reflection} 0%, 
+                transparent 40%
+              )
+            `,
+            opacity: lightReflection.intensity,
+            filter: 'blur(100px)',
+            transition: 'all 0.3s ease-out'
           }}
-        >
-          <div className="absolute inset-0 bg-noise opacity-[0.01]" />
-          
-          {/* Crystal grid - barely visible */}
-          <div 
-            className="absolute inset-0 opacity-[0.02]"
-            style={{
-              backgroundImage: `
-                linear-gradient(rgba(255, 255, 255, 0.01) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(255, 255, 255, 0.01) 1px, transparent 1px)
-              `,
-              backgroundSize: '100px 100px',
-              transform: `perspective(1000px) rotateX(75deg) translateY(${scrollPosition * 0.2}px)`,
-              transformOrigin: 'center top'
-            }}
-          />
-        </div>
-      )}
+        />
+        
+        {/* Secondary moving light */}
+        <div 
+          className="absolute w-full h-full"
+          style={{
+            background: `
+              radial-gradient(ellipse 150% 80% at ${lightReflection.x} 20%, 
+                ${primary} 0%, 
+                transparent 60%
+              )
+            `,
+            opacity: 0.4 + scrollVelocity * 0.3,
+            filter: 'blur(120px)',
+            transform: `translateY(${scrollPosition * -0.1}px)`,
+            transition: 'all 0.5s ease-out'
+          }}
+        />
+        
+        {/* Edge light streaks */}
+        <div 
+          className="absolute inset-0"
+          style={{
+            background: `
+              linear-gradient(90deg, 
+                ${reflection} 0%, 
+                transparent 20%, 
+                transparent 80%, 
+                ${reflection} 100%
+              )
+            `,
+            opacity: 0.1 + scrollVelocity * 0.2,
+            filter: 'blur(50px)',
+            transform: `scaleY(${1 + scrollVelocity * 0.5})`,
+            transition: 'all 0.4s ease-out'
+          }}
+        />
+      </div>
       
-      {/* Subtle glass edge highlights */}
-      <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/5 to-transparent" />
-      <div className="absolute inset-x-0 bottom-0 h-px bg-gradient-to-r from-transparent via-white/3 to-transparent" />
+      {/* Glass surface highlights */}
+      <div className="absolute inset-0 pointer-events-none">
+        {/* Top edge reflection */}
+        <div 
+          className="absolute inset-x-0 top-0 h-1"
+          style={{
+            background: `linear-gradient(90deg, 
+              transparent 0%, 
+              ${reflection} 50%, 
+              transparent 100%
+            )`,
+            opacity: 0.6 + scrollVelocity * 0.4,
+            filter: 'blur(2px)',
+            transition: 'opacity 0.3s ease-out'
+          }}
+        />
+        
+        {/* Side reflections */}
+        <div 
+          className="absolute inset-y-0 left-0 w-1"
+          style={{
+            background: `linear-gradient(180deg, 
+              ${reflection} 0%, 
+              transparent 30%, 
+              transparent 70%, 
+              ${reflection} 100%
+            )`,
+            opacity: 0.3 + mousePosition.x * 0.3,
+            filter: 'blur(3px)',
+            transition: 'opacity 0.3s ease-out'
+          }}
+        />
+        
+        <div 
+          className="absolute inset-y-0 right-0 w-1"
+          style={{
+            background: `linear-gradient(180deg, 
+              ${reflection} 0%, 
+              transparent 30%, 
+              transparent 70%, 
+              ${reflection} 100%
+            )`,
+            opacity: 0.3 + (1 - mousePosition.x) * 0.3,
+            filter: 'blur(3px)',
+            transition: 'opacity 0.3s ease-out'
+          }}
+        />
+        
+        {/* Bottom gradient reflection */}
+        <div 
+          className="absolute inset-x-0 bottom-0 h-32"
+          style={{
+            background: `linear-gradient(0deg, 
+              ${primary} 0%, 
+              transparent 100%
+            )`,
+            opacity: 0.2,
+            filter: 'blur(20px)'
+          }}
+        />
+      </div>
+      
+      {/* Subtle noise texture overlay */}
+      <div 
+        className="absolute inset-0 opacity-[0.015] mix-blend-overlay pointer-events-none"
+        style={{
+          backgroundImage: `
+            repeating-linear-gradient(
+              0deg,
+              transparent,
+              transparent 2px,
+              rgba(255,255,255,0.03) 2px,
+              rgba(255,255,255,0.03) 4px
+            ),
+            repeating-linear-gradient(
+              90deg,
+              transparent,
+              transparent 2px,
+              rgba(255,255,255,0.03) 2px,
+              rgba(255,255,255,0.03) 4px
+            )
+          `
+        }}
+      />
       
       {/* Content layer */}
       <div className="relative z-10">
