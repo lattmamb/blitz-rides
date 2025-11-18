@@ -74,9 +74,9 @@ const Index = () => {
 
   return (
     <MainLayout>
-      {/* Vapor text hero */}
+      {/* Standalone glass fluid hero */}
       <BlitzVaporHero />
-
+      
       <ScrollExpandMedia
         mediaType="image"
         mediaSrc="https://images.unsplash.com/photo-1617788138017-80ad40651399?w=1920&q=80"

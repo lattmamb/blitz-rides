@@ -1,7 +1,7 @@
 
 import React, { useEffect } from 'react';
 import { Outlet } from 'react-router-dom';
-import Navbar from '@/components/Navbar';
+import EnhancedNavbar from '@/components/EnhancedNavbar';
 import Footer from '@/components/Footer';
 import { useTheme } from '@/context/ThemeContext';
 import { cn } from '@/lib/utils';
@@ -157,7 +157,7 @@ const MainLayoutContent: React.FC<MainLayoutProps> = ({ children }) => {
           )}
         </div>
         
-        <Navbar />
+        <EnhancedNavbar />
         
         <div className="relative z-10">
           {children || <Outlet />}
