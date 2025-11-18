@@ -35,59 +35,32 @@ const BlitzVaporHero: React.FC<BlitzVaporHeroProps> = ({ className = '' }) => {
         </div>
 
         {/* Subtitle with glass effect */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 1, duration: 0.8 }}
-          className="relative"
-        >
+        <div className="relative">
           <div className="absolute inset-0 bg-gradient-to-r from-primary/20 via-primary/10 to-primary/20 blur-xl" />
           <p className="relative text-foreground/90 text-xl md:text-2xl font-light text-center px-8 backdrop-blur-sm">
             Next-Generation Mobility Platform
           </p>
-        </motion.div>
+        </div>
 
         {/* Feature highlights */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 1.5, duration: 1 }}
-          className="flex flex-wrap justify-center gap-6 mt-8"
-        >
+        <div className="flex flex-wrap justify-center gap-6 mt-8">
           {['Seamless', 'Innovative', 'Connected'].map((feature, i) => (
-            <motion.div
+            <div
               key={feature}
-              initial={{ opacity: 0, scale: 0.8 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ delay: 1.8 + i * 0.2 }}
               className="px-6 py-3 rounded-full backdrop-blur-xl bg-background/20 border border-border/30 text-foreground/80 text-sm font-medium hover:bg-background/30 transition-all duration-300 hover:scale-105"
-              whileHover={{ y: -2 }}
             >
               {feature}
-            </motion.div>
+            </div>
           ))}
-        </motion.div>
+        </div>
 
         {/* Scroll indicator */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 2.5, duration: 0.8 }}
-          className="absolute bottom-12 flex flex-col items-center"
-        >
+        <div className="absolute bottom-12 flex flex-col items-center">
           <p className="text-muted-foreground text-sm mb-3 font-light tracking-wide">Scroll to Explore</p>
-          <motion.div
-            className="w-6 h-10 border-2 border-primary/40 rounded-full flex justify-center p-1 backdrop-blur-sm bg-background/10"
-            animate={{ opacity: [0.4, 1, 0.4] }}
-            transition={{ duration: 2, repeat: Infinity }}
-          >
-            <motion.div
-              className="w-1.5 h-1.5 bg-primary rounded-full shadow-lg shadow-primary/50"
-              animate={{ y: [0, 15, 0] }}
-              transition={{ duration: 2, repeat: Infinity }}
-            />
-          </motion.div>
-        </motion.div>
+          <div className="w-6 h-10 border-2 border-primary/40 rounded-full flex justify-center p-1 backdrop-blur-sm bg-background/10">
+            <div className="w-1.5 h-1.5 bg-primary rounded-full shadow-lg shadow-primary/50" />
+          </div>
+        </div>
       </div>
     </GlassFluidHero>
   );
