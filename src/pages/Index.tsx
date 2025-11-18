@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import MainLayout from '@/layouts/MainLayout';
 import ScrollExpandMedia from '@/components/ui/scroll-expansion-hero';
+import BlitzVaporHero from '@/components/BlitzVaporHero';
 import { vehicles } from '@/data/vehicles';
 import FeaturesSection from '@/components/FeaturesSection';
 import IntelligentLoading from '@/components/ui/IntelligentLoading';
@@ -73,14 +74,13 @@ const Index = () => {
 
   return (
     <MainLayout>
+      {/* Vapor text hero */}
+      <BlitzVaporHero />
+
       <ScrollExpandMedia
         mediaType="image"
         mediaSrc="https://images.unsplash.com/photo-1617788138017-80ad40651399?w=1920&q=80"
         bgImageSrc="https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?w=1920&q=80"
-        title="BLITZ Experience"
-        date="Next-Gen Mobility"
-        scrollToExpand="Scroll to Explore"
-        textBlend
       >
         <motion.div
           initial={{ opacity: 0, y: 20 }}
