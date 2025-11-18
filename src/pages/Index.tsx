@@ -1,12 +1,13 @@
 
 import React, { useState, useEffect } from 'react';
 import MainLayout from '@/layouts/MainLayout';
+import ScrollExpandMedia from '@/components/ui/scroll-expansion-hero';
 import { vehicles } from '@/data/vehicles';
 import FeaturesSection from '@/components/FeaturesSection';
 import IntelligentLoading from '@/components/ui/IntelligentLoading';
+import { motion } from 'framer-motion';
 
 // Import our new section components
-import HeroSection from '@/components/sections/HeroSection';
 import SearchSection from '@/components/sections/SearchSection';
 import CarouselSection from '@/components/sections/CarouselSection';
 import VehiclesSection from '@/components/sections/VehiclesSection';
@@ -20,6 +21,8 @@ const Index = () => {
   const [vehiclesLoading, setVehiclesLoading] = useState(true);
   
   useEffect(() => {
+    window.scrollTo(0, 0);
+    
     const initialTimer = setTimeout(() => {
       setIsLoading(false);
     }, 1000);
@@ -70,14 +73,78 @@ const Index = () => {
 
   return (
     <MainLayout>
-      <HeroSection />
-      <SearchSection onSearch={handleSearch} />
-      <CarouselSection />
-      <VehiclesSection vehicles={filteredVehicles} loading={vehiclesLoading} />
-      <FeaturedVehicleSection />
-      <FeaturesSection />
-      <MapSection />
-      <TeslaModelsSection />
+      <ScrollExpandMedia
+        mediaType="image"
+        mediaSrc="https://images.unsplash.com/photo-1617788138017-80ad40651399?w=1920&q=80"
+        bgImageSrc="https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?w=1920&q=80"
+        title="BLITZ Experience"
+        date="Next-Gen Mobility"
+        scrollToExpand="Scroll to Explore"
+        textBlend
+      >
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
+          viewport={{ once: true }}
+        >
+          <SearchSection onSearch={handleSearch} />
+        </motion.div>
+
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
+          viewport={{ once: true }}
+        >
+          <CarouselSection />
+        </motion.div>
+
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
+          viewport={{ once: true }}
+        >
+          <VehiclesSection vehicles={filteredVehicles} loading={vehiclesLoading} />
+        </motion.div>
+
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
+          viewport={{ once: true }}
+        >
+          <FeaturedVehicleSection />
+        </motion.div>
+
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
+          viewport={{ once: true }}
+        >
+          <FeaturesSection />
+        </motion.div>
+
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
+          viewport={{ once: true }}
+        >
+          <MapSection />
+        </motion.div>
+
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
+          viewport={{ once: true }}
+        >
+          <TeslaModelsSection />
+        </motion.div>
+      </ScrollExpandMedia>
     </MainLayout>
   );
 };
