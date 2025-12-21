@@ -101,8 +101,8 @@ const EnhancedNavbar: React.FC = () => {
                       variant="ghost"
                       size="sm" 
                       className={cn(
-                        "relative overflow-hidden transition-all duration-300",
-                        "hover:bg-primary/10 hover:scale-105",
+                        "relative overflow-hidden transition-transform duration-200 ease-out",
+                        "hover:bg-primary/10 hover:scale-[1.03]",
                         location.pathname === '/' && "bg-primary/20 text-primary"
                       )}
                     >
@@ -119,8 +119,8 @@ const EnhancedNavbar: React.FC = () => {
                       variant="ghost"
                       size="sm" 
                       className={cn(
-                        "relative overflow-hidden transition-all duration-300",
-                        "hover:bg-primary/10 hover:scale-105",
+                        "relative overflow-hidden transition-transform duration-200 ease-out",
+                        "hover:bg-primary/10 hover:scale-[1.03]",
                         location.pathname.includes('/vehicles') && "bg-primary/20 text-primary"
                       )}
                     >
@@ -137,8 +137,8 @@ const EnhancedNavbar: React.FC = () => {
                       variant="ghost"
                       size="sm" 
                       className={cn(
-                        "relative overflow-hidden transition-all duration-300",
-                        "hover:bg-primary/10 hover:scale-105",
+                        "relative overflow-hidden transition-transform duration-200 ease-out",
+                        "hover:bg-primary/10 hover:scale-[1.03]",
                         location.pathname === '/dashboard' && "bg-primary/20 text-primary"
                       )}
                     >
@@ -157,12 +157,11 @@ const EnhancedNavbar: React.FC = () => {
                 className={cn(
                   "ml-2 relative overflow-hidden",
                   "bg-gradient-to-r from-primary to-primary/80",
-                  "hover:shadow-lg hover:shadow-primary/50",
-                  "hover:scale-105 transition-all duration-300"
+                  "hover:shadow-lg hover:shadow-primary/30",
+                  "hover:scale-[1.03] transition-transform duration-200 ease-out"
                 )}
               >
                 <span className="relative z-10">Book Now</span>
-                <div className="absolute inset-0 bg-gradient-to-r from-primary/0 via-white/20 to-primary/0 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-700" />
               </Button>
             </Link>
           </div>
